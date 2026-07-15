@@ -14,6 +14,7 @@ export default defineConfig({
     rollupOptions: {
       external: [/^react(?:\/.*)?$/, /^@reglow\/elements(?:\/.*)?$/],
     },
+    minify: false,
     sourcemap: true,
     emptyOutDir: true,
   },

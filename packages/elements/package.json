@@ -27,6 +27,10 @@
       "types": "./dist/manifest.d.ts",
       "import": "./dist/manifest.js"
     },
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
     "./custom-elements.json": "./custom-elements.json"
   },
   "scripts": {

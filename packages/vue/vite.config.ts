@@ -13,6 +13,7 @@ export default defineConfig({
     rollupOptions: {
       external: [/^vue(?:\/.*)?$/, /^@reglow\/elements(?:\/.*)?$/],
     },
+    minify: false,
     sourcemap: true,
     emptyOutDir: true,
   },

@@ -15,8 +15,9 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
+        preserveModules: true,
+        preserveModulesRoot: resolve(import.meta.dirname, 'src'),
         entryFileNames: '[name].js',
-        chunkFileNames: 'chunks/[name]-[hash].js',
       },
     },
     sourcemap: true,

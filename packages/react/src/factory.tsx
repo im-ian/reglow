@@ -12,6 +12,7 @@ import {
   type Ref,
   type RefAttributes,
 } from 'react';
+import { defineElement, type ReglowElementConstructor } from '@reglow/elements';
 
 type UnknownProps = Record<string, unknown> & { children?: ReactNode };
 
@@ -40,7 +41,10 @@ function toSlot(slot: string, value: ReactNode): ReactNode {
 export function createReglowComponent<TElement extends HTMLElement, TProps extends object>(
   tagName: `rg-${string}`,
   config: AdapterConfig,
+  elementConstructor?: ReglowElementConstructor,
 ): ForwardRefExoticComponent<TProps & RefAttributes<TElement>> {
+  if (elementConstructor) defineElement({ tagName, constructor: elementConstructor });
+
   const Component = forwardRef<TElement, TProps>((typedProps, forwardedRef) => {
     const props = typedProps as UnknownProps;
     const localRef = useRef<TElement | null>(null);

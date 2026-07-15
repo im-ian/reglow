@@ -5,6 +5,12 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+        find: /^@reglow\/elements\/components\/(.+)$/,
+        replacement: `${fileURLToPath(
+          new URL('./packages/elements/src/components/', import.meta.url),
+        )}$1.ts`,
+      },
+      {
         find: '@reglow/elements/register',
         replacement: fileURLToPath(new URL('./packages/elements/src/register.ts', import.meta.url)),
       },

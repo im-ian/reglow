@@ -4,9 +4,7 @@
   "description": "Official Vue 3 adapter for Reglow Web Components.",
   "license": "MIT",
   "type": "module",
-  "sideEffects": [
-    "./dist/index.js"
-  ],
+  "sideEffects": false,
   "files": [
     "dist",
     "README.md",

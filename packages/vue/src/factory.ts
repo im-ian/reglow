@@ -15,6 +15,7 @@ import {
   type DefineComponent,
   type VNode,
 } from 'vue';
+import { defineElement, type ReglowElementConstructor } from '@reglow/elements';
 
 interface ModelConfig {
   property: string;
@@ -63,7 +64,10 @@ function normalizeNumber(value: unknown): unknown {
 export function createReglowVueComponent<TElement extends HTMLElement, TProps extends object>(
   tagName: `rg-${string}`,
   config: VueAdapterConfig,
+  elementConstructor?: ReglowElementConstructor,
 ): DefineComponent<TProps> {
+  if (elementConstructor) defineElement({ tagName, constructor: elementConstructor });
+
   const booleanProps = new Set(config.booleanProps ?? []);
   const booleanOrStringProps = new Set(config.booleanOrStringProps ?? []);
   const numberProps = new Set(config.numberProps ?? []);

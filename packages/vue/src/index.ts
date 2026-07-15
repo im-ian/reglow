@@ -1,4 +1,78 @@
-import '@reglow/elements/register';
+import {
+  RgAccordionElement as RgAccordionElementConstructor,
+  RgAccordionItemElement as RgAccordionItemElementConstructor,
+} from '@reglow/elements/components/accordion';
+import { RgAlertElement as RgAlertElementConstructor } from '@reglow/elements/components/alert';
+import { RgAvatarElement as RgAvatarElementConstructor } from '@reglow/elements/components/avatar';
+import { RgBadgeElement as RgBadgeElementConstructor } from '@reglow/elements/components/badge';
+import {
+  RgBreadcrumbElement as RgBreadcrumbElementConstructor,
+  RgBreadcrumbItemElement as RgBreadcrumbItemElementConstructor,
+} from '@reglow/elements/components/breadcrumb';
+import {
+  RgButtonElement as RgButtonElementConstructor,
+  RgIconButtonElement as RgIconButtonElementConstructor,
+} from '@reglow/elements/components/button';
+import { RgButtonGroupElement as RgButtonGroupElementConstructor } from '@reglow/elements/components/button-group';
+import { RgCardElement as RgCardElementConstructor } from '@reglow/elements/components/card';
+import { RgCheckboxElement as RgCheckboxElementConstructor } from '@reglow/elements/components/checkbox';
+import {
+  RgChipElement as RgChipElementConstructor,
+  RgChipGroupElement as RgChipGroupElementConstructor,
+} from '@reglow/elements/components/chip';
+import { RgComboboxElement as RgComboboxElementConstructor } from '@reglow/elements/components/combobox';
+import { RgCopyButtonElement as RgCopyButtonElementConstructor } from '@reglow/elements/components/copy-button';
+import { RgDatePickerElement as RgDatePickerElementConstructor } from '@reglow/elements/components/date-picker';
+import {
+  RgDialogElement as RgDialogElementConstructor,
+  RgDrawerElement as RgDrawerElementConstructor,
+} from '@reglow/elements/components/dialog';
+import { RgDividerElement as RgDividerElementConstructor } from '@reglow/elements/components/divider';
+import { RgEmptyStateElement as RgEmptyStateElementConstructor } from '@reglow/elements/components/empty-state';
+import { RgFieldsetElement as RgFieldsetElementConstructor } from '@reglow/elements/components/fieldset';
+import { RgInputElement as RgInputElementConstructor } from '@reglow/elements/components/input';
+import { RgKbdElement as RgKbdElementConstructor } from '@reglow/elements/components/kbd';
+import { RgLinkElement as RgLinkElementConstructor } from '@reglow/elements/components/link';
+import {
+  RgMenuElement as RgMenuElementConstructor,
+  RgMenuItemElement as RgMenuItemElementConstructor,
+} from '@reglow/elements/components/menu';
+import { RgPaginationElement as RgPaginationElementConstructor } from '@reglow/elements/components/pagination';
+import { RgPopoverElement as RgPopoverElementConstructor } from '@reglow/elements/components/popover';
+import {
+  RgProgressElement as RgProgressElementConstructor,
+  RgSpinnerElement as RgSpinnerElementConstructor,
+} from '@reglow/elements/components/progress';
+import { RgProgressRingElement as RgProgressRingElementConstructor } from '@reglow/elements/components/progress-ring';
+import {
+  RgRadioElement as RgRadioElementConstructor,
+  RgRadioGroupElement as RgRadioGroupElementConstructor,
+} from '@reglow/elements/components/radio';
+import { RgRatingElement as RgRatingElementConstructor } from '@reglow/elements/components/rating';
+import { RgRelativeTimeElement as RgRelativeTimeElementConstructor } from '@reglow/elements/components/relative-time';
+import {
+  RgSegmentElement as RgSegmentElementConstructor,
+  RgSegmentedControlElement as RgSegmentedControlElementConstructor,
+} from '@reglow/elements/components/segmented-control';
+import {
+  RgOptionElement as RgOptionElementConstructor,
+  RgSelectElement as RgSelectElementConstructor,
+} from '@reglow/elements/components/select';
+import { RgSkeletonElement as RgSkeletonElementConstructor } from '@reglow/elements/components/skeleton';
+import { RgSliderElement as RgSliderElementConstructor } from '@reglow/elements/components/slider';
+import { RgSwitchElement as RgSwitchElementConstructor } from '@reglow/elements/components/switch';
+import {
+  RgTabElement as RgTabElementConstructor,
+  RgTabPanelElement as RgTabPanelElementConstructor,
+  RgTabsElement as RgTabsElementConstructor,
+} from '@reglow/elements/components/tabs';
+import { RgTextareaElement as RgTextareaElementConstructor } from '@reglow/elements/components/textarea';
+import { RgThemeElement as RgThemeElementConstructor } from '@reglow/elements/components/theme';
+import {
+  RgToastElement as RgToastElementConstructor,
+  RgToastRegionElement as RgToastRegionElementConstructor,
+} from '@reglow/elements/components/toast';
+import { RgTooltipElement as RgTooltipElementConstructor } from '@reglow/elements/components/tooltip';
 import type {
   AccordionItemOpenChangeDetail,
   AccordionValueChangeDetail,
@@ -676,735 +750,919 @@ const fieldAttributes = { readOnly: 'readonly' } as const;
 const fieldEvents = { input: 'value-change', change: 'value-commit' } as const;
 const fieldSlots = ['label', 'description', 'error'] as const;
 
-export const RgTheme = createReglowVueComponent<RgThemeElement, RgThemeProps>('rg-theme', {
-  displayName: 'RgTheme',
-  props: ['mode', 'density', 'motion'],
-  events: { 'rg-theme-change': 'theme-change' },
-});
-export const RgButton = createReglowVueComponent<RgButtonElement, RgButtonProps>('rg-button', {
-  displayName: 'RgButton',
-  props: [
-    'variant',
-    'tone',
-    'size',
-    'type',
-    'name',
-    'value',
-    'label',
-    'disabled',
-    'loading',
-    'fullWidth',
-    'formNoValidate',
-    'pressed',
-  ],
-  events: { 'rg-press': 'press' },
-  booleanProps: ['disabled', 'loading', 'fullWidth', 'formNoValidate', 'pressed'],
-  attributes: { fullWidth: 'full-width', formNoValidate: 'formnovalidate' },
-  properties: ['pressed'],
-  propertyDefaults: { pressed: null },
-  slots: ['start', 'end'],
-});
-export const RgIconButton = createReglowVueComponent<RgIconButtonElement, RgIconButtonProps>(
-  'rg-icon-button',
-  {
-    displayName: 'RgIconButton',
-    props: [
-      'label',
-      'variant',
-      'tone',
-      'size',
-      'type',
-      'name',
-      'value',
-      'disabled',
-      'loading',
-      'fullWidth',
-      'formNoValidate',
-      'pressed',
-    ],
-    events: { 'rg-press': 'press' },
-    booleanProps: ['disabled', 'loading', 'fullWidth', 'formNoValidate', 'pressed'],
-    attributes: { fullWidth: 'full-width', formNoValidate: 'formnovalidate' },
-    properties: ['pressed'],
-    propertyDefaults: { pressed: null },
-  },
-);
-export const RgLink = createReglowVueComponent<RgLinkElement, RgLinkProps>('rg-link', {
-  displayName: 'RgLink',
-  props: [
-    'href',
-    'hrefLang',
-    'target',
-    'rel',
-    'referrerPolicy',
-    'type',
-    'download',
-    'disabled',
-    'external',
-    'variant',
-    'tone',
-    'size',
-  ],
-  events: { 'rg-navigate': 'navigate' },
-  booleanProps: ['disabled', 'external'],
-  booleanOrStringProps: ['download'],
-  attributes: { hrefLang: 'hreflang', referrerPolicy: 'referrerpolicy' },
-  slots: ['start', 'end'],
-});
-export const RgInput = createReglowVueComponent<RgInputElement, RgInputProps>('rg-input', {
-  displayName: 'RgInput',
-  props: [
-    ...fieldProps,
-    'type',
-    'clearable',
-    'autoComplete',
-    'inputMode',
-    'min',
-    'max',
-    'step',
-    'minLength',
-    'maxLength',
-    'pattern',
-  ],
-  events: { ...fieldEvents, 'rg-clear': 'clear' },
-  booleanProps: [...fieldBooleanProps, 'clearable'],
-  numberProps: ['min', 'max', 'step', 'minLength', 'maxLength'],
-  attributes: {
-    ...fieldAttributes,
-    autoComplete: 'autocomplete',
-    inputMode: 'inputmode',
-    minLength: 'minlength',
-    maxLength: 'maxlength',
-  },
-  slots: [...fieldSlots, 'start', 'end'],
-  model: { property: 'value', event: 'input' },
-});
-export const RgTextarea = createReglowVueComponent<RgTextareaElement, RgTextareaProps>(
-  'rg-textarea',
-  {
-    displayName: 'RgTextarea',
-    props: [...fieldProps, 'rows', 'cols', 'minLength', 'maxLength', 'resize', 'autoGrow'],
-    events: fieldEvents,
-    booleanProps: [...fieldBooleanProps, 'autoGrow'],
-    numberProps: ['rows', 'cols', 'minLength', 'maxLength'],
-    attributes: {
-      ...fieldAttributes,
-      autoGrow: 'auto-grow',
-      minLength: 'minlength',
-      maxLength: 'maxlength',
+export const RgTheme = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgThemeElement, RgThemeProps>(
+    'rg-theme',
+    {
+      displayName: 'RgTheme',
+      props: ['mode', 'density', 'motion'],
+      events: { 'rg-theme-change': 'theme-change' },
     },
-    slots: fieldSlots,
-    model: { property: 'value', event: 'input' },
-  },
-);
-export const RgSelect = createReglowVueComponent<RgSelectElement, RgSelectProps>('rg-select', {
-  displayName: 'RgSelect',
-  props: [...fieldProps.filter((prop) => prop !== 'readOnly'), 'options'],
-  events: fieldEvents,
-  booleanProps: ['required', 'disabled', 'invalid'],
-  properties: ['options'],
-  propertyDefaults: { options: null },
-  slots: fieldSlots,
-  model: { property: 'value', event: 'change' },
-});
-export const RgOption = createReglowVueComponent<RgOptionElement, RgOptionProps>('rg-option', {
-  displayName: 'RgOption',
-  props: ['value', 'label', 'disabled', 'selected'],
-  booleanProps: ['disabled', 'selected'],
-});
-export const RgCheckbox = createReglowVueComponent<RgCheckboxElement, RgCheckboxProps>(
-  'rg-checkbox',
-  {
-    displayName: 'RgCheckbox',
-    props: [
-      'value',
-      'name',
-      'label',
-      'description',
-      'error',
-      'required',
-      'disabled',
-      'invalid',
-      'checked',
-      'indeterminate',
-    ],
-    events: fieldEvents,
-    booleanProps: ['modelValue', 'required', 'disabled', 'invalid', 'checked', 'indeterminate'],
-    properties: ['indeterminate'],
-    propertyDefaults: { indeterminate: false },
-    slots: fieldSlots,
-    model: { property: 'checked', event: 'change' },
-  },
-);
-export const RgSwitch = createReglowVueComponent<RgSwitchElement, RgSwitchProps>('rg-switch', {
-  displayName: 'RgSwitch',
-  props: [
-    'value',
-    'name',
-    'label',
-    'description',
-    'error',
-    'required',
-    'disabled',
-    'invalid',
-    'checked',
-  ],
-  events: fieldEvents,
-  booleanProps: ['modelValue', 'required', 'disabled', 'invalid', 'checked'],
-  slots: fieldSlots,
-  model: { property: 'checked', event: 'change' },
-});
-export const RgRadioGroup = createReglowVueComponent<RgRadioGroupElement, RgRadioGroupProps>(
-  'rg-radio-group',
-  {
-    displayName: 'RgRadioGroup',
-    props: [
-      'value',
-      'name',
-      'label',
-      'description',
-      'error',
-      'required',
-      'disabled',
-      'invalid',
-      'orientation',
-    ],
-    events: fieldEvents,
-    booleanProps: ['required', 'disabled', 'invalid'],
-    slots: fieldSlots,
-    model: { property: 'value', event: 'change' },
-  },
-);
-export const RgRadio = createReglowVueComponent<RgRadioElement, RgRadioProps>('rg-radio', {
-  displayName: 'RgRadio',
-  props: ['value', 'label', 'description', 'checked', 'disabled'],
-  events: fieldEvents,
-  booleanProps: ['checked', 'disabled'],
-  slots: ['description'],
-});
-export const RgSlider = createReglowVueComponent<RgSliderElement, RgSliderProps>('rg-slider', {
-  displayName: 'RgSlider',
-  props: [
-    'value',
-    'name',
-    'label',
-    'description',
-    'error',
-    'required',
-    'disabled',
-    'invalid',
-    'orientation',
-    'size',
-    'min',
-    'max',
-    'step',
-    'showValue',
-  ],
-  events: fieldEvents,
-  booleanProps: ['required', 'disabled', 'invalid', 'showValue'],
-  numberProps: ['modelValue', 'value', 'min', 'max', 'step'],
-  attributes: { showValue: 'show-value' },
-  slots: fieldSlots,
-  model: { property: 'value', event: 'input' },
-});
-export const RgBadge = createReglowVueComponent<RgBadgeElement, RgBadgeProps>('rg-badge', {
-  displayName: 'RgBadge',
-  props: ['tone', 'variant', 'size', 'dot', 'removable', 'removeLabel'],
-  events: { 'rg-remove': 'remove' },
-  booleanProps: ['dot', 'removable'],
-  attributes: { removeLabel: 'remove-label' },
-  slots: ['start', 'end'],
-});
-export const RgAvatar = createReglowVueComponent<RgAvatarElement, RgAvatarProps>('rg-avatar', {
-  displayName: 'RgAvatar',
-  props: [
-    'src',
-    'srcSet',
-    'sizes',
-    'alt',
-    'name',
-    'initials',
-    'size',
-    'shape',
-    'status',
-    'statusLabel',
-    'loading',
-    'crossOrigin',
-    'decoding',
-    'referrerPolicy',
-  ],
-  events: { 'rg-load': 'load', 'rg-error': 'error' },
-  attributes: {
-    srcSet: 'srcset',
-    statusLabel: 'status-label',
-    crossOrigin: 'crossorigin',
-    referrerPolicy: 'referrerpolicy',
-  },
-  slots: { fallback: 'fallback', statusContent: 'status' },
-});
-export const RgCard = createReglowVueComponent<RgCardElement, RgCardProps>('rg-card', {
-  displayName: 'RgCard',
-  props: ['variant', 'padding', 'radius', 'lift'],
-  booleanProps: ['lift'],
-  slots: ['media', 'header', 'footer'],
-});
-export const RgDivider = createReglowVueComponent<RgDividerElement, RgDividerProps>('rg-divider', {
-  displayName: 'RgDivider',
-  props: ['orientation', 'variant', 'spacing', 'decorative', 'inset'],
-  booleanProps: ['decorative', 'inset'],
-});
-export const RgAlert = createReglowVueComponent<RgAlertElement, RgAlertProps>('rg-alert', {
-  displayName: 'RgAlert',
-  props: ['tone', 'variant', 'dismissible', 'dismissLabel'],
-  events: { 'rg-dismiss': 'dismiss' },
-  booleanProps: ['dismissible'],
-  attributes: { dismissLabel: 'dismiss-label' },
-  slots: ['icon', 'title', 'actions'],
-});
-export const RgProgress = createReglowVueComponent<RgProgressElement, RgProgressProps>(
-  'rg-progress',
-  {
-    displayName: 'RgProgress',
-    props: ['value', 'max', 'label'],
-    numberProps: ['value', 'max'],
-    slots: ['label'],
-  },
-);
-export const RgSpinner = createReglowVueComponent<RgSpinnerElement, RgSpinnerProps>('rg-spinner', {
-  displayName: 'RgSpinner',
-  props: ['size', 'label'],
-});
-export const RgSkeleton = createReglowVueComponent<RgSkeletonElement, RgSkeletonProps>(
-  'rg-skeleton',
-  {
-    displayName: 'RgSkeleton',
-    props: ['shape', 'width', 'height', 'animated'],
-    booleanProps: ['animated'],
-  },
-);
-export const RgToastRegion = createReglowVueComponent<RgToastRegionElement, RgToastRegionProps>(
-  'rg-toast-region',
-  {
-    displayName: 'RgToastRegion',
-    props: ['position', 'maxVisible', 'label', 'pauseOnHover'],
-    events: { 'rg-toast-add': 'toast-add' },
-    booleanProps: ['pauseOnHover'],
-    numberProps: ['maxVisible'],
-    attributes: { maxVisible: 'max-visible', pauseOnHover: 'pause-on-hover' },
-  },
-);
-export const RgToast = createReglowVueComponent<RgToastElement, RgToastProps>('rg-toast', {
-  displayName: 'RgToast',
-  props: ['open', 'duration', 'tone', 'dismissible', 'dismissLabel'],
-  events: { 'rg-open-change': 'open-change', 'rg-dismiss': 'dismiss' },
-  booleanProps: ['open', 'dismissible'],
-  numberProps: ['duration'],
-  attributes: { dismissLabel: 'dismiss-label' },
-  slots: ['icon', 'title', 'action'],
-});
-export const RgTabs = createReglowVueComponent<RgTabsElement, RgTabsProps>('rg-tabs', {
-  displayName: 'RgTabs',
-  props: ['value', 'orientation', 'activation', 'loop'],
-  events: { 'rg-value-change': 'value-change' },
-  booleanProps: ['loop'],
-  slots: ['tab'],
-  model: { property: 'value', event: 'rg-value-change' },
-});
-export const RgTab = createReglowVueComponent<RgTabElement, RgTabProps>('rg-tab', {
-  displayName: 'RgTab',
-  props: ['value', 'disabled'],
-  booleanProps: ['disabled'],
-});
-export const RgTabPanel = createReglowVueComponent<RgTabPanelElement, RgTabPanelProps>(
-  'rg-tab-panel',
-  {
-    displayName: 'RgTabPanel',
-    props: ['value'],
-  },
-);
-export const RgAccordion = createReglowVueComponent<RgAccordionElement, RgAccordionProps>(
-  'rg-accordion',
-  {
-    displayName: 'RgAccordion',
-    props: ['value', 'multiple', 'collapsible'],
-    events: { 'rg-value-change': 'value-change' },
-    booleanProps: ['multiple', 'collapsible'],
-    properties: ['value'],
-    propertyDefaults: { value: '' },
-    model: { property: 'value', event: 'rg-value-change' },
-  },
-);
-export const RgAccordionItem = createReglowVueComponent<
-  RgAccordionItemElement,
-  RgAccordionItemProps
->('rg-accordion-item', {
-  displayName: 'RgAccordionItem',
-  props: ['value', 'open', 'disabled', 'headingLevel'],
-  events: { 'rg-open-change': 'open-change' },
-  booleanProps: ['open', 'disabled'],
-  numberProps: ['headingLevel'],
-  attributes: { headingLevel: 'heading-level' },
-  slots: ['heading'],
-});
-export const RgDialog = createReglowVueComponent<RgDialogElement, RgDialogProps>('rg-dialog', {
-  displayName: 'RgDialog',
-  props: [
-    'open',
-    'size',
-    'label',
-    'escapeKeyAction',
-    'backdropAction',
-    'hideClose',
-    'closeLabel',
-    'initialFocus',
-  ],
-  events: {
-    'rg-before-close': 'before-close',
-    'rg-open-change': 'open-change',
-    'rg-close': 'close',
-  },
-  booleanProps: ['modelValue', 'open', 'hideClose'],
-  attributes: {
-    escapeKeyAction: 'escape-key-action',
-    backdropAction: 'backdrop-action',
-    hideClose: 'hide-close',
-    closeLabel: 'close-label',
-  },
-  properties: ['initialFocus'],
-  propertyDefaults: { initialFocus: null },
-  slots: ['trigger', 'title', 'footer', 'close'],
-  model: { property: 'open', event: 'rg-open-change' },
-});
-export const RgDrawer = createReglowVueComponent<RgDrawerElement, RgDrawerProps>('rg-drawer', {
-  displayName: 'RgDrawer',
-  props: [
-    'open',
-    'size',
-    'label',
-    'escapeKeyAction',
-    'backdropAction',
-    'hideClose',
-    'closeLabel',
-    'placement',
-    'initialFocus',
-  ],
-  events: {
-    'rg-before-close': 'before-close',
-    'rg-open-change': 'open-change',
-    'rg-close': 'close',
-  },
-  booleanProps: ['modelValue', 'open', 'hideClose'],
-  attributes: {
-    escapeKeyAction: 'escape-key-action',
-    backdropAction: 'backdrop-action',
-    hideClose: 'hide-close',
-    closeLabel: 'close-label',
-  },
-  properties: ['initialFocus'],
-  propertyDefaults: { initialFocus: null },
-  slots: ['trigger', 'title', 'footer', 'close'],
-  model: { property: 'open', event: 'rg-open-change' },
-});
-export const RgTooltip = createReglowVueComponent<RgTooltipElement, RgTooltipProps>('rg-tooltip', {
-  displayName: 'RgTooltip',
-  props: ['content', 'open', 'placement', 'delay', 'disabled'],
-  events: { 'rg-open-change': 'open-change' },
-  booleanProps: ['open', 'disabled'],
-  numberProps: ['delay'],
-  slots: { trigger: 'trigger', richContent: 'content' },
-});
-export const RgButtonGroup = createReglowVueComponent<RgButtonGroupElement, RgButtonGroupProps>(
-  'rg-button-group',
-  {
-    displayName: 'RgButtonGroup',
-    props: ['label', 'orientation', 'attached'],
-    booleanProps: ['attached'],
-  },
-);
-export const RgCombobox = createReglowVueComponent<RgComboboxElement, RgComboboxProps>(
-  'rg-combobox',
-  {
-    displayName: 'RgCombobox',
-    props: [...fieldProps, 'filter', 'noResultsText', 'open', 'options'],
-    events: {
-      ...fieldEvents,
-      'rg-open-change': 'open-change',
-      'rg-value-change': 'selection-change',
+    RgThemeElementConstructor,
+  ))();
+export const RgButton = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgButtonElement, RgButtonProps>(
+    'rg-button',
+    {
+      displayName: 'RgButton',
+      props: [
+        'variant',
+        'tone',
+        'size',
+        'type',
+        'name',
+        'value',
+        'label',
+        'disabled',
+        'loading',
+        'fullWidth',
+        'formNoValidate',
+        'pressed',
+      ],
+      events: { 'rg-press': 'press' },
+      booleanProps: ['disabled', 'loading', 'fullWidth', 'formNoValidate', 'pressed'],
+      attributes: { fullWidth: 'full-width', formNoValidate: 'formnovalidate' },
+      properties: ['pressed'],
+      propertyDefaults: { pressed: null },
+      slots: ['start', 'end'],
     },
-    booleanProps: [...fieldBooleanProps, 'open'],
-    attributes: { ...fieldAttributes, noResultsText: 'no-results-text' },
-    properties: ['options'],
-    propertyDefaults: { options: null },
-    slots: fieldSlots,
-    model: { property: 'value', event: 'change' },
-  },
-);
-export const RgDatePicker = createReglowVueComponent<RgDatePickerElement, RgDatePickerProps>(
-  'rg-date-picker',
-  {
-    displayName: 'RgDatePicker',
-    props: [...fieldProps.filter((prop) => prop !== 'placeholder'), 'min', 'max', 'step'],
-    events: fieldEvents,
-    booleanProps: fieldBooleanProps,
-    numberProps: ['step'],
-    attributes: fieldAttributes,
-    slots: fieldSlots,
-    model: { property: 'value', event: 'input' },
-  },
-);
-export const RgKbd = createReglowVueComponent<RgKbdElement, RgKbdProps>('rg-kbd', {
-  displayName: 'RgKbd',
-  props: ['keys', 'label', 'separator'],
-});
-export const RgFieldset = createReglowVueComponent<RgFieldsetElement, RgFieldsetProps>(
-  'rg-fieldset',
-  {
-    displayName: 'RgFieldset',
-    props: ['legend', 'description', 'error', 'disabled', 'invalid'],
-    booleanProps: ['disabled', 'invalid'],
-    slots: ['legend', 'description', 'error'],
-  },
-);
-export const RgEmptyState = createReglowVueComponent<RgEmptyStateElement, RgEmptyStateProps>(
-  'rg-empty-state',
-  {
-    displayName: 'RgEmptyState',
-    props: ['title', 'description', 'size', 'tone'],
-    slots: ['icon', 'title', 'actions'],
-  },
-);
-export const RgBreadcrumb = createReglowVueComponent<RgBreadcrumbElement, RgBreadcrumbProps>(
-  'rg-breadcrumb',
-  { displayName: 'RgBreadcrumb', props: ['label'] },
-);
-export const RgBreadcrumbItem = createReglowVueComponent<
-  RgBreadcrumbItemElement,
-  RgBreadcrumbItemProps
->('rg-breadcrumb-item', {
-  displayName: 'RgBreadcrumbItem',
-  props: ['href', 'target', 'rel', 'current'],
-  booleanProps: ['current'],
-});
-export const RgPagination = createReglowVueComponent<RgPaginationElement, RgPaginationProps>(
-  'rg-pagination',
-  {
-    displayName: 'RgPagination',
-    props: [
-      'page',
-      'pageCount',
-      'siblingCount',
-      'boundaryCount',
-      'disabled',
-      'label',
-      'previousLabel',
-      'nextLabel',
-    ],
-    events: { 'rg-page-change': 'page-change' },
-    booleanProps: ['disabled'],
-    numberProps: ['page', 'pageCount', 'siblingCount', 'boundaryCount'],
-    attributes: {
-      pageCount: 'page-count',
-      siblingCount: 'sibling-count',
-      boundaryCount: 'boundary-count',
-      previousLabel: 'previous-label',
-      nextLabel: 'next-label',
+    RgButtonElementConstructor,
+  ))();
+export const RgIconButton = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgIconButtonElement, RgIconButtonProps>(
+    'rg-icon-button',
+    {
+      displayName: 'RgIconButton',
+      props: [
+        'label',
+        'variant',
+        'tone',
+        'size',
+        'type',
+        'name',
+        'value',
+        'disabled',
+        'loading',
+        'fullWidth',
+        'formNoValidate',
+        'pressed',
+      ],
+      events: { 'rg-press': 'press' },
+      booleanProps: ['disabled', 'loading', 'fullWidth', 'formNoValidate', 'pressed'],
+      attributes: { fullWidth: 'full-width', formNoValidate: 'formnovalidate' },
+      properties: ['pressed'],
+      propertyDefaults: { pressed: null },
     },
-  },
-);
-export const RgPopover = createReglowVueComponent<RgPopoverElement, RgPopoverProps>('rg-popover', {
-  displayName: 'RgPopover',
-  props: ['open', 'placement', 'triggerMode', 'disabled', 'label', 'matchTriggerWidth'],
-  events: { 'rg-open-change': 'open-change' },
-  booleanProps: ['open', 'disabled', 'matchTriggerWidth'],
-  attributes: { triggerMode: 'trigger', matchTriggerWidth: 'match-trigger-width' },
-  slots: ['trigger'],
-});
-export const RgMenu = createReglowVueComponent<RgMenuElement, RgMenuProps>('rg-menu', {
-  displayName: 'RgMenu',
-  props: ['open', 'placement', 'disabled', 'label'],
-  events: { 'rg-open-change': 'open-change', 'rg-select': 'select' },
-  booleanProps: ['open', 'disabled'],
-  slots: ['trigger'],
-});
-export const RgMenuItem = createReglowVueComponent<RgMenuItemElement, RgMenuItemProps>(
-  'rg-menu-item',
-  {
-    displayName: 'RgMenuItem',
-    props: ['value', 'disabled'],
-    booleanProps: ['disabled'],
-    slots: ['start', 'end'],
-  },
-);
-export const RgCopyButton = createReglowVueComponent<RgCopyButtonElement, RgCopyButtonProps>(
-  'rg-copy-button',
-  {
-    displayName: 'RgCopyButton',
-    props: [
-      'value',
-      'from',
-      'disabled',
-      'copyLabel',
-      'successLabel',
-      'errorLabel',
-      'feedbackDuration',
-    ],
-    events: { 'rg-copy': 'copy', 'rg-error': 'error' },
-    booleanProps: ['disabled'],
-    numberProps: ['feedbackDuration'],
-    attributes: {
-      copyLabel: 'copy-label',
-      successLabel: 'success-label',
-      errorLabel: 'error-label',
-      feedbackDuration: 'feedback-duration',
+    RgIconButtonElementConstructor,
+  ))();
+export const RgLink = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgLinkElement, RgLinkProps>(
+    'rg-link',
+    {
+      displayName: 'RgLink',
+      props: [
+        'href',
+        'hrefLang',
+        'target',
+        'rel',
+        'referrerPolicy',
+        'type',
+        'download',
+        'disabled',
+        'external',
+        'variant',
+        'tone',
+        'size',
+      ],
+      events: { 'rg-navigate': 'navigate' },
+      booleanProps: ['disabled', 'external'],
+      booleanOrStringProps: ['download'],
+      attributes: { hrefLang: 'hreflang', referrerPolicy: 'referrerpolicy' },
+      slots: ['start', 'end'],
     },
-    slots: ['copy-icon', 'success-icon', 'error-icon'],
-  },
-);
-export const RgChipGroup = createReglowVueComponent<RgChipGroupElement, RgChipGroupProps>(
-  'rg-chip-group',
-  {
-    displayName: 'RgChipGroup',
-    props: ['value', 'selection', 'label', 'name', 'required', 'disabled'],
-    events: {
-      input: 'value-change',
-      change: 'value-commit',
-      'rg-value-change': 'selection-change',
+    RgLinkElementConstructor,
+  ))();
+export const RgInput = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgInputElement, RgInputProps>(
+    'rg-input',
+    {
+      displayName: 'RgInput',
+      props: [
+        ...fieldProps,
+        'type',
+        'clearable',
+        'autoComplete',
+        'inputMode',
+        'min',
+        'max',
+        'step',
+        'minLength',
+        'maxLength',
+        'pattern',
+      ],
+      events: { ...fieldEvents, 'rg-clear': 'clear' },
+      booleanProps: [...fieldBooleanProps, 'clearable'],
+      numberProps: ['min', 'max', 'step', 'minLength', 'maxLength'],
+      attributes: {
+        ...fieldAttributes,
+        autoComplete: 'autocomplete',
+        inputMode: 'inputmode',
+        minLength: 'minlength',
+        maxLength: 'maxlength',
+      },
+      slots: [...fieldSlots, 'start', 'end'],
+      model: { property: 'value', event: 'input' },
     },
-    booleanProps: ['required', 'disabled'],
-    properties: ['value'],
-    propertyDefaults: { value: '' },
-    model: { property: 'value', event: 'rg-value-change' },
-  },
-);
-export const RgChip = createReglowVueComponent<RgChipElement, RgChipProps>('rg-chip', {
-  displayName: 'RgChip',
-  props: ['value', 'selected', 'disabled', 'removable', 'removeLabel', 'size'],
-  events: { 'rg-remove': 'remove' },
-  booleanProps: ['selected', 'disabled', 'removable'],
-  attributes: { removeLabel: 'remove-label' },
-  slots: ['start', 'end'],
-});
-export const RgSegmentedControl = createReglowVueComponent<
-  RgSegmentedControlElement,
-  RgSegmentedControlProps
->('rg-segmented-control', {
-  displayName: 'RgSegmentedControl',
-  props: ['value', 'label', 'name', 'orientation', 'size', 'required', 'disabled', 'fullWidth'],
-  events: {
-    input: 'value-change',
-    change: 'value-commit',
-    'rg-value-change': 'selection-change',
-  },
-  booleanProps: ['required', 'disabled', 'fullWidth'],
-  attributes: { fullWidth: 'full-width' },
-  model: { property: 'value', event: 'rg-value-change' },
-});
-export const RgSegment = createReglowVueComponent<RgSegmentElement, RgSegmentProps>('rg-segment', {
-  displayName: 'RgSegment',
-  props: ['value', 'selected', 'disabled'],
-  booleanProps: ['selected', 'disabled'],
-});
-export const RgProgressRing = createReglowVueComponent<RgProgressRingElement, RgProgressRingProps>(
-  'rg-progress-ring',
-  {
-    displayName: 'RgProgressRing',
-    props: ['value', 'max', 'label', 'size', 'showValue'],
-    booleanProps: ['showValue'],
-    numberProps: ['value', 'max'],
-    attributes: { showValue: 'show-value' },
-    properties: ['value'],
-    propertyDefaults: { value: null },
-  },
-);
-export const RgRating = createReglowVueComponent<RgRatingElement, RgRatingProps>('rg-rating', {
-  displayName: 'RgRating',
-  props: [
-    'value',
-    'max',
-    'name',
-    'label',
-    'description',
-    'error',
-    'size',
-    'required',
-    'disabled',
-    'readOnly',
-    'invalid',
-  ],
-  events: {
-    input: 'value-change',
-    change: 'value-commit',
-    'rg-value-change': 'rating-change',
-  },
-  booleanProps: ['required', 'disabled', 'readOnly', 'invalid'],
-  numberProps: ['modelValue', 'value', 'max'],
-  attributes: { readOnly: 'readonly' },
-  model: { property: 'value', event: 'input' },
-});
-export const RgRelativeTime = createReglowVueComponent<RgRelativeTimeElement, RgRelativeTimeProps>(
-  'rg-relative-time',
-  {
-    displayName: 'RgRelativeTime',
-    props: ['date', 'locale', 'format', 'numeric', 'sync'],
-    booleanProps: ['sync'],
-    properties: ['date'],
-    propertyDefaults: { date: '' },
-  },
-);
+    RgInputElementConstructor,
+  ))();
+export const RgTextarea = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTextareaElement, RgTextareaProps>(
+    'rg-textarea',
+    {
+      displayName: 'RgTextarea',
+      props: [...fieldProps, 'rows', 'cols', 'minLength', 'maxLength', 'resize', 'autoGrow'],
+      events: fieldEvents,
+      booleanProps: [...fieldBooleanProps, 'autoGrow'],
+      numberProps: ['rows', 'cols', 'minLength', 'maxLength'],
+      attributes: {
+        ...fieldAttributes,
+        autoGrow: 'auto-grow',
+        minLength: 'minlength',
+        maxLength: 'maxlength',
+      },
+      slots: fieldSlots,
+      model: { property: 'value', event: 'input' },
+    },
+    RgTextareaElementConstructor,
+  ))();
+export const RgSelect = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSelectElement, RgSelectProps>(
+    'rg-select',
+    {
+      displayName: 'RgSelect',
+      props: [...fieldProps.filter((prop) => prop !== 'readOnly'), 'options'],
+      events: fieldEvents,
+      booleanProps: ['required', 'disabled', 'invalid'],
+      properties: ['options'],
+      propertyDefaults: { options: null },
+      slots: fieldSlots,
+      model: { property: 'value', event: 'change' },
+    },
+    RgSelectElementConstructor,
+  ))();
+export const RgOption = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgOptionElement, RgOptionProps>(
+    'rg-option',
+    {
+      displayName: 'RgOption',
+      props: ['value', 'label', 'disabled', 'selected'],
+      booleanProps: ['disabled', 'selected'],
+    },
+    RgOptionElementConstructor,
+  ))();
+export const RgCheckbox = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgCheckboxElement, RgCheckboxProps>(
+    'rg-checkbox',
+    {
+      displayName: 'RgCheckbox',
+      props: [
+        'value',
+        'name',
+        'label',
+        'description',
+        'error',
+        'required',
+        'disabled',
+        'invalid',
+        'checked',
+        'indeterminate',
+      ],
+      events: fieldEvents,
+      booleanProps: ['modelValue', 'required', 'disabled', 'invalid', 'checked', 'indeterminate'],
+      properties: ['indeterminate'],
+      propertyDefaults: { indeterminate: false },
+      slots: fieldSlots,
+      model: { property: 'checked', event: 'change' },
+    },
+    RgCheckboxElementConstructor,
+  ))();
+export const RgSwitch = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSwitchElement, RgSwitchProps>(
+    'rg-switch',
+    {
+      displayName: 'RgSwitch',
+      props: [
+        'value',
+        'name',
+        'label',
+        'description',
+        'error',
+        'required',
+        'disabled',
+        'invalid',
+        'checked',
+      ],
+      events: fieldEvents,
+      booleanProps: ['modelValue', 'required', 'disabled', 'invalid', 'checked'],
+      slots: fieldSlots,
+      model: { property: 'checked', event: 'change' },
+    },
+    RgSwitchElementConstructor,
+  ))();
+export const RgRadioGroup = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgRadioGroupElement, RgRadioGroupProps>(
+    'rg-radio-group',
+    {
+      displayName: 'RgRadioGroup',
+      props: [
+        'value',
+        'name',
+        'label',
+        'description',
+        'error',
+        'required',
+        'disabled',
+        'invalid',
+        'orientation',
+      ],
+      events: fieldEvents,
+      booleanProps: ['required', 'disabled', 'invalid'],
+      slots: fieldSlots,
+      model: { property: 'value', event: 'change' },
+    },
+    RgRadioGroupElementConstructor,
+  ))();
+export const RgRadio = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgRadioElement, RgRadioProps>(
+    'rg-radio',
+    {
+      displayName: 'RgRadio',
+      props: ['value', 'label', 'description', 'checked', 'disabled'],
+      events: fieldEvents,
+      booleanProps: ['checked', 'disabled'],
+      slots: ['description'],
+    },
+    RgRadioElementConstructor,
+  ))();
+export const RgSlider = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSliderElement, RgSliderProps>(
+    'rg-slider',
+    {
+      displayName: 'RgSlider',
+      props: [
+        'value',
+        'name',
+        'label',
+        'description',
+        'error',
+        'required',
+        'disabled',
+        'invalid',
+        'orientation',
+        'size',
+        'min',
+        'max',
+        'step',
+        'showValue',
+      ],
+      events: fieldEvents,
+      booleanProps: ['required', 'disabled', 'invalid', 'showValue'],
+      numberProps: ['modelValue', 'value', 'min', 'max', 'step'],
+      attributes: { showValue: 'show-value' },
+      slots: fieldSlots,
+      model: { property: 'value', event: 'input' },
+    },
+    RgSliderElementConstructor,
+  ))();
+export const RgBadge = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgBadgeElement, RgBadgeProps>(
+    'rg-badge',
+    {
+      displayName: 'RgBadge',
+      props: ['tone', 'variant', 'size', 'dot', 'removable', 'removeLabel'],
+      events: { 'rg-remove': 'remove' },
+      booleanProps: ['dot', 'removable'],
+      attributes: { removeLabel: 'remove-label' },
+      slots: ['start', 'end'],
+    },
+    RgBadgeElementConstructor,
+  ))();
+export const RgAvatar = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgAvatarElement, RgAvatarProps>(
+    'rg-avatar',
+    {
+      displayName: 'RgAvatar',
+      props: [
+        'src',
+        'srcSet',
+        'sizes',
+        'alt',
+        'name',
+        'initials',
+        'size',
+        'shape',
+        'status',
+        'statusLabel',
+        'loading',
+        'crossOrigin',
+        'decoding',
+        'referrerPolicy',
+      ],
+      events: { 'rg-load': 'load', 'rg-error': 'error' },
+      attributes: {
+        srcSet: 'srcset',
+        statusLabel: 'status-label',
+        crossOrigin: 'crossorigin',
+        referrerPolicy: 'referrerpolicy',
+      },
+      slots: { fallback: 'fallback', statusContent: 'status' },
+    },
+    RgAvatarElementConstructor,
+  ))();
+export const RgCard = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgCardElement, RgCardProps>(
+    'rg-card',
+    {
+      displayName: 'RgCard',
+      props: ['variant', 'padding', 'radius', 'lift'],
+      booleanProps: ['lift'],
+      slots: ['media', 'header', 'footer'],
+    },
+    RgCardElementConstructor,
+  ))();
+export const RgDivider = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgDividerElement, RgDividerProps>(
+    'rg-divider',
+    {
+      displayName: 'RgDivider',
+      props: ['orientation', 'variant', 'spacing', 'decorative', 'inset'],
+      booleanProps: ['decorative', 'inset'],
+    },
+    RgDividerElementConstructor,
+  ))();
+export const RgAlert = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgAlertElement, RgAlertProps>(
+    'rg-alert',
+    {
+      displayName: 'RgAlert',
+      props: ['tone', 'variant', 'dismissible', 'dismissLabel'],
+      events: { 'rg-dismiss': 'dismiss' },
+      booleanProps: ['dismissible'],
+      attributes: { dismissLabel: 'dismiss-label' },
+      slots: ['icon', 'title', 'actions'],
+    },
+    RgAlertElementConstructor,
+  ))();
+export const RgProgress = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgProgressElement, RgProgressProps>(
+    'rg-progress',
+    {
+      displayName: 'RgProgress',
+      props: ['value', 'max', 'label'],
+      numberProps: ['value', 'max'],
+      slots: ['label'],
+    },
+    RgProgressElementConstructor,
+  ))();
+export const RgSpinner = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSpinnerElement, RgSpinnerProps>(
+    'rg-spinner',
+    {
+      displayName: 'RgSpinner',
+      props: ['size', 'label'],
+    },
+    RgSpinnerElementConstructor,
+  ))();
+export const RgSkeleton = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSkeletonElement, RgSkeletonProps>(
+    'rg-skeleton',
+    {
+      displayName: 'RgSkeleton',
+      props: ['shape', 'width', 'height', 'animated'],
+      booleanProps: ['animated'],
+    },
+    RgSkeletonElementConstructor,
+  ))();
+export const RgToastRegion = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgToastRegionElement, RgToastRegionProps>(
+    'rg-toast-region',
+    {
+      displayName: 'RgToastRegion',
+      props: ['position', 'maxVisible', 'label', 'pauseOnHover'],
+      events: { 'rg-toast-add': 'toast-add' },
+      booleanProps: ['pauseOnHover'],
+      numberProps: ['maxVisible'],
+      attributes: { maxVisible: 'max-visible', pauseOnHover: 'pause-on-hover' },
+    },
+    RgToastRegionElementConstructor,
+  ))();
+export const RgToast = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgToastElement, RgToastProps>(
+    'rg-toast',
+    {
+      displayName: 'RgToast',
+      props: ['open', 'duration', 'tone', 'dismissible', 'dismissLabel'],
+      events: { 'rg-open-change': 'open-change', 'rg-dismiss': 'dismiss' },
+      booleanProps: ['open', 'dismissible'],
+      numberProps: ['duration'],
+      attributes: { dismissLabel: 'dismiss-label' },
+      slots: ['icon', 'title', 'action'],
+    },
+    RgToastElementConstructor,
+  ))();
+export const RgTabs = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTabsElement, RgTabsProps>(
+    'rg-tabs',
+    {
+      displayName: 'RgTabs',
+      props: ['value', 'orientation', 'activation', 'loop'],
+      events: { 'rg-value-change': 'value-change' },
+      booleanProps: ['loop'],
+      slots: ['tab'],
+      model: { property: 'value', event: 'rg-value-change' },
+    },
+    RgTabsElementConstructor,
+  ))();
+export const RgTab = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTabElement, RgTabProps>(
+    'rg-tab',
+    {
+      displayName: 'RgTab',
+      props: ['value', 'disabled'],
+      booleanProps: ['disabled'],
+    },
+    RgTabElementConstructor,
+  ))();
+export const RgTabPanel = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTabPanelElement, RgTabPanelProps>(
+    'rg-tab-panel',
+    {
+      displayName: 'RgTabPanel',
+      props: ['value'],
+    },
+    RgTabPanelElementConstructor,
+  ))();
+export const RgAccordion = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgAccordionElement, RgAccordionProps>(
+    'rg-accordion',
+    {
+      displayName: 'RgAccordion',
+      props: ['value', 'multiple', 'collapsible'],
+      events: { 'rg-value-change': 'value-change' },
+      booleanProps: ['multiple', 'collapsible'],
+      properties: ['value'],
+      propertyDefaults: { value: '' },
+      model: { property: 'value', event: 'rg-value-change' },
+    },
+    RgAccordionElementConstructor,
+  ))();
+export const RgAccordionItem = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgAccordionItemElement, RgAccordionItemProps>(
+    'rg-accordion-item',
+    {
+      displayName: 'RgAccordionItem',
+      props: ['value', 'open', 'disabled', 'headingLevel'],
+      events: { 'rg-open-change': 'open-change' },
+      booleanProps: ['open', 'disabled'],
+      numberProps: ['headingLevel'],
+      attributes: { headingLevel: 'heading-level' },
+      slots: ['heading'],
+    },
+    RgAccordionItemElementConstructor,
+  ))();
+export const RgDialog = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgDialogElement, RgDialogProps>(
+    'rg-dialog',
+    {
+      displayName: 'RgDialog',
+      props: [
+        'open',
+        'size',
+        'label',
+        'escapeKeyAction',
+        'backdropAction',
+        'hideClose',
+        'closeLabel',
+        'initialFocus',
+      ],
+      events: {
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+        'rg-close': 'close',
+      },
+      booleanProps: ['modelValue', 'open', 'hideClose'],
+      attributes: {
+        escapeKeyAction: 'escape-key-action',
+        backdropAction: 'backdrop-action',
+        hideClose: 'hide-close',
+        closeLabel: 'close-label',
+      },
+      properties: ['initialFocus'],
+      propertyDefaults: { initialFocus: null },
+      slots: ['trigger', 'title', 'footer', 'close'],
+      model: { property: 'open', event: 'rg-open-change' },
+    },
+    RgDialogElementConstructor,
+  ))();
+export const RgDrawer = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgDrawerElement, RgDrawerProps>(
+    'rg-drawer',
+    {
+      displayName: 'RgDrawer',
+      props: [
+        'open',
+        'size',
+        'label',
+        'escapeKeyAction',
+        'backdropAction',
+        'hideClose',
+        'closeLabel',
+        'placement',
+        'initialFocus',
+      ],
+      events: {
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+        'rg-close': 'close',
+      },
+      booleanProps: ['modelValue', 'open', 'hideClose'],
+      attributes: {
+        escapeKeyAction: 'escape-key-action',
+        backdropAction: 'backdrop-action',
+        hideClose: 'hide-close',
+        closeLabel: 'close-label',
+      },
+      properties: ['initialFocus'],
+      propertyDefaults: { initialFocus: null },
+      slots: ['trigger', 'title', 'footer', 'close'],
+      model: { property: 'open', event: 'rg-open-change' },
+    },
+    RgDrawerElementConstructor,
+  ))();
+export const RgTooltip = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTooltipElement, RgTooltipProps>(
+    'rg-tooltip',
+    {
+      displayName: 'RgTooltip',
+      props: ['content', 'open', 'placement', 'delay', 'disabled'],
+      events: { 'rg-open-change': 'open-change' },
+      booleanProps: ['open', 'disabled'],
+      numberProps: ['delay'],
+      slots: { trigger: 'trigger', richContent: 'content' },
+    },
+    RgTooltipElementConstructor,
+  ))();
+export const RgButtonGroup = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgButtonGroupElement, RgButtonGroupProps>(
+    'rg-button-group',
+    {
+      displayName: 'RgButtonGroup',
+      props: ['label', 'orientation', 'attached'],
+      booleanProps: ['attached'],
+    },
+    RgButtonGroupElementConstructor,
+  ))();
+export const RgCombobox = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgComboboxElement, RgComboboxProps>(
+    'rg-combobox',
+    {
+      displayName: 'RgCombobox',
+      props: [...fieldProps, 'filter', 'noResultsText', 'open', 'options'],
+      events: {
+        ...fieldEvents,
+        'rg-open-change': 'open-change',
+        'rg-value-change': 'selection-change',
+      },
+      booleanProps: [...fieldBooleanProps, 'open'],
+      attributes: { ...fieldAttributes, noResultsText: 'no-results-text' },
+      properties: ['options'],
+      propertyDefaults: { options: null },
+      slots: fieldSlots,
+      model: { property: 'value', event: 'change' },
+    },
+    RgComboboxElementConstructor,
+  ))();
+export const RgDatePicker = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgDatePickerElement, RgDatePickerProps>(
+    'rg-date-picker',
+    {
+      displayName: 'RgDatePicker',
+      props: [...fieldProps.filter((prop) => prop !== 'placeholder'), 'min', 'max', 'step'],
+      events: fieldEvents,
+      booleanProps: fieldBooleanProps,
+      numberProps: ['step'],
+      attributes: fieldAttributes,
+      slots: fieldSlots,
+      model: { property: 'value', event: 'input' },
+    },
+    RgDatePickerElementConstructor,
+  ))();
+export const RgKbd = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgKbdElement, RgKbdProps>(
+    'rg-kbd',
+    {
+      displayName: 'RgKbd',
+      props: ['keys', 'label', 'separator'],
+    },
+    RgKbdElementConstructor,
+  ))();
+export const RgFieldset = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgFieldsetElement, RgFieldsetProps>(
+    'rg-fieldset',
+    {
+      displayName: 'RgFieldset',
+      props: ['legend', 'description', 'error', 'disabled', 'invalid'],
+      booleanProps: ['disabled', 'invalid'],
+      slots: ['legend', 'description', 'error'],
+    },
+    RgFieldsetElementConstructor,
+  ))();
+export const RgEmptyState = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgEmptyStateElement, RgEmptyStateProps>(
+    'rg-empty-state',
+    {
+      displayName: 'RgEmptyState',
+      props: ['title', 'description', 'size', 'tone'],
+      slots: ['icon', 'title', 'actions'],
+    },
+    RgEmptyStateElementConstructor,
+  ))();
+export const RgBreadcrumb = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgBreadcrumbElement, RgBreadcrumbProps>(
+    'rg-breadcrumb',
+    { displayName: 'RgBreadcrumb', props: ['label'] },
+    RgBreadcrumbElementConstructor,
+  ))();
+export const RgBreadcrumbItem = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgBreadcrumbItemElement, RgBreadcrumbItemProps>(
+    'rg-breadcrumb-item',
+    {
+      displayName: 'RgBreadcrumbItem',
+      props: ['href', 'target', 'rel', 'current'],
+      booleanProps: ['current'],
+    },
+    RgBreadcrumbItemElementConstructor,
+  ))();
+export const RgPagination = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgPaginationElement, RgPaginationProps>(
+    'rg-pagination',
+    {
+      displayName: 'RgPagination',
+      props: [
+        'page',
+        'pageCount',
+        'siblingCount',
+        'boundaryCount',
+        'disabled',
+        'label',
+        'previousLabel',
+        'nextLabel',
+      ],
+      events: { 'rg-page-change': 'page-change' },
+      booleanProps: ['disabled'],
+      numberProps: ['page', 'pageCount', 'siblingCount', 'boundaryCount'],
+      attributes: {
+        pageCount: 'page-count',
+        siblingCount: 'sibling-count',
+        boundaryCount: 'boundary-count',
+        previousLabel: 'previous-label',
+        nextLabel: 'next-label',
+      },
+    },
+    RgPaginationElementConstructor,
+  ))();
+export const RgPopover = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgPopoverElement, RgPopoverProps>(
+    'rg-popover',
+    {
+      displayName: 'RgPopover',
+      props: ['open', 'placement', 'triggerMode', 'disabled', 'label', 'matchTriggerWidth'],
+      events: { 'rg-open-change': 'open-change' },
+      booleanProps: ['open', 'disabled', 'matchTriggerWidth'],
+      attributes: { triggerMode: 'trigger', matchTriggerWidth: 'match-trigger-width' },
+      slots: ['trigger'],
+    },
+    RgPopoverElementConstructor,
+  ))();
+export const RgMenu = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgMenuElement, RgMenuProps>(
+    'rg-menu',
+    {
+      displayName: 'RgMenu',
+      props: ['open', 'placement', 'disabled', 'label'],
+      events: { 'rg-open-change': 'open-change', 'rg-select': 'select' },
+      booleanProps: ['open', 'disabled'],
+      slots: ['trigger'],
+    },
+    RgMenuElementConstructor,
+  ))();
+export const RgMenuItem = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgMenuItemElement, RgMenuItemProps>(
+    'rg-menu-item',
+    {
+      displayName: 'RgMenuItem',
+      props: ['value', 'disabled'],
+      booleanProps: ['disabled'],
+      slots: ['start', 'end'],
+    },
+    RgMenuItemElementConstructor,
+  ))();
+export const RgCopyButton = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgCopyButtonElement, RgCopyButtonProps>(
+    'rg-copy-button',
+    {
+      displayName: 'RgCopyButton',
+      props: [
+        'value',
+        'from',
+        'disabled',
+        'copyLabel',
+        'successLabel',
+        'errorLabel',
+        'feedbackDuration',
+      ],
+      events: { 'rg-copy': 'copy', 'rg-error': 'error' },
+      booleanProps: ['disabled'],
+      numberProps: ['feedbackDuration'],
+      attributes: {
+        copyLabel: 'copy-label',
+        successLabel: 'success-label',
+        errorLabel: 'error-label',
+        feedbackDuration: 'feedback-duration',
+      },
+      slots: ['copy-icon', 'success-icon', 'error-icon'],
+    },
+    RgCopyButtonElementConstructor,
+  ))();
+export const RgChipGroup = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgChipGroupElement, RgChipGroupProps>(
+    'rg-chip-group',
+    {
+      displayName: 'RgChipGroup',
+      props: ['value', 'selection', 'label', 'name', 'required', 'disabled'],
+      events: {
+        input: 'value-change',
+        change: 'value-commit',
+        'rg-value-change': 'selection-change',
+      },
+      booleanProps: ['required', 'disabled'],
+      properties: ['value'],
+      propertyDefaults: { value: '' },
+      model: { property: 'value', event: 'rg-value-change' },
+    },
+    RgChipGroupElementConstructor,
+  ))();
+export const RgChip = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgChipElement, RgChipProps>(
+    'rg-chip',
+    {
+      displayName: 'RgChip',
+      props: ['value', 'selected', 'disabled', 'removable', 'removeLabel', 'size'],
+      events: { 'rg-remove': 'remove' },
+      booleanProps: ['selected', 'disabled', 'removable'],
+      attributes: { removeLabel: 'remove-label' },
+      slots: ['start', 'end'],
+    },
+    RgChipElementConstructor,
+  ))();
+export const RgSegmentedControl = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSegmentedControlElement, RgSegmentedControlProps>(
+    'rg-segmented-control',
+    {
+      displayName: 'RgSegmentedControl',
+      props: ['value', 'label', 'name', 'orientation', 'size', 'required', 'disabled', 'fullWidth'],
+      events: {
+        input: 'value-change',
+        change: 'value-commit',
+        'rg-value-change': 'selection-change',
+      },
+      booleanProps: ['required', 'disabled', 'fullWidth'],
+      attributes: { fullWidth: 'full-width' },
+      model: { property: 'value', event: 'rg-value-change' },
+    },
+    RgSegmentedControlElementConstructor,
+  ))();
+export const RgSegment = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgSegmentElement, RgSegmentProps>(
+    'rg-segment',
+    {
+      displayName: 'RgSegment',
+      props: ['value', 'selected', 'disabled'],
+      booleanProps: ['selected', 'disabled'],
+    },
+    RgSegmentElementConstructor,
+  ))();
+export const RgProgressRing = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgProgressRingElement, RgProgressRingProps>(
+    'rg-progress-ring',
+    {
+      displayName: 'RgProgressRing',
+      props: ['value', 'max', 'label', 'size', 'showValue'],
+      booleanProps: ['showValue'],
+      numberProps: ['value', 'max'],
+      attributes: { showValue: 'show-value' },
+      properties: ['value'],
+      propertyDefaults: { value: null },
+    },
+    RgProgressRingElementConstructor,
+  ))();
+export const RgRating = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgRatingElement, RgRatingProps>(
+    'rg-rating',
+    {
+      displayName: 'RgRating',
+      props: [
+        'value',
+        'max',
+        'name',
+        'label',
+        'description',
+        'error',
+        'size',
+        'required',
+        'disabled',
+        'readOnly',
+        'invalid',
+      ],
+      events: {
+        input: 'value-change',
+        change: 'value-commit',
+        'rg-value-change': 'rating-change',
+      },
+      booleanProps: ['required', 'disabled', 'readOnly', 'invalid'],
+      numberProps: ['modelValue', 'value', 'max'],
+      attributes: { readOnly: 'readonly' },
+      model: { property: 'value', event: 'input' },
+    },
+    RgRatingElementConstructor,
+  ))();
+export const RgRelativeTime = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgRelativeTimeElement, RgRelativeTimeProps>(
+    'rg-relative-time',
+    {
+      displayName: 'RgRelativeTime',
+      props: ['date', 'locale', 'format', 'numeric', 'sync'],
+      booleanProps: ['sync'],
+      properties: ['date'],
+      propertyDefaults: { date: '' },
+    },
+    RgRelativeTimeElementConstructor,
+  ))();
 
-export const ReglowPlugin = createReglowPlugin({
-  RgTheme,
-  RgButton,
-  RgIconButton,
-  RgLink,
-  RgInput,
-  RgTextarea,
-  RgSelect,
-  RgOption,
-  RgCheckbox,
-  RgSwitch,
-  RgRadioGroup,
-  RgRadio,
-  RgSlider,
-  RgBadge,
-  RgAvatar,
-  RgCard,
-  RgDivider,
-  RgAlert,
-  RgProgress,
-  RgSpinner,
-  RgSkeleton,
-  RgToastRegion,
-  RgToast,
-  RgTabs,
-  RgTab,
-  RgTabPanel,
-  RgAccordion,
-  RgAccordionItem,
-  RgDialog,
-  RgDrawer,
-  RgTooltip,
-  RgButtonGroup,
-  RgCombobox,
-  RgDatePicker,
-  RgKbd,
-  RgFieldset,
-  RgEmptyState,
-  RgBreadcrumb,
-  RgBreadcrumbItem,
-  RgPagination,
-  RgPopover,
-  RgMenu,
-  RgMenuItem,
-  RgCopyButton,
-  RgChipGroup,
-  RgChip,
-  RgSegmentedControl,
-  RgSegment,
-  RgProgressRing,
-  RgRating,
-  RgRelativeTime,
-});
+export const ReglowPlugin = /* @__PURE__ */ (() =>
+  createReglowPlugin({
+    RgTheme,
+    RgButton,
+    RgIconButton,
+    RgLink,
+    RgInput,
+    RgTextarea,
+    RgSelect,
+    RgOption,
+    RgCheckbox,
+    RgSwitch,
+    RgRadioGroup,
+    RgRadio,
+    RgSlider,
+    RgBadge,
+    RgAvatar,
+    RgCard,
+    RgDivider,
+    RgAlert,
+    RgProgress,
+    RgSpinner,
+    RgSkeleton,
+    RgToastRegion,
+    RgToast,
+    RgTabs,
+    RgTab,
+    RgTabPanel,
+    RgAccordion,
+    RgAccordionItem,
+    RgDialog,
+    RgDrawer,
+    RgTooltip,
+    RgButtonGroup,
+    RgCombobox,
+    RgDatePicker,
+    RgKbd,
+    RgFieldset,
+    RgEmptyState,
+    RgBreadcrumb,
+    RgBreadcrumbItem,
+    RgPagination,
+    RgPopover,
+    RgMenu,
+    RgMenuItem,
+    RgCopyButton,
+    RgChipGroup,
+    RgChip,
+    RgSegmentedControl,
+    RgSegment,
+    RgProgressRing,
+    RgRating,
+    RgRelativeTime,
+  }))();
 
 declare module 'vue' {
   export interface GlobalComponents {
