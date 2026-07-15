@@ -156,13 +156,23 @@ describe('dynamic interaction regressions', () => {
     expect(styles).toMatch(
       /\.panel\s*\{[^}]*display:\s*grid;[^}]*grid-template-rows:\s*1fr;[^}]*overflow:\s*hidden;/s,
     );
-    expect(styles).toMatch(/\.content\s*\{[^}]*min-height:\s*0;/s);
+    expect(styles).toMatch(/\.panel-clip\s*\{[^}]*min-height:\s*0;[^}]*overflow:\s*hidden;/s);
     expect(styles).toMatch(
       /@keyframes rg-accordion-panel-open\s*\{[\s\S]*?from\s*\{[^}]*grid-template-rows:\s*0fr;[\s\S]*?to\s*\{[^}]*grid-template-rows:\s*1fr;/,
     );
     expect(styles).toMatch(
       /@keyframes rg-accordion-panel-close\s*\{[\s\S]*?from\s*\{[^}]*grid-template-rows:\s*1fr;[\s\S]*?to\s*\{[^}]*grid-template-rows:\s*0fr;/,
     );
+  });
+
+  it('isolates padded accordion content from the collapsible grid track', () => {
+    const item = document.createElement('rg-accordion-item') as RgAccordionItemElement;
+    document.body.append(item);
+    const panel = item.shadowRoot!.querySelector<HTMLElement>('.panel')!;
+    const clip = panel.firstElementChild;
+
+    expect(clip?.classList.contains('panel-clip')).toBe(true);
+    expect(clip?.firstElementChild?.classList.contains('content')).toBe(true);
   });
 
   it('enters the opening layout state before revealing native details content', () => {
