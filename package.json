@@ -11,11 +11,12 @@
   "scripts": {
     "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/vue build",
     "build:storybook": "storybook build",
-    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm build:storybook",
+    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm test:tree-shaking && pnpm build:storybook",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006 --no-open",
     "test": "vitest run",
+    "test:tree-shaking": "node scripts/verify-tree-shaking.mjs",
     "test:watch": "vitest",
     "typecheck": "pnpm -r typecheck"
   },
