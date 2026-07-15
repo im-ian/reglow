@@ -14,5 +14,6 @@ const value = ref('');
 <template><RgInput v-model="value" label="Workspace" /></template>
 ```
 
-The adapter registers Reglow elements when imported and provides typed Vue components, named
-slots, emitted events, and `v-model` mappings.
+Each retained adapter export registers only its matching Reglow element. Unused Vue adapters and
+Custom Element implementations can therefore be removed by the consumer bundler. The adapter
+provides typed Vue components, named slots, emitted events, and `v-model` mappings.

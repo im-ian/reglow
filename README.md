@@ -10,6 +10,9 @@ through the official React 19 and Vue 3 adapters.
 - **Built on web standards.** Components are autonomous Custom Elements composed from open Shadow
   DOM, slots, CSS custom properties, `::part`, `ElementInternals`, native controls, and composed DOM
   events. The same component implementation works with plain HTML and framework adapters.
+- **Tree-shakable by component.** ESM module boundaries are preserved through the published build.
+  React and Vue adapters register only the component exports retained by the consumer bundle, while
+  full custom-element registration remains an explicit opt-in.
 
 ## Packages
 
@@ -129,6 +132,7 @@ Storybook toolbar.
 pnpm install
 pnpm storybook
 pnpm test
+pnpm test:tree-shaking
 pnpm typecheck
 pnpm build
 pnpm build:storybook
