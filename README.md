@@ -1,8 +1,15 @@
 # Reglow
 
-Reglow is a soft-kinetic design system built on the web platform. The component implementation has
-no runtime dependencies and can be used directly from HTML or through the official React 19 and
-Vue 3 adapters.
+Reglow is a soft-kinetic design system built on the web platform. Use it directly from HTML or
+through the official React 19 and Vue 3 adapters.
+
+## Highlights
+
+- **Zero runtime dependencies in the core.** `@reglow/elements` and `@reglow/tokens` ship without
+  third-party runtime packages. React and Vue support is provided through thin, optional adapters.
+- **Built on web standards.** Components are autonomous Custom Elements composed from open Shadow
+  DOM, slots, CSS custom properties, `::part`, `ElementInternals`, native controls, and composed DOM
+  events. The same component implementation works with plain HTML and framework adapters.
 
 ## Packages
 
@@ -13,9 +20,7 @@ Vue 3 adapters.
 | `@reglow/react`    | Typed React components and event aliases | React peer + elements |
 | `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements   |
 
-Every visual component uses open Shadow DOM, semantic CSS custom properties, native controls, and
-composed DOM events. The core can be imported safely during SSR; v1 upgrades shadow content on the
-client.
+The core can be imported safely during SSR; v1 upgrades shadow content on the client.
 
 ## Quick start
 
