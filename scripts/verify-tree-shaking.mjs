@@ -1,39 +1,59 @@
 import { gzipSync } from 'node:zlib';
-import { resolve } from 'node:path';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import { build } from 'vite';
 
 const root = resolve(import.meta.dirname, '..');
+const consumerRoot = mkdtempSync(join(tmpdir(), 'reglow-tree-shaking-'));
+const packageScope = join(consumerRoot, 'node_modules', '@reglow');
+mkdirSync(packageScope, { recursive: true });
+for (const packageName of ['elements', 'react', 'vue']) {
+  symlinkSync(
+    resolve(root, 'packages', packageName),
+    join(packageScope, packageName),
+    process.platform === 'win32' ? 'junction' : 'dir',
+  );
+}
+process.once('exit', () => rmSync(consumerRoot, { recursive: true, force: true }));
+
+const customElementsManifest = JSON.parse(
+  readFileSync(resolve(root, 'packages/elements/custom-elements.json'), 'utf8'),
+);
+const publicElementTags = customElementsManifest.modules.flatMap(
+  (module) => module.declarations?.flatMap((declaration) => declaration.tagName ?? []) ?? [],
+);
 
 const cases = [
   {
     name: 'elements-button',
-    source: `import { RgButtonElement } from '${resolve(root, 'packages/elements/dist/index.js')}'; console.log(RgButtonElement.tagName);`,
+    source: `import { RgButtonElement } from '@reglow/elements'; console.log(RgButtonElement.tagName);`,
     maxGzipBytes: 8_000,
   },
   {
     name: 'elements-all',
-    source: `import '${resolve(root, 'packages/elements/dist/register.js')}';`,
+    source: `import '@reglow/elements/register';`,
   },
   {
     name: 'react-button',
-    source: `import { Button } from '${resolve(root, 'packages/react/dist/index.js')}'; console.log(Button.displayName);`,
+    source: `import { Button } from '@reglow/react'; console.log(Button.displayName);`,
     external: 'react',
     maxGzipBytes: 14_000,
   },
   {
     name: 'react-all',
-    source: `import * as Reglow from '${resolve(root, 'packages/react/dist/index.js')}'; console.log(Object.keys(Reglow));`,
+    source: `import * as Reglow from '@reglow/react'; console.log(Object.keys(Reglow));`,
     external: 'react',
   },
   {
     name: 'vue-button',
-    source: `import { RgButton } from '${resolve(root, 'packages/vue/dist/index.js')}'; console.log(RgButton.name);`,
+    source: `import { RgButton } from '@reglow/vue'; console.log(RgButton.name);`,
     external: 'vue',
     maxGzipBytes: 16_000,
   },
   {
     name: 'vue-all',
-    source: `import * as Reglow from '${resolve(root, 'packages/vue/dist/index.js')}'; console.log(Object.keys(Reglow));`,
+    source: `import * as Reglow from '@reglow/vue'; console.log(Object.keys(Reglow));`,
     external: 'vue',
   },
 ];
@@ -42,6 +62,7 @@ async function bundle(testCase) {
   const virtualId = '\0reglow-tree-shaking-entry';
   const result = await build({
     configFile: false,
+    root: consumerRoot,
     logLevel: 'silent',
     plugins: [
       {
@@ -77,7 +98,10 @@ async function bundle(testCase) {
     name: testCase.name,
     rawBytes: Buffer.byteLength(code),
     gzipBytes: gzipSync(code).byteLength,
-    includesUnusedAccordion: code.includes('rg-accordion'),
+    componentTags: publicElementTags.filter(
+      (tag) =>
+        code.includes(`"${tag}"`) || code.includes(`'${tag}'`) || code.includes(`\`${tag}\``),
+    ),
   };
 }
 
@@ -85,11 +109,13 @@ const results = [];
 for (const testCase of cases) results.push(await bundle(testCase));
 
 console.table(
-  results.map(({ name, rawBytes, gzipBytes, includesUnusedAccordion }) => ({
+  results.map(({ name, rawBytes, gzipBytes, componentTags }) => ({
     name,
     rawBytes,
     gzipBytes,
-    includesUnusedAccordion,
+    componentCount: componentTags.length,
+    components:
+      componentTags.length <= 3 ? componentTags.join(', ') : `all ${componentTags.length}`,
   })),
 );
 
@@ -102,8 +128,10 @@ for (const testCase of cases) {
       `${testCase.name} is ${result.gzipBytes} bytes gzip; expected at most ${testCase.maxGzipBytes}`,
     );
   }
-  if (result.includesUnusedAccordion) {
-    failures.push(`${testCase.name} contains the unused accordion implementation`);
+  if (result.componentTags.join(',') !== 'rg-button') {
+    failures.push(
+      `${testCase.name} contains unexpected component implementations: ${result.componentTags.join(', ')}`,
+    );
   }
 }
 
