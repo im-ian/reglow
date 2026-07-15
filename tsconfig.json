@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@reglow/tokens": ["./packages/tokens/src/index.ts"],
+      "@reglow/elements": ["./packages/elements/src/index.ts"],
+      "@reglow/elements/register": ["./packages/elements/src/register.ts"],
+      "@reglow/react": ["./packages/react/src/index.tsx"],
+      "@reglow/vue": ["./packages/vue/src/index.ts"]
+    }
+  },
+  "include": [".storybook", "stories", "packages/*/src", "packages/*/tests", "vitest.config.ts"]
+}

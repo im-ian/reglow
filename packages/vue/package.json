@@ -1,0 +1,37 @@
+{
+  "name": "@reglow/vue",
+  "version": "0.1.0",
+  "description": "Official Vue 3 adapter for Reglow Web Components.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "./dist/index.js"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@reglow/elements": "workspace:^"
+  },
+  "peerDependencies": {
+    "vue": ">=3.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vite": "^8.1.4",
+    "vite-plugin-dts": "^5.0.3",
+    "vue": "^3.5.39"
+  }
+}

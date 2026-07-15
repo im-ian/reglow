@@ -1,0 +1,79 @@
+import { Meta, Title, Subtitle, Description } from '@storybook/addon-docs/blocks';
+
+<Meta title="Adapters/React & Vue" />
+
+<Title>One implementation, native framework ergonomics</Title>
+
+<Subtitle>React 19 and Vue 3 are official v1 adapters over the same Web Component core.</Subtitle>
+
+<Description>
+  Reglow keeps behavior, accessibility, and styling in `@reglow/elements`. The adapters provide
+  typed refs, idiomatic events, named slots, and model bindings without creating a second visual
+  implementation.
+</Description>
+
+## React 19
+
+```tsx
+import { Button, Dialog, Input } from '@reglow/react';
+import '@reglow/tokens/css';
+
+export function CreateWorkspace() {
+  return (
+    <Dialog
+      title="Create workspace"
+      trigger={<Button>New workspace</Button>}
+      onOpenChange={(event) => console.log(event.detail)}
+    >
+      <Input
+        label="Workspace name"
+        placeholder="e.g. North star"
+        onValueChange={(event) => console.log(event.currentTarget.value)}
+      />
+    </Dialog>
+  );
+}
+```
+
+React 19 recognizes Custom Element properties and custom events. The adapter translates Reglow’s
+event names into familiar `onValueChange` and `onOpenChange` props and forwards a typed element ref.
+
+## Vue 3
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { RgButton, RgInput, RgDialog } from '@reglow/vue';
+import '@reglow/tokens/css';
+
+const name = ref('');
+const open = ref(false);
+</script>
+
+<template>
+  <RgDialog v-model="open">
+    <template #trigger><RgButton>New workspace</RgButton></template>
+    <template #title>Create workspace</template>
+    <RgInput v-model="name" label="Workspace name" />
+  </RgDialog>
+</template>
+```
+
+The Vue adapter maps `modelValue` to the element’s live `value`, `checked`, or `open` property and
+emits `update:modelValue` from the same composed DOM events used everywhere else.
+
+## Direct Web Component use
+
+```html
+<script type="module">
+  import '@reglow/elements/register';
+  import '@reglow/tokens/css';
+</script>
+
+<rg-input label="Workspace name" placeholder="e.g. North star"></rg-input>
+<rg-button variant="solid" tone="brand">Create workspace</rg-button>
+```
+
+Angular, Svelte, Solid, Astro, and vanilla applications can use the standards-based elements
+directly. All public events bubble across the Shadow DOM boundary and all visual customization is
+expressed through semantic CSS variables, host attributes, slots, and documented `::part` hooks.

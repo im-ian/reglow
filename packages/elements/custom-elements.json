@@ -1,0 +1,4111 @@
+{
+  "schemaVersion": "2.1.0",
+  "readme": "README.md",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "dist/index.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "RgThemeElement",
+          "summary": "Provides color, density, and motion context.",
+          "customElement": true,
+          "tagName": "rg-theme",
+          "attributes": [
+            {
+              "name": "mode"
+            },
+            {
+              "name": "density"
+            },
+            {
+              "name": "motion"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-theme-change",
+              "type": {
+                "text": "CustomEvent<RgThemeChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "root"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgButtonElement",
+          "summary": "Primary action control with kinetic press feedback.",
+          "customElement": true,
+          "tagName": "rg-button",
+          "attributes": [
+            {
+              "name": "aria-describedby"
+            },
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "full-width"
+            },
+            {
+              "name": "formnovalidate"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "loading"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "pressed"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "tone"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "variant"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-press",
+              "type": {
+                "text": "CustomEvent<RgPressDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "start"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "end"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "button"
+            },
+            {
+              "name": "spinner"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "end"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgIconButtonElement",
+          "summary": "Compact, accessible icon-only action.",
+          "customElement": true,
+          "tagName": "rg-icon-button",
+          "attributes": [
+            {
+              "name": "aria-describedby"
+            },
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "full-width"
+            },
+            {
+              "name": "formnovalidate"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "loading"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "pressed"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "tone"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "variant"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-press",
+              "type": {
+                "text": "CustomEvent<RgPressDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "start"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "end"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "button"
+            },
+            {
+              "name": "spinner"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "end"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgLinkElement",
+          "summary": "Navigation action backed by a native anchor.",
+          "customElement": true,
+          "tagName": "rg-link",
+          "attributes": [
+            {
+              "name": "aria-current"
+            },
+            {
+              "name": "aria-describedby"
+            },
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "download"
+            },
+            {
+              "name": "external"
+            },
+            {
+              "name": "href"
+            },
+            {
+              "name": "hreflang"
+            },
+            {
+              "name": "referrerpolicy"
+            },
+            {
+              "name": "rel"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "target"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "tone"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "variant"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-navigate",
+              "type": {
+                "text": "CustomEvent<RgNavigateDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "start"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "end"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "link"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "external-icon"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgInputElement",
+          "summary": "Form-associated single-line text input.",
+          "customElement": true,
+          "tagName": "rg-input",
+          "attributes": [
+            {
+              "name": "autocomplete"
+            },
+            {
+              "name": "clearable"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "inputmode"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "maxlength"
+            },
+            {
+              "name": "min"
+            },
+            {
+              "name": "minlength"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "pattern"
+            },
+            {
+              "name": "placeholder"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "step"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-clear",
+              "type": {
+                "text": "CustomEvent<{ previousValue: string }>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "clear"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTextareaElement",
+          "summary": "Form-associated multiline text input.",
+          "customElement": true,
+          "tagName": "rg-textarea",
+          "attributes": [
+            {
+              "name": "auto-grow"
+            },
+            {
+              "name": "cols"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "maxlength"
+            },
+            {
+              "name": "minlength"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "placeholder"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "resize"
+            },
+            {
+              "name": "rows"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "textarea"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSelectElement",
+          "summary": "Form-associated native select with declarative options.",
+          "customElement": true,
+          "tagName": "rg-select",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "placeholder"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgOptionElement",
+          "summary": "Declarative option metadata for rg-select.",
+          "customElement": true,
+          "tagName": "rg-option",
+          "attributes": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "selected"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": []
+        },
+        {
+          "kind": "class",
+          "name": "RgCheckboxElement",
+          "summary": "Form-associated binary or indeterminate choice.",
+          "customElement": true,
+          "tagName": "rg-checkbox",
+          "attributes": [
+            {
+              "name": "checked"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "indeterminate"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "indicator"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSwitchElement",
+          "summary": "Form-associated on/off setting.",
+          "customElement": true,
+          "tagName": "rg-switch",
+          "attributes": [
+            {
+              "name": "checked"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "track"
+            },
+            {
+              "name": "thumb"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgRadioGroupElement",
+          "summary": "Keyboard-navigable form-associated radio group.",
+          "customElement": true,
+          "tagName": "rg-radio-group",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "group"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "options"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgRadioElement",
+          "summary": "Radio option owned by rg-radio-group.",
+          "customElement": true,
+          "tagName": "rg-radio",
+          "attributes": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "checked"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "indicator"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSliderElement",
+          "summary": "Form-associated numeric range input.",
+          "customElement": true,
+          "tagName": "rg-slider",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "min"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "show-value"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "step"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "track"
+            },
+            {
+              "name": "range"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgBadgeElement",
+          "summary": "Compact status or category label.",
+          "customElement": true,
+          "tagName": "rg-badge",
+          "attributes": [
+            {
+              "name": "tone"
+            },
+            {
+              "name": "variant"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "dot"
+            },
+            {
+              "name": "removable"
+            },
+            {
+              "name": "remove-label"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-remove",
+              "type": {
+                "text": "CustomEvent<RgBadgeRemoveDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "start"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "end"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "badge"
+            },
+            {
+              "name": "dot"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "remove"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgAvatarElement",
+          "summary": "Image avatar with initials fallback and optional presence status.",
+          "customElement": true,
+          "tagName": "rg-avatar",
+          "attributes": [
+            {
+              "name": "alt"
+            },
+            {
+              "name": "crossorigin"
+            },
+            {
+              "name": "decoding"
+            },
+            {
+              "name": "initials"
+            },
+            {
+              "name": "loading"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "referrerpolicy"
+            },
+            {
+              "name": "shape"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "sizes"
+            },
+            {
+              "name": "src"
+            },
+            {
+              "name": "srcset"
+            },
+            {
+              "name": "status"
+            },
+            {
+              "name": "status-label"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-load",
+              "type": {
+                "text": "CustomEvent<RgAvatarLoadDetail>"
+              }
+            },
+            {
+              "name": "rg-error",
+              "type": {
+                "text": "CustomEvent<RgAvatarErrorDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "fallback"
+            },
+            {
+              "name": "status"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "avatar"
+            },
+            {
+              "name": "image"
+            },
+            {
+              "name": "fallback"
+            },
+            {
+              "name": "initials"
+            },
+            {
+              "name": "status"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgCardElement",
+          "summary": "Content surface with optional media, header, and footer regions.",
+          "customElement": true,
+          "tagName": "rg-card",
+          "attributes": [
+            {
+              "name": "aria-describedby"
+            },
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "variant"
+            },
+            {
+              "name": "padding"
+            },
+            {
+              "name": "radius"
+            },
+            {
+              "name": "lift"
+            }
+          ],
+          "slots": [
+            {
+              "name": "media"
+            },
+            {
+              "name": "header"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "footer"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "card"
+            },
+            {
+              "name": "media"
+            },
+            {
+              "name": "header"
+            },
+            {
+              "name": "body"
+            },
+            {
+              "name": "footer"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgDividerElement",
+          "summary": "Horizontal or vertical content separator.",
+          "customElement": true,
+          "tagName": "rg-divider",
+          "attributes": [
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "decorative"
+            },
+            {
+              "name": "inset"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "spacing"
+            },
+            {
+              "name": "variant"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "divider"
+            },
+            {
+              "name": "line"
+            },
+            {
+              "name": "rule"
+            },
+            {
+              "name": "rule-before"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "rule-after"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgAlertElement",
+          "summary": "Persistent contextual feedback.",
+          "customElement": true,
+          "tagName": "rg-alert",
+          "attributes": [
+            {
+              "name": "tone"
+            },
+            {
+              "name": "variant"
+            },
+            {
+              "name": "dismissible"
+            },
+            {
+              "name": "dismiss-label"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-dismiss",
+              "type": {
+                "text": "CustomEvent<AlertDismissDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "actions"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "message"
+            },
+            {
+              "name": "actions"
+            },
+            {
+              "name": "close"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgProgressElement",
+          "summary": "Determinate or indeterminate task progress.",
+          "customElement": true,
+          "tagName": "rg-progress",
+          "attributes": [
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "meta"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "track"
+            },
+            {
+              "name": "indicator"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSpinnerElement",
+          "summary": "Compact indeterminate busy indicator.",
+          "customElement": true,
+          "tagName": "rg-spinner",
+          "attributes": [
+            {
+              "name": "size"
+            },
+            {
+              "name": "label"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "indicator"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSkeletonElement",
+          "summary": "Placeholder for pending content.",
+          "customElement": true,
+          "tagName": "rg-skeleton",
+          "attributes": [
+            {
+              "name": "shape"
+            },
+            {
+              "name": "width"
+            },
+            {
+              "name": "height"
+            },
+            {
+              "name": "animated"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgToastRegionElement",
+          "summary": "Accessible live region and toast viewport.",
+          "customElement": true,
+          "tagName": "rg-toast-region",
+          "attributes": [
+            {
+              "name": "position"
+            },
+            {
+              "name": "max-visible"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "pause-on-hover"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-toast-add",
+              "type": {
+                "text": "CustomEvent<{ id: string; toast: RgToastElement }>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "viewport"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgToastElement",
+          "summary": "Temporary status notification.",
+          "customElement": true,
+          "tagName": "rg-toast",
+          "attributes": [
+            {
+              "name": "open"
+            },
+            {
+              "name": "tone"
+            },
+            {
+              "name": "duration"
+            },
+            {
+              "name": "dismissible"
+            },
+            {
+              "name": "dismiss-label"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<ToastOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-dismiss",
+              "type": {
+                "text": "CustomEvent<ToastDismissDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "action"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "accent"
+            },
+            {
+              "name": "layout"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "message"
+            },
+            {
+              "name": "action"
+            },
+            {
+              "name": "close"
+            },
+            {
+              "name": "progress"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTabsElement",
+          "summary": "Roving-tabindex tab set.",
+          "customElement": true,
+          "tagName": "rg-tabs",
+          "attributes": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "activation"
+            },
+            {
+              "name": "loop"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-value-change",
+              "type": {
+                "text": "CustomEvent<TabsValueChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "tab"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "tablist"
+            },
+            {
+              "name": "indicator"
+            },
+            {
+              "name": "panels"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTabElement",
+          "summary": "Interactive tab owned by rg-tabs.",
+          "customElement": true,
+          "tagName": "rg-tab",
+          "attributes": [
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "selected"
+            },
+            {
+              "name": "disabled"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "label"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTabPanelElement",
+          "summary": "Content panel owned by rg-tabs.",
+          "customElement": true,
+          "tagName": "rg-tab-panel",
+          "attributes": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "active"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgAccordionElement",
+          "summary": "Single or multiple disclosure group.",
+          "customElement": true,
+          "tagName": "rg-accordion",
+          "attributes": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "multiple"
+            },
+            {
+              "name": "collapsible"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-value-change",
+              "type": {
+                "text": "CustomEvent<AccordionValueChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgAccordionItemElement",
+          "summary": "Native-details disclosure item.",
+          "customElement": true,
+          "tagName": "rg-accordion-item",
+          "attributes": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "heading-level"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<AccordionItemOpenChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "heading"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "heading"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "content"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgDialogElement",
+          "summary": "Modal surface backed by native dialog.",
+          "customElement": true,
+          "tagName": "rg-dialog",
+          "attributes": [
+            {
+              "name": "open"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "escape-key-action"
+            },
+            {
+              "name": "backdrop-action"
+            },
+            {
+              "name": "hide-close"
+            },
+            {
+              "name": "close-label"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<DialogBeforeCloseDetail>"
+              }
+            },
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<DialogOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-close",
+              "type": {
+                "text": "CustomEvent<DialogCloseDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "close"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "footer"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "dialog"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "header"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "close"
+            },
+            {
+              "name": "body"
+            },
+            {
+              "name": "footer"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgDrawerElement",
+          "summary": "Edge-aligned modal surface.",
+          "customElement": true,
+          "tagName": "rg-drawer",
+          "attributes": [
+            {
+              "name": "open"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "escape-key-action"
+            },
+            {
+              "name": "backdrop-action"
+            },
+            {
+              "name": "hide-close"
+            },
+            {
+              "name": "close-label"
+            },
+            {
+              "name": "placement"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<DialogBeforeCloseDetail>"
+              }
+            },
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<DialogOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-close",
+              "type": {
+                "text": "CustomEvent<DialogCloseDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "close"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "footer"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "dialog"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "header"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "close"
+            },
+            {
+              "name": "body"
+            },
+            {
+              "name": "footer"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTooltipElement",
+          "summary": "Focus and hover supplementary label.",
+          "customElement": true,
+          "tagName": "rg-tooltip",
+          "attributes": [
+            {
+              "name": "content"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "placement"
+            },
+            {
+              "name": "delay"
+            },
+            {
+              "name": "disabled"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<TooltipOpenChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "content"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "bubble"
+            },
+            {
+              "name": "arrow"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgButtonGroupElement",
+          "summary": "Accessible horizontal or vertical action grouping.",
+          "customElement": true,
+          "tagName": "rg-button-group",
+          "attributes": [
+            {
+              "name": "attached"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "orientation"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "group"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgComboboxElement",
+          "summary": "Filterable, form-associated single-select combobox.",
+          "customElement": true,
+          "tagName": "rg-combobox",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "filter"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "no-results-text"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "placeholder"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<RgComboboxOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-value-change",
+              "type": {
+                "text": "CustomEvent<RgComboboxValueChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "toggle"
+            },
+            {
+              "name": "listbox"
+            },
+            {
+              "name": "empty"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgDatePickerElement",
+          "summary": "Form-associated date field backed by the native date picker.",
+          "customElement": true,
+          "tagName": "rg-date-picker",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "min"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "step"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgKbdElement",
+          "summary": "Keyboard shortcut or physical key notation.",
+          "customElement": true,
+          "tagName": "rg-kbd",
+          "attributes": [
+            {
+              "name": "keys"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "separator"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgFieldsetElement",
+          "summary": "Semantic grouping for related form controls.",
+          "customElement": true,
+          "tagName": "rg-fieldset",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "legend"
+            }
+          ],
+          "slots": [
+            {
+              "name": "legend"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "fieldset"
+            },
+            {
+              "name": "legend"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgEmptyStateElement",
+          "summary": "Structured placeholder for an empty collection or workflow.",
+          "customElement": true,
+          "tagName": "rg-empty-state",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "tone"
+            }
+          ],
+          "slots": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "actions"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "copy"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "actions"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgBreadcrumbElement",
+          "summary": "Labeled hierarchy navigation trail.",
+          "customElement": true,
+          "tagName": "rg-breadcrumb",
+          "attributes": [
+            {
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "nav"
+            },
+            {
+              "name": "list"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgBreadcrumbItemElement",
+          "summary": "Link or current location inside a breadcrumb trail.",
+          "customElement": true,
+          "tagName": "rg-breadcrumb-item",
+          "attributes": [
+            {
+              "name": "current"
+            },
+            {
+              "name": "href"
+            },
+            {
+              "name": "target"
+            },
+            {
+              "name": "rel"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "separator"
+            },
+            {
+              "name": "base"
+            },
+            {
+              "name": "link"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgPaginationElement",
+          "summary": "Compact paged navigation with configurable ranges.",
+          "customElement": true,
+          "tagName": "rg-pagination",
+          "attributes": [
+            {
+              "name": "boundary-count"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "next-label"
+            },
+            {
+              "name": "page"
+            },
+            {
+              "name": "page-count"
+            },
+            {
+              "name": "previous-label"
+            },
+            {
+              "name": "sibling-count"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-page-change",
+              "type": {
+                "text": "CustomEvent<PaginationPageChangeDetail>"
+              }
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "nav"
+            },
+            {
+              "name": "button"
+            },
+            {
+              "name": "previous"
+            },
+            {
+              "name": "pages"
+            },
+            {
+              "name": "next"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgPopoverElement",
+          "summary": "Non-modal anchored content surface.",
+          "customElement": true,
+          "tagName": "rg-popover",
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "match-trigger-width"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "placement"
+            },
+            {
+              "name": "trigger"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<RgPopoverOpenChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "arrow"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgMenuElement",
+          "summary": "Anchored action menu with roving keyboard focus.",
+          "customElement": true,
+          "tagName": "rg-menu",
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "placement"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<RgMenuOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-select",
+              "type": {
+                "text": "CustomEvent<RgMenuSelectDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "trigger"
+            },
+            {
+              "name": "menu"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgMenuItemElement",
+          "summary": "Selectable action owned by rg-menu.",
+          "customElement": true,
+          "tagName": "rg-menu-item",
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "slots": [
+            {
+              "name": "start"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "end"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "item"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "end"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgCopyButtonElement",
+          "summary": "Clipboard action with accessible success and error feedback.",
+          "customElement": true,
+          "tagName": "rg-copy-button",
+          "attributes": [
+            {
+              "name": "copy-label"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error-label"
+            },
+            {
+              "name": "feedback-duration"
+            },
+            {
+              "name": "from"
+            },
+            {
+              "name": "success-label"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-copy",
+              "type": {
+                "text": "CustomEvent<RgCopyDetail>"
+              }
+            },
+            {
+              "name": "rg-error",
+              "type": {
+                "text": "CustomEvent<RgCopyErrorDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "copy-icon"
+            },
+            {
+              "name": "success-icon"
+            },
+            {
+              "name": "error-icon"
+            },
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "button"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "status"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgChipGroupElement",
+          "summary": "Single or multiple selection group for interactive chips.",
+          "customElement": true,
+          "tagName": "rg-chip-group",
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "selection"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-value-change",
+              "type": {
+                "text": "CustomEvent<RgChipValueChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "group"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgChipElement",
+          "summary": "Selectable or removable token owned by rg-chip-group.",
+          "customElement": true,
+          "tagName": "rg-chip",
+          "attributes": [
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "aria-labelledby"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "removable"
+            },
+            {
+              "name": "remove-label"
+            },
+            {
+              "name": "selected"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "rg-remove",
+              "type": {
+                "text": "CustomEvent<RgChipRemoveDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "start"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "end"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "chip"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "remove"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSegmentedControlElement",
+          "summary": "Form-associated exclusive view or mode selector.",
+          "customElement": true,
+          "tagName": "rg-segmented-control",
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "full-width"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-value-change",
+              "type": {
+                "text": "CustomEvent<RgSegmentedValueChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "indicator"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgSegmentElement",
+          "summary": "Exclusive option owned by rg-segmented-control.",
+          "customElement": true,
+          "tagName": "rg-segment",
+          "attributes": [
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "selected"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "segment"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgProgressRingElement",
+          "summary": "Compact circular determinate or indeterminate progress indicator.",
+          "customElement": true,
+          "tagName": "rg-progress-ring",
+          "attributes": [
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "show-value"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "progress"
+            },
+            {
+              "name": "visual"
+            },
+            {
+              "name": "track"
+            },
+            {
+              "name": "indicator"
+            },
+            {
+              "name": "value"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgRatingElement",
+          "summary": "Form-associated integer star rating input.",
+          "customElement": true,
+          "tagName": "rg-rating",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-value-change",
+              "type": {
+                "text": "CustomEvent<RgRatingValueChangeDetail>"
+              }
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgRelativeTimeElement",
+          "summary": "Localized relative date rendered with native Intl APIs.",
+          "customElement": true,
+          "tagName": "rg-relative-time",
+          "attributes": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "format"
+            },
+            {
+              "name": "lang"
+            },
+            {
+              "name": "locale"
+            },
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "sync"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "time"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "RgThemeElement",
+          "declaration": {
+            "name": "RgThemeElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgButtonElement",
+          "declaration": {
+            "name": "RgButtonElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgIconButtonElement",
+          "declaration": {
+            "name": "RgIconButtonElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgLinkElement",
+          "declaration": {
+            "name": "RgLinkElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgInputElement",
+          "declaration": {
+            "name": "RgInputElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTextareaElement",
+          "declaration": {
+            "name": "RgTextareaElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSelectElement",
+          "declaration": {
+            "name": "RgSelectElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgOptionElement",
+          "declaration": {
+            "name": "RgOptionElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgCheckboxElement",
+          "declaration": {
+            "name": "RgCheckboxElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSwitchElement",
+          "declaration": {
+            "name": "RgSwitchElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgRadioGroupElement",
+          "declaration": {
+            "name": "RgRadioGroupElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgRadioElement",
+          "declaration": {
+            "name": "RgRadioElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSliderElement",
+          "declaration": {
+            "name": "RgSliderElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgBadgeElement",
+          "declaration": {
+            "name": "RgBadgeElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgAvatarElement",
+          "declaration": {
+            "name": "RgAvatarElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgCardElement",
+          "declaration": {
+            "name": "RgCardElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgDividerElement",
+          "declaration": {
+            "name": "RgDividerElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgAlertElement",
+          "declaration": {
+            "name": "RgAlertElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgProgressElement",
+          "declaration": {
+            "name": "RgProgressElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSpinnerElement",
+          "declaration": {
+            "name": "RgSpinnerElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSkeletonElement",
+          "declaration": {
+            "name": "RgSkeletonElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgToastRegionElement",
+          "declaration": {
+            "name": "RgToastRegionElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgToastElement",
+          "declaration": {
+            "name": "RgToastElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTabsElement",
+          "declaration": {
+            "name": "RgTabsElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTabElement",
+          "declaration": {
+            "name": "RgTabElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTabPanelElement",
+          "declaration": {
+            "name": "RgTabPanelElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgAccordionElement",
+          "declaration": {
+            "name": "RgAccordionElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgAccordionItemElement",
+          "declaration": {
+            "name": "RgAccordionItemElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgDialogElement",
+          "declaration": {
+            "name": "RgDialogElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgDrawerElement",
+          "declaration": {
+            "name": "RgDrawerElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTooltipElement",
+          "declaration": {
+            "name": "RgTooltipElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgButtonGroupElement",
+          "declaration": {
+            "name": "RgButtonGroupElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgComboboxElement",
+          "declaration": {
+            "name": "RgComboboxElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgDatePickerElement",
+          "declaration": {
+            "name": "RgDatePickerElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgKbdElement",
+          "declaration": {
+            "name": "RgKbdElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgFieldsetElement",
+          "declaration": {
+            "name": "RgFieldsetElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgEmptyStateElement",
+          "declaration": {
+            "name": "RgEmptyStateElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgBreadcrumbElement",
+          "declaration": {
+            "name": "RgBreadcrumbElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgBreadcrumbItemElement",
+          "declaration": {
+            "name": "RgBreadcrumbItemElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgPaginationElement",
+          "declaration": {
+            "name": "RgPaginationElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgPopoverElement",
+          "declaration": {
+            "name": "RgPopoverElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgMenuElement",
+          "declaration": {
+            "name": "RgMenuElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgMenuItemElement",
+          "declaration": {
+            "name": "RgMenuItemElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgCopyButtonElement",
+          "declaration": {
+            "name": "RgCopyButtonElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgChipGroupElement",
+          "declaration": {
+            "name": "RgChipGroupElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgChipElement",
+          "declaration": {
+            "name": "RgChipElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSegmentedControlElement",
+          "declaration": {
+            "name": "RgSegmentedControlElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgSegmentElement",
+          "declaration": {
+            "name": "RgSegmentElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgProgressRingElement",
+          "declaration": {
+            "name": "RgProgressRingElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgRatingElement",
+          "declaration": {
+            "name": "RgRatingElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgRelativeTimeElement",
+          "declaration": {
+            "name": "RgRelativeTimeElement"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "dist/register.js",
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-theme",
+          "declaration": {
+            "name": "RgThemeElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-button",
+          "declaration": {
+            "name": "RgButtonElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-icon-button",
+          "declaration": {
+            "name": "RgIconButtonElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-link",
+          "declaration": {
+            "name": "RgLinkElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-input",
+          "declaration": {
+            "name": "RgInputElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-textarea",
+          "declaration": {
+            "name": "RgTextareaElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-select",
+          "declaration": {
+            "name": "RgSelectElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-option",
+          "declaration": {
+            "name": "RgOptionElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-checkbox",
+          "declaration": {
+            "name": "RgCheckboxElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-switch",
+          "declaration": {
+            "name": "RgSwitchElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-radio-group",
+          "declaration": {
+            "name": "RgRadioGroupElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-radio",
+          "declaration": {
+            "name": "RgRadioElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-slider",
+          "declaration": {
+            "name": "RgSliderElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-badge",
+          "declaration": {
+            "name": "RgBadgeElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-avatar",
+          "declaration": {
+            "name": "RgAvatarElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-card",
+          "declaration": {
+            "name": "RgCardElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-divider",
+          "declaration": {
+            "name": "RgDividerElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-alert",
+          "declaration": {
+            "name": "RgAlertElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-progress",
+          "declaration": {
+            "name": "RgProgressElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-spinner",
+          "declaration": {
+            "name": "RgSpinnerElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-skeleton",
+          "declaration": {
+            "name": "RgSkeletonElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-toast-region",
+          "declaration": {
+            "name": "RgToastRegionElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-toast",
+          "declaration": {
+            "name": "RgToastElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-tabs",
+          "declaration": {
+            "name": "RgTabsElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-tab",
+          "declaration": {
+            "name": "RgTabElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-tab-panel",
+          "declaration": {
+            "name": "RgTabPanelElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-accordion",
+          "declaration": {
+            "name": "RgAccordionElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-accordion-item",
+          "declaration": {
+            "name": "RgAccordionItemElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-dialog",
+          "declaration": {
+            "name": "RgDialogElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-drawer",
+          "declaration": {
+            "name": "RgDrawerElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-tooltip",
+          "declaration": {
+            "name": "RgTooltipElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-button-group",
+          "declaration": {
+            "name": "RgButtonGroupElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-combobox",
+          "declaration": {
+            "name": "RgComboboxElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-date-picker",
+          "declaration": {
+            "name": "RgDatePickerElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-kbd",
+          "declaration": {
+            "name": "RgKbdElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-fieldset",
+          "declaration": {
+            "name": "RgFieldsetElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-empty-state",
+          "declaration": {
+            "name": "RgEmptyStateElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-breadcrumb",
+          "declaration": {
+            "name": "RgBreadcrumbElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-breadcrumb-item",
+          "declaration": {
+            "name": "RgBreadcrumbItemElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-pagination",
+          "declaration": {
+            "name": "RgPaginationElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-popover",
+          "declaration": {
+            "name": "RgPopoverElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-menu",
+          "declaration": {
+            "name": "RgMenuElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-menu-item",
+          "declaration": {
+            "name": "RgMenuItemElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-copy-button",
+          "declaration": {
+            "name": "RgCopyButtonElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-chip-group",
+          "declaration": {
+            "name": "RgChipGroupElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-chip",
+          "declaration": {
+            "name": "RgChipElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-segmented-control",
+          "declaration": {
+            "name": "RgSegmentedControlElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-segment",
+          "declaration": {
+            "name": "RgSegmentElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-progress-ring",
+          "declaration": {
+            "name": "RgProgressRingElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-rating",
+          "declaration": {
+            "name": "RgRatingElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-relative-time",
+          "declaration": {
+            "name": "RgRelativeTimeElement",
+            "module": "dist/index.js"
+          }
+        }
+      ]
+    }
+  ]
+}
