@@ -12,17 +12,19 @@
     "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/preact build && pnpm --filter @reglow/vue build && pnpm --filter @reglow/svelte build && pnpm --filter @reglow/angular build",
     "build:examples": "pnpm --filter './examples/**' --if-present build",
     "build:storybook": "storybook build",
-    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm build:examples && pnpm test:tree-shaking && pnpm build:storybook",
+    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm build:examples && pnpm verify:tree-shaking && pnpm build:storybook",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006 --no-open",
     "test": "vitest run && pnpm --filter @reglow/angular test && pnpm test:examples",
     "test:examples": "node scripts/verify-examples.mjs",
-    "test:tree-shaking": "node scripts/verify-tree-shaking.mjs",
+    "test:tree-shaking": "pnpm build && pnpm verify:tree-shaking",
     "test:watch": "vitest",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "verify:tree-shaking": "node scripts/verify-tree-shaking.mjs"
   },
   "devDependencies": {
+    "@angular/build": "22.0.7",
     "@fontsource-variable/manrope": "^5.2.8",
     "@storybook/addon-a11y": "^10.5.0",
     "@storybook/addon-docs": "^10.5.0",
