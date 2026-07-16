@@ -35,7 +35,7 @@ The Preact, Lit, Astro, and Angular applications import component constructors f
 `@reglow/elements/components/*` and register exactly the tags they render. The Svelte wrappers
 register their matching elements on demand. This keeps the runnable applications representative of
 the recommended light-bundle setup; `@reglow/elements/register` is reserved for applications that
-intentionally need all 51 elements.
+intentionally need all 57 elements.
 
 `pnpm test:tree-shaking` builds every public package, produces minimal and full-catalog consumer
 bundles, reports raw, gzip, and Brotli sizes, and enforces regression budgets. Its generated output,

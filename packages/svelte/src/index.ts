@@ -19,12 +19,16 @@ export { default as RgDivider } from './components/RgDivider.svelte';
 export { default as RgDrawer } from './components/RgDrawer.svelte';
 export { default as RgEmptyState } from './components/RgEmptyState.svelte';
 export { default as RgFieldset } from './components/RgFieldset.svelte';
+export { default as RgFormatBytes } from './components/RgFormatBytes.svelte';
+export { default as RgFormatDate } from './components/RgFormatDate.svelte';
+export { default as RgFormatNumber } from './components/RgFormatNumber.svelte';
 export { default as RgIconButton } from './components/RgIconButton.svelte';
 export { default as RgInput } from './components/RgInput.svelte';
 export { default as RgKbd } from './components/RgKbd.svelte';
 export { default as RgLink } from './components/RgLink.svelte';
 export { default as RgMenu } from './components/RgMenu.svelte';
 export { default as RgMenuItem } from './components/RgMenuItem.svelte';
+export { default as RgMeter } from './components/RgMeter.svelte';
 export { default as RgOption } from './components/RgOption.svelte';
 export { default as RgPagination } from './components/RgPagination.svelte';
 export { default as RgPopover } from './components/RgPopover.svelte';
@@ -40,6 +44,8 @@ export { default as RgSelect } from './components/RgSelect.svelte';
 export { default as RgSkeleton } from './components/RgSkeleton.svelte';
 export { default as RgSlider } from './components/RgSlider.svelte';
 export { default as RgSpinner } from './components/RgSpinner.svelte';
+export { default as RgStep } from './components/RgStep.svelte';
+export { default as RgStepIndicator } from './components/RgStepIndicator.svelte';
 export { default as RgSwitch } from './components/RgSwitch.svelte';
 export { default as RgTab } from './components/RgTab.svelte';
 export { default as RgTabPanel } from './components/RgTabPanel.svelte';
@@ -72,12 +78,16 @@ export type {
   RgDrawerProps,
   RgEmptyStateProps,
   RgFieldsetProps,
+  RgFormatBytesProps,
+  RgFormatDateProps,
+  RgFormatNumberProps,
   RgIconButtonProps,
   RgInputProps,
   RgKbdProps,
   RgLinkProps,
   RgMenuProps,
   RgMenuItemProps,
+  RgMeterProps,
   RgOptionProps,
   RgPaginationProps,
   RgPopoverProps,
@@ -93,6 +103,8 @@ export type {
   RgSkeletonProps,
   RgSliderProps,
   RgSpinnerProps,
+  RgStepProps,
+  RgStepIndicatorProps,
   RgSwitchProps,
   RgTabProps,
   RgTabPanelProps,

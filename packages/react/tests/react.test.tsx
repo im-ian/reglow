@@ -15,10 +15,14 @@ import {
   Dialog,
   EmptyState,
   Fieldset,
+  FormatBytes,
+  FormatDate,
+  FormatNumber,
   Input,
   Kbd,
   Menu,
   MenuItem,
+  Meter,
   Pagination,
   Popover,
   ProgressRing,
@@ -27,6 +31,8 @@ import {
   Segment,
   SegmentedControl,
   Select,
+  Step,
+  StepIndicator,
   createReglowComponent,
   type InputProps,
   type RgButtonElement,
@@ -228,5 +234,34 @@ describe('@reglow/react', () => {
     const group = container.querySelector('rg-chip-group')!;
     expect(group.value).toEqual(['design', 'engineering']);
     expect(group.querySelectorAll('rg-chip[selected]')).toHaveLength(2);
+  });
+
+  it('adapts locale helpers, meter labels, and step indicator composition', () => {
+    const { container } = render(
+      <>
+        <FormatDate date={new Date('2026-07-15T09:17:00.000Z')} locale="en-US" timeZone="UTC" />
+        <FormatNumber value={2_000} locale="en-US" type="currency" currency="USD" />
+        <FormatBytes value={1_500_000} locale="en-US" />
+        <Meter value={75} max={100} showValue label={<strong>Storage</strong>} />
+        <StepIndicator value="delivery" label="Checkout">
+          <Step value="account">Account</Step>
+          <Step value="delivery" description={<span>Choose a window</span>}>
+            Delivery
+          </Step>
+        </StepIndicator>
+      </>,
+    );
+
+    expect(container.querySelector('rg-format-date')?.date).toBe('2026-07-15T09:17:00.000Z');
+    expect(container.querySelector('rg-format-number')?.textContent).toBe('');
+    expect(container.querySelector('rg-meter > [slot="label"]')?.textContent).toBe('Storage');
+    expect(container.querySelector('rg-meter')?.hasAttribute('show-value')).toBe(true);
+    expect(container.querySelector('rg-step [slot="description"]')?.textContent).toBe(
+      'Choose a window',
+    );
+    expect(
+      Array.from(container.querySelectorAll('rg-step')).map((step) => step.dataset.state),
+    ).toEqual(['complete', 'current']);
+    expect([FormatDate, FormatNumber, FormatBytes, Meter, StepIndicator, Step]).toHaveLength(6);
   });
 });

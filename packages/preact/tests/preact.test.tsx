@@ -39,9 +39,15 @@ type CanonicalAttributeContract = [
   Expect<
     HasKeys<ReglowPreactIntrinsicElements['rg-dialog'], 'label' | 'hide-close' | 'close-label'>
   >,
+  Expect<HasKeys<ReglowPreactIntrinsicElements['rg-format-date'], 'timeZone' | 'hourFormat'>>,
+  Expect<HasKeys<ReglowPreactIntrinsicElements['rg-meter'], 'showValue' | 'valueText'>>,
+  Expect<HasKeys<ReglowPreactIntrinsicElements['rg-step-indicator'], 'completeLabel' | 'value'>>,
 ];
 
 const canonicalAttributeContract: CanonicalAttributeContract = [
+  true,
+  true,
+  true,
   true,
   true,
   true,
@@ -58,7 +64,7 @@ afterEach(() => {
 
 describe('@reglow/preact', () => {
   it('declares canonical custom-element attributes', () => {
-    expect(canonicalAttributeContract).toHaveLength(8);
+    expect(canonicalAttributeContract).toHaveLength(11);
 
     defineElement({ tagName: RgDialogElement.tagName, constructor: RgDialogElement });
     const { container } = render(

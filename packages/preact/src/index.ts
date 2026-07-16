@@ -37,6 +37,9 @@ import type {
   RgDrawerElement,
   RgEmptyStateElement,
   RgFieldsetElement,
+  RgFormatBytesElement,
+  RgFormatDateElement,
+  RgFormatNumberElement,
   RgIconButtonElement,
   RgInputElement,
   RgKbdElement,
@@ -45,6 +48,7 @@ import type {
   RgMenuItemElement,
   RgMenuOpenChangeDetail,
   RgMenuSelectDetail,
+  RgMeterElement,
   RgNavigateDetail,
   RgOptionElement,
   RgPaginationElement,
@@ -66,6 +70,8 @@ import type {
   RgSliderElement,
   RgSpinnerElement,
   RgSwitchElement,
+  RgStepElement,
+  RgStepIndicatorElement,
   RgTabElement,
   RgTabPanelElement,
   RgTabsElement,
@@ -255,10 +261,14 @@ export interface ReglowPreactIntrinsicElements {
   'rg-divider': ReglowPreactProps<RgDividerElement>;
   'rg-kbd': ReglowPreactProps<RgKbdElement>;
   'rg-relative-time': ReglowPreactProps<RgRelativeTimeElement>;
+  'rg-format-date': ReglowPreactProps<RgFormatDateElement>;
+  'rg-format-number': ReglowPreactProps<RgFormatNumberElement>;
+  'rg-format-bytes': ReglowPreactProps<RgFormatBytesElement>;
   'rg-fieldset': ReglowPreactProps<RgFieldsetElement>;
   'rg-empty-state': ReglowPreactProps<RgEmptyStateElement>;
   'rg-alert': ReglowPreactProps<RgAlertElement, AlertEvents, AlertAttributes>;
   'rg-progress': ReglowPreactProps<RgProgressElement>;
+  'rg-meter': ReglowPreactProps<RgMeterElement>;
   'rg-progress-ring': ReglowPreactProps<RgProgressRingElement>;
   'rg-spinner': ReglowPreactProps<RgSpinnerElement, object, SpinnerAttributes>;
   'rg-skeleton': ReglowPreactProps<RgSkeletonElement, object, SkeletonAttributes>;
@@ -280,6 +290,8 @@ export interface ReglowPreactIntrinsicElements {
   'rg-breadcrumb': ReglowPreactProps<RgBreadcrumbElement>;
   'rg-breadcrumb-item': ReglowPreactProps<RgBreadcrumbItemElement>;
   'rg-pagination': ReglowPreactProps<RgPaginationElement, PaginationEvents>;
+  'rg-step-indicator': ReglowPreactProps<RgStepIndicatorElement>;
+  'rg-step': ReglowPreactProps<RgStepElement>;
   'rg-dialog': ReglowPreactProps<RgDialogElement, DialogEvents<RgDialogElement>, DialogAttributes>;
   'rg-drawer': ReglowPreactProps<RgDrawerElement, DialogEvents<RgDrawerElement>, DialogAttributes>;
   'rg-tooltip': ReglowPreactProps<RgTooltipElement, TooltipEvents>;

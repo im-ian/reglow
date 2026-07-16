@@ -24,7 +24,7 @@ Runnable applications for Preact, Svelte, Lit, Astro, and Angular live in the
 
 | Package            | Purpose                                  | Runtime relationship               |
 | ------------------ | ---------------------------------------- | ---------------------------------- |
-| `@reglow/elements` | 51 standards-based Custom Elements       | None                               |
+| `@reglow/elements` | 57 standards-based Custom Elements       | None                               |
 | `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                               |
 | `@reglow/react`    | Typed React components and event aliases | React peer + elements              |
 | `@reglow/preact`   | Typed native Custom Element JSX          | Type-only; Preact + elements peers |
@@ -56,7 +56,7 @@ defineElements([
 ```
 
 Add a constructor for every tag rendered by the browser entry. If an entry intentionally needs the
-complete 51-element catalog, `@reglow/elements/register` remains available as a convenience opt-in.
+complete 57-element catalog, `@reglow/elements/register` remains available as a convenience opt-in.
 
 ### React 19
 
@@ -188,9 +188,9 @@ export class WorkspaceForm {
 - Foundation: Theme
 - Actions: Button, Icon Button, Button Group, Copy Button, Link
 - Forms: Input, Textarea, Select, Option, Combobox, Date Picker, Checkbox, Switch, Radio Group, Radio, Slider, Rating, Fieldset, Chip Group, Chip, Segmented Control, Segment
-- Display: Badge, Avatar, Card, Divider, Kbd, Empty State, Relative Time
-- Feedback: Alert, Progress, Progress Ring, Spinner, Skeleton, Toast Region, Toast
-- Navigation: Tabs, Tab, Tab Panel, Accordion, Accordion Item, Breadcrumb, Breadcrumb Item, Pagination
+- Display: Badge, Avatar, Card, Divider, Kbd, Empty State, Relative Time, Format Date, Format Number, Format Bytes
+- Feedback: Alert, Progress, Meter, Progress Ring, Spinner, Skeleton, Toast Region, Toast
+- Navigation: Tabs, Tab, Tab Panel, Accordion, Accordion Item, Breadcrumb, Breadcrumb Item, Pagination, Step Indicator, Step
 - Overlays: Dialog, Drawer, Tooltip, Popover, Menu, Menu Item
 
 Data Grid, Tree View, and File Upload remain outside core because their data and virtualization
@@ -250,7 +250,7 @@ bundle size rather than fixed numbers in this README.
 - Registration is explicit and idempotent. Register component constructors from
   `@reglow/elements/components/*` by default so unused elements can be tree-shaken.
 - `@reglow/elements/register` is an opt-in convenience entry for applications that intentionally
-  need the complete 51-element catalog in one browser entry.
+  need the complete 57-element catalog in one browser entry.
 - Framework adapters contain no component styling or behavior.
 
 See [the v1 plan](./docs/ROADMAP.md) for scope and completion gates.

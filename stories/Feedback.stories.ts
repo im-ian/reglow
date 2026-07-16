@@ -51,6 +51,25 @@ export const ProgressAndLoading: Story = {
   `,
 };
 
+export const Meters: Story = {
+  render: () => html`
+    <div class="rg-story-stack rg-wide-demo">
+      <rg-meter
+        label="Storage used"
+        value="74"
+        max="100"
+        low="60"
+        high="85"
+        optimum="30"
+        value-text="74 GB of 100 GB"
+        show-value
+      ></rg-meter>
+      <rg-meter label="Workspace health" value="92" max="100" tone="success" show-value></rg-meter>
+      <rg-meter label="Monthly budget" value="86" max="100" tone="warning" show-value></rg-meter>
+    </div>
+  `,
+};
+
 export const Skeletons: Story = {
   render: () => html`
     <rg-card variant="outlined">

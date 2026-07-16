@@ -30,6 +30,9 @@ import {
 import { RgDividerElement as RgDividerElementConstructor } from '@reglow/elements/components/divider';
 import { RgEmptyStateElement as RgEmptyStateElementConstructor } from '@reglow/elements/components/empty-state';
 import { RgFieldsetElement as RgFieldsetElementConstructor } from '@reglow/elements/components/fieldset';
+import { RgFormatBytesElement as RgFormatBytesElementConstructor } from '@reglow/elements/components/format-bytes';
+import { RgFormatDateElement as RgFormatDateElementConstructor } from '@reglow/elements/components/format-date';
+import { RgFormatNumberElement as RgFormatNumberElementConstructor } from '@reglow/elements/components/format-number';
 import { RgInputElement as RgInputElementConstructor } from '@reglow/elements/components/input';
 import { RgKbdElement as RgKbdElementConstructor } from '@reglow/elements/components/kbd';
 import { RgLinkElement as RgLinkElementConstructor } from '@reglow/elements/components/link';
@@ -37,6 +40,7 @@ import {
   RgMenuElement as RgMenuElementConstructor,
   RgMenuItemElement as RgMenuItemElementConstructor,
 } from '@reglow/elements/components/menu';
+import { RgMeterElement as RgMeterElementConstructor } from '@reglow/elements/components/meter';
 import { RgPaginationElement as RgPaginationElementConstructor } from '@reglow/elements/components/pagination';
 import { RgPopoverElement as RgPopoverElementConstructor } from '@reglow/elements/components/popover';
 import {
@@ -61,6 +65,10 @@ import {
 import { RgSkeletonElement as RgSkeletonElementConstructor } from '@reglow/elements/components/skeleton';
 import { RgSliderElement as RgSliderElementConstructor } from '@reglow/elements/components/slider';
 import { RgSwitchElement as RgSwitchElementConstructor } from '@reglow/elements/components/switch';
+import {
+  RgStepElement as RgStepElementConstructor,
+  RgStepIndicatorElement as RgStepIndicatorElementConstructor,
+} from '@reglow/elements/components/step-indicator';
 import {
   RgTabElement as RgTabElementConstructor,
   RgTabPanelElement as RgTabPanelElementConstructor,
@@ -141,6 +149,17 @@ import type {
   RgEmptyStateSize,
   RgEmptyStateTone,
   RgFieldsetElement,
+  RgFormatBytesDisplay,
+  RgFormatBytesElement,
+  RgFormatBytesUnit,
+  RgFormatDateElement,
+  RgFormatDateHourFormat,
+  RgFormatDateMonth,
+  RgFormatDateNumeric,
+  RgFormatDateText,
+  RgFormatNumberCurrencyDisplay,
+  RgFormatNumberElement,
+  RgFormatNumberType,
   RgIconButtonElement,
   RgInputElement,
   RgInputSize,
@@ -154,6 +173,9 @@ import type {
   RgMenuItemElement,
   RgMenuOpenChangeDetail,
   RgMenuSelectDetail,
+  RgMeterElement,
+  RgMeterSize,
+  RgMeterTone,
   RgNavigateDetail,
   RgOptionElement,
   RgPaginationElement,
@@ -188,6 +210,9 @@ import type {
   RgSliderSize,
   RgSpinnerElement,
   RgSwitchElement,
+  RgStepElement,
+  RgStepIndicatorElement,
+  RgStepIndicatorOrientation,
   RgTabElement,
   RgTabPanelElement,
   RgTabsElement,
@@ -430,6 +455,20 @@ export interface RgProgressProps extends ReglowHostProps {
   value?: number;
   max?: number;
   label?: string;
+}
+
+export interface RgMeterProps extends ReglowHostProps {
+  value?: number;
+  min?: number;
+  max?: number;
+  low?: number;
+  high?: number;
+  optimum?: number;
+  label?: string;
+  valueText?: string;
+  showValue?: boolean;
+  tone?: RgMeterTone;
+  size?: RgMeterSize;
 }
 
 export interface RgSpinnerProps extends ReglowHostProps {
@@ -730,6 +769,60 @@ export interface RgRelativeTimeProps extends ReglowHostProps {
   format?: RgRelativeTimeFormat;
   numeric?: RgRelativeTimeNumeric;
   sync?: boolean;
+}
+
+export interface RgFormatDateProps extends ReglowHostProps {
+  date?: string | Date;
+  locale?: string;
+  weekday?: RgFormatDateText;
+  era?: RgFormatDateText;
+  year?: RgFormatDateNumeric;
+  month?: RgFormatDateMonth;
+  day?: RgFormatDateNumeric;
+  hour?: RgFormatDateNumeric;
+  minute?: RgFormatDateNumeric;
+  second?: RgFormatDateNumeric;
+  timeZone?: string;
+  timeZoneName?: 'short' | 'long';
+  hourFormat?: RgFormatDateHourFormat;
+}
+
+export interface RgFormatNumberProps extends ReglowHostProps {
+  value?: number;
+  locale?: string;
+  type?: RgFormatNumberType;
+  currency?: string;
+  currencyDisplay?: RgFormatNumberCurrencyDisplay;
+  minimumIntegerDigits?: number;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  minimumSignificantDigits?: number;
+  maximumSignificantDigits?: number;
+  withoutGrouping?: boolean;
+}
+
+export interface RgFormatBytesProps extends ReglowHostProps {
+  value?: number;
+  locale?: string;
+  unit?: RgFormatBytesUnit;
+  display?: RgFormatBytesDisplay;
+}
+
+export interface RgStepIndicatorProps extends ReglowHostProps {
+  value?: string;
+  label?: string;
+  orientation?: RgStepIndicatorOrientation;
+  completeLabel?: string;
+  currentLabel?: string;
+  upcomingLabel?: string;
+}
+
+export interface RgStepProps extends ReglowHostProps {
+  value?: string;
+  label?: string;
+  description?: string;
+  optional?: boolean;
+  optionalLabel?: string;
 }
 
 const fieldProps = [
@@ -1124,6 +1217,31 @@ export const RgProgress = /* @__PURE__ */ (() =>
     },
     RgProgressElementConstructor,
   ))();
+export const RgMeter = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgMeterElement, RgMeterProps>(
+    'rg-meter',
+    {
+      displayName: 'RgMeter',
+      props: [
+        'value',
+        'min',
+        'max',
+        'low',
+        'high',
+        'optimum',
+        'label',
+        'valueText',
+        'showValue',
+        'tone',
+        'size',
+      ],
+      booleanProps: ['showValue'],
+      numberProps: ['value', 'min', 'max', 'low', 'high', 'optimum'],
+      attributes: { valueText: 'value-text', showValue: 'show-value' },
+      slots: ['label'],
+    },
+    RgMeterElementConstructor,
+  ))();
 export const RgSpinner = /* @__PURE__ */ (() =>
   createReglowVueComponent<RgSpinnerElement, RgSpinnerProps>(
     'rg-spinner',
@@ -1431,6 +1549,32 @@ export const RgPagination = /* @__PURE__ */ (() =>
     },
     RgPaginationElementConstructor,
   ))();
+export const RgStepIndicator = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgStepIndicatorElement, RgStepIndicatorProps>(
+    'rg-step-indicator',
+    {
+      displayName: 'RgStepIndicator',
+      props: ['value', 'label', 'orientation', 'completeLabel', 'currentLabel', 'upcomingLabel'],
+      attributes: {
+        completeLabel: 'complete-label',
+        currentLabel: 'current-label',
+        upcomingLabel: 'upcoming-label',
+      },
+    },
+    RgStepIndicatorElementConstructor,
+  ))();
+export const RgStep = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgStepElement, RgStepProps>(
+    'rg-step',
+    {
+      displayName: 'RgStep',
+      props: ['value', 'label', 'description', 'optional', 'optionalLabel'],
+      booleanProps: ['optional'],
+      attributes: { optionalLabel: 'optional-label' },
+      slots: ['description'],
+    },
+    RgStepElementConstructor,
+  ))();
 export const RgPopover = /* @__PURE__ */ (() =>
   createReglowVueComponent<RgPopoverElement, RgPopoverProps>(
     'rg-popover',
@@ -1608,6 +1752,85 @@ export const RgRelativeTime = /* @__PURE__ */ (() =>
     },
     RgRelativeTimeElementConstructor,
   ))();
+export const RgFormatDate = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgFormatDateElement, RgFormatDateProps>(
+    'rg-format-date',
+    {
+      displayName: 'RgFormatDate',
+      props: [
+        'date',
+        'locale',
+        'weekday',
+        'era',
+        'year',
+        'month',
+        'day',
+        'hour',
+        'minute',
+        'second',
+        'timeZone',
+        'timeZoneName',
+        'hourFormat',
+      ],
+      attributes: {
+        timeZone: 'time-zone',
+        timeZoneName: 'time-zone-name',
+        hourFormat: 'hour-format',
+      },
+      properties: ['date'],
+      propertyDefaults: { date: '' },
+    },
+    RgFormatDateElementConstructor,
+  ))();
+export const RgFormatNumber = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgFormatNumberElement, RgFormatNumberProps>(
+    'rg-format-number',
+    {
+      displayName: 'RgFormatNumber',
+      props: [
+        'value',
+        'locale',
+        'type',
+        'currency',
+        'currencyDisplay',
+        'minimumIntegerDigits',
+        'minimumFractionDigits',
+        'maximumFractionDigits',
+        'minimumSignificantDigits',
+        'maximumSignificantDigits',
+        'withoutGrouping',
+      ],
+      booleanProps: ['withoutGrouping'],
+      numberProps: [
+        'value',
+        'minimumIntegerDigits',
+        'minimumFractionDigits',
+        'maximumFractionDigits',
+        'minimumSignificantDigits',
+        'maximumSignificantDigits',
+      ],
+      attributes: {
+        currencyDisplay: 'currency-display',
+        minimumIntegerDigits: 'minimum-integer-digits',
+        minimumFractionDigits: 'minimum-fraction-digits',
+        maximumFractionDigits: 'maximum-fraction-digits',
+        minimumSignificantDigits: 'minimum-significant-digits',
+        maximumSignificantDigits: 'maximum-significant-digits',
+        withoutGrouping: 'without-grouping',
+      },
+    },
+    RgFormatNumberElementConstructor,
+  ))();
+export const RgFormatBytes = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgFormatBytesElement, RgFormatBytesProps>(
+    'rg-format-bytes',
+    {
+      displayName: 'RgFormatBytes',
+      props: ['value', 'locale', 'unit', 'display'],
+      numberProps: ['value'],
+    },
+    RgFormatBytesElementConstructor,
+  ))();
 
 export const ReglowPlugin = /* @__PURE__ */ (() =>
   createReglowPlugin({
@@ -1630,6 +1853,7 @@ export const ReglowPlugin = /* @__PURE__ */ (() =>
     RgDivider,
     RgAlert,
     RgProgress,
+    RgMeter,
     RgSpinner,
     RgSkeleton,
     RgToastRegion,
@@ -1651,6 +1875,8 @@ export const ReglowPlugin = /* @__PURE__ */ (() =>
     RgBreadcrumb,
     RgBreadcrumbItem,
     RgPagination,
+    RgStepIndicator,
+    RgStep,
     RgPopover,
     RgMenu,
     RgMenuItem,
@@ -1662,6 +1888,9 @@ export const ReglowPlugin = /* @__PURE__ */ (() =>
     RgProgressRing,
     RgRating,
     RgRelativeTime,
+    RgFormatDate,
+    RgFormatNumber,
+    RgFormatBytes,
   }))();
 
 declare module 'vue' {
@@ -1685,6 +1914,7 @@ declare module 'vue' {
     RgDivider: typeof RgDivider;
     RgAlert: typeof RgAlert;
     RgProgress: typeof RgProgress;
+    RgMeter: typeof RgMeter;
     RgSpinner: typeof RgSpinner;
     RgSkeleton: typeof RgSkeleton;
     RgToastRegion: typeof RgToastRegion;
@@ -1706,6 +1936,8 @@ declare module 'vue' {
     RgBreadcrumb: typeof RgBreadcrumb;
     RgBreadcrumbItem: typeof RgBreadcrumbItem;
     RgPagination: typeof RgPagination;
+    RgStepIndicator: typeof RgStepIndicator;
+    RgStep: typeof RgStep;
     RgPopover: typeof RgPopover;
     RgMenu: typeof RgMenu;
     RgMenuItem: typeof RgMenuItem;
@@ -1717,6 +1949,9 @@ declare module 'vue' {
     RgProgressRing: typeof RgProgressRing;
     RgRating: typeof RgRating;
     RgRelativeTime: typeof RgRelativeTime;
+    RgFormatDate: typeof RgFormatDate;
+    RgFormatNumber: typeof RgFormatNumber;
+    RgFormatBytes: typeof RgFormatBytes;
   }
 }
 
@@ -1742,12 +1977,16 @@ export type {
   RgDrawerElement,
   RgEmptyStateElement,
   RgFieldsetElement,
+  RgFormatBytesElement,
+  RgFormatDateElement,
+  RgFormatNumberElement,
   RgIconButtonElement,
   RgInputElement,
   RgKbdElement,
   RgLinkElement,
   RgMenuElement,
   RgMenuItemElement,
+  RgMeterElement,
   RgOptionElement,
   RgPaginationElement,
   RgPopoverElement,
@@ -1764,6 +2003,8 @@ export type {
   RgSliderElement,
   RgSpinnerElement,
   RgSwitchElement,
+  RgStepElement,
+  RgStepIndicatorElement,
   RgTabElement,
   RgTabPanelElement,
   RgTabsElement,

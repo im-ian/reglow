@@ -53,5 +53,5 @@ The directives do not register elements. Import constructors from
 `@reglow/elements/components/*` and register only the tags used by the browser entry so the client
 bundler can remove unused elements.
 `@reglow/elements/register` remains an explicit convenience opt-in for entries that need the
-complete 51-element catalog. Angular validators also remain explicit: this bridge does not
+complete 57-element catalog. Angular validators also remain explicit: this bridge does not
 translate the Custom Element's `ElementInternals.validity` into Angular validator errors.

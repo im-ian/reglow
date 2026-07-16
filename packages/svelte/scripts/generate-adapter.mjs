@@ -43,6 +43,7 @@ const componentModuleOverrides = {
   'rg-radio-group': 'radio',
   'rg-segment': 'segmented-control',
   'rg-spinner': 'progress',
+  'rg-step': 'step-indicator',
   'rg-tab': 'tabs',
   'rg-tab-panel': 'tabs',
   'rg-toast-region': 'toast',

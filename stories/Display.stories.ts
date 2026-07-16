@@ -109,3 +109,40 @@ export const RelativeTimes: Story = {
     `;
   },
 };
+
+export const LocaleFormatting: Story = {
+  render: () => html`
+    <div class="rg-story-grid rg-card-grid">
+      <rg-card variant="outlined">
+        <span slot="header" class="rg-story-eyebrow">Absolute date</span>
+        <strong
+          ><rg-format-date
+            date="2026-07-15T09:17:00.000Z"
+            locale="en-US"
+            time-zone="UTC"
+            weekday="long"
+            month="long"
+            day="numeric"
+            year="numeric"
+          ></rg-format-date
+        ></strong>
+      </rg-card>
+      <rg-card variant="outlined">
+        <span slot="header" class="rg-story-eyebrow">Localized amount</span>
+        <strong
+          ><rg-format-number
+            value="2840.5"
+            type="currency"
+            currency="USD"
+            locale="en-US"
+            minimum-fraction-digits="2"
+          ></rg-format-number
+        ></strong>
+      </rg-card>
+      <rg-card variant="outlined">
+        <span slot="header" class="rg-story-eyebrow">Transfer size</span>
+        <strong><rg-format-bytes value="18432000" locale="en-US"></rg-format-bytes></strong>
+      </rg-card>
+    </div>
+  `,
+};

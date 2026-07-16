@@ -19,12 +19,16 @@ import type * as DividerTypes from '@reglow/elements/components/divider';
 import type * as DrawerTypes from '@reglow/elements/components/dialog';
 import type * as EmptyStateTypes from '@reglow/elements/components/empty-state';
 import type * as FieldsetTypes from '@reglow/elements/components/fieldset';
+import type * as FormatBytesTypes from '@reglow/elements/components/format-bytes';
+import type * as FormatDateTypes from '@reglow/elements/components/format-date';
+import type * as FormatNumberTypes from '@reglow/elements/components/format-number';
 import type * as IconButtonTypes from '@reglow/elements/components/button';
 import type * as InputTypes from '@reglow/elements/components/input';
 import type * as KbdTypes from '@reglow/elements/components/kbd';
 import type * as LinkTypes from '@reglow/elements/components/link';
 import type * as MenuTypes from '@reglow/elements/components/menu';
 import type * as MenuItemTypes from '@reglow/elements/components/menu';
+import type * as MeterTypes from '@reglow/elements/components/meter';
 import type * as OptionTypes from '@reglow/elements/components/select';
 import type * as PaginationTypes from '@reglow/elements/components/pagination';
 import type * as PopoverTypes from '@reglow/elements/components/popover';
@@ -40,6 +44,8 @@ import type * as SelectTypes from '@reglow/elements/components/select';
 import type * as SkeletonTypes from '@reglow/elements/components/skeleton';
 import type * as SliderTypes from '@reglow/elements/components/slider';
 import type * as SpinnerTypes from '@reglow/elements/components/progress';
+import type * as StepTypes from '@reglow/elements/components/step-indicator';
+import type * as StepIndicatorTypes from '@reglow/elements/components/step-indicator';
 import type * as SwitchTypes from '@reglow/elements/components/switch';
 import type * as TabTypes from '@reglow/elements/components/tabs';
 import type * as TabPanelTypes from '@reglow/elements/components/tabs';
@@ -507,6 +513,61 @@ export type RgFieldsetProps = ReglowSvelteProps<
   }
 >;
 
+export type RgFormatBytesProps = ReglowSvelteProps<
+  FormatBytesTypes.RgFormatBytesElement,
+  {},
+  {},
+  {
+    display?: ReglowAttributeValue;
+    lang?: ReglowAttributeValue;
+    locale?: ReglowAttributeValue;
+    unit?: ReglowAttributeValue;
+    value?: ReglowAttributeValue;
+  }
+>;
+
+export type RgFormatDateProps = ReglowSvelteProps<
+  FormatDateTypes.RgFormatDateElement,
+  {},
+  {},
+  {
+    date?: ReglowAttributeValue;
+    day?: ReglowAttributeValue;
+    era?: ReglowAttributeValue;
+    hour?: ReglowAttributeValue;
+    hourFormat?: ReglowAttributeValue;
+    lang?: ReglowAttributeValue;
+    locale?: ReglowAttributeValue;
+    minute?: ReglowAttributeValue;
+    month?: ReglowAttributeValue;
+    second?: ReglowAttributeValue;
+    timeZone?: ReglowAttributeValue;
+    timeZoneName?: ReglowAttributeValue;
+    weekday?: ReglowAttributeValue;
+    year?: ReglowAttributeValue;
+  }
+>;
+
+export type RgFormatNumberProps = ReglowSvelteProps<
+  FormatNumberTypes.RgFormatNumberElement,
+  {},
+  {},
+  {
+    currency?: ReglowAttributeValue;
+    currencyDisplay?: ReglowAttributeValue;
+    lang?: ReglowAttributeValue;
+    locale?: ReglowAttributeValue;
+    maximumFractionDigits?: ReglowAttributeValue;
+    maximumSignificantDigits?: ReglowAttributeValue;
+    minimumFractionDigits?: ReglowAttributeValue;
+    minimumIntegerDigits?: ReglowAttributeValue;
+    minimumSignificantDigits?: ReglowAttributeValue;
+    type?: ReglowAttributeValue;
+    value?: ReglowAttributeValue;
+    withoutGrouping?: ReglowAttributeValue;
+  }
+>;
+
 export type RgIconButtonProps = ReglowSvelteProps<
   IconButtonTypes.RgIconButtonElement,
   {
@@ -653,6 +714,27 @@ export type RgMenuItemProps = ReglowSvelteProps<
   {
     disabled?: ReglowAttributeValue;
     value?: ReglowAttributeValue;
+  }
+>;
+
+export type RgMeterProps = ReglowSvelteProps<
+  MeterTypes.RgMeterElement,
+  {},
+  {
+    label?: ReglowSlotContent;
+  },
+  {
+    'aria-label'?: ReglowAttributeValue;
+    high?: ReglowAttributeValue;
+    low?: ReglowAttributeValue;
+    max?: ReglowAttributeValue;
+    min?: ReglowAttributeValue;
+    optimum?: ReglowAttributeValue;
+    showValue?: ReglowAttributeValue;
+    size?: ReglowAttributeValue;
+    tone?: ReglowAttributeValue;
+    value?: ReglowAttributeValue;
+    valueText?: ReglowAttributeValue;
   }
 >;
 
@@ -914,6 +996,34 @@ export type RgSpinnerProps = ReglowSvelteProps<
   {
     size?: ReglowAttributeValue;
     label?: ReglowAttributeValue;
+  }
+>;
+
+export type RgStepProps = ReglowSvelteProps<
+  StepTypes.RgStepElement,
+  {},
+  {
+    description?: ReglowSlotContent;
+  },
+  {
+    label?: ReglowAttributeValue;
+    optional?: ReglowAttributeValue;
+    optionalLabel?: ReglowAttributeValue;
+    value?: ReglowAttributeValue;
+  }
+>;
+
+export type RgStepIndicatorProps = ReglowSvelteProps<
+  StepIndicatorTypes.RgStepIndicatorElement,
+  {},
+  {},
+  {
+    completeLabel?: ReglowAttributeValue;
+    currentLabel?: ReglowAttributeValue;
+    label?: ReglowAttributeValue;
+    orientation?: ReglowAttributeValue;
+    upcomingLabel?: ReglowAttributeValue;
+    value?: ReglowAttributeValue;
   }
 >;
 
