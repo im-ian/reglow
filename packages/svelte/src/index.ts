@@ -2,6 +2,7 @@ export { default as RgAccordion } from './components/RgAccordion.svelte';
 export { default as RgAccordionItem } from './components/RgAccordionItem.svelte';
 export { default as RgAlert } from './components/RgAlert.svelte';
 export { default as RgAvatar } from './components/RgAvatar.svelte';
+export { default as RgAvatarGroup } from './components/RgAvatarGroup.svelte';
 export { default as RgBadge } from './components/RgBadge.svelte';
 export { default as RgBreadcrumb } from './components/RgBreadcrumb.svelte';
 export { default as RgBreadcrumbItem } from './components/RgBreadcrumbItem.svelte';
@@ -52,6 +53,8 @@ export { default as RgTabPanel } from './components/RgTabPanel.svelte';
 export { default as RgTabs } from './components/RgTabs.svelte';
 export { default as RgTextarea } from './components/RgTextarea.svelte';
 export { default as RgTheme } from './components/RgTheme.svelte';
+export { default as RgTimeline } from './components/RgTimeline.svelte';
+export { default as RgTimelineItem } from './components/RgTimelineItem.svelte';
 export { default as RgToast } from './components/RgToast.svelte';
 export { default as RgToastRegion } from './components/RgToastRegion.svelte';
 export { default as RgTooltip } from './components/RgTooltip.svelte';
@@ -61,6 +64,7 @@ export type {
   RgAccordionItemProps,
   RgAlertProps,
   RgAvatarProps,
+  RgAvatarGroupProps,
   RgBadgeProps,
   RgBreadcrumbProps,
   RgBreadcrumbItemProps,
@@ -111,6 +115,8 @@ export type {
   RgTabsProps,
   RgTextareaProps,
   RgThemeProps,
+  RgTimelineProps,
+  RgTimelineItemProps,
   RgToastProps,
   RgToastRegionProps,
   RgTooltipProps,

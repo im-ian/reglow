@@ -4,6 +4,7 @@ import {
 } from '@reglow/elements/components/accordion';
 import { RgAlertElement as RgAlertElementConstructor } from '@reglow/elements/components/alert';
 import { RgAvatarElement as RgAvatarElementConstructor } from '@reglow/elements/components/avatar';
+import { RgAvatarGroupElement as RgAvatarGroupElementConstructor } from '@reglow/elements/components/avatar-group';
 import { RgBadgeElement as RgBadgeElementConstructor } from '@reglow/elements/components/badge';
 import {
   RgBreadcrumbElement as RgBreadcrumbElementConstructor,
@@ -77,6 +78,10 @@ import {
 import { RgTextareaElement as RgTextareaElementConstructor } from '@reglow/elements/components/textarea';
 import { RgThemeElement as RgThemeElementConstructor } from '@reglow/elements/components/theme';
 import {
+  RgTimelineElement as RgTimelineElementConstructor,
+  RgTimelineItemElement as RgTimelineItemElementConstructor,
+} from '@reglow/elements/components/timeline';
+import {
   RgToastElement as RgToastElementConstructor,
   RgToastRegionElement as RgToastRegionElementConstructor,
 } from '@reglow/elements/components/toast';
@@ -99,6 +104,7 @@ import type {
   RgAlertElement,
   RgAvatarErrorDetail,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgAvatarLoadDetail,
   RgAvatarLoading,
   RgAvatarShape,
@@ -224,6 +230,9 @@ import type {
   RgThemeElement,
   RgThemeMode,
   RgThemeMotion,
+  RgTimelineElement,
+  RgTimelineItemElement,
+  RgTimelineTone,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,
@@ -426,6 +435,13 @@ export interface RgAvatarProps extends Omit<ReglowHostProps, 'onLoad' | 'onError
   referrerPolicy?: string;
   onLoad?: (event: ReglowElementEvent<RgAvatarElement, RgAvatarLoadDetail>) => void;
   onError?: (event: ReglowElementEvent<RgAvatarElement, RgAvatarErrorDetail>) => void;
+}
+
+export interface RgAvatarGroupProps extends ReglowHostProps {
+  label?: string;
+  max?: number;
+  moreLabel?: string;
+  size?: RgAvatarSize;
 }
 
 export interface RgCardProps extends ReglowHostProps {
@@ -769,6 +785,18 @@ export interface RgRelativeTimeProps extends ReglowHostProps {
   format?: RgRelativeTimeFormat;
   numeric?: RgRelativeTimeNumeric;
   sync?: boolean;
+}
+
+export interface RgTimelineProps extends ReglowHostProps {
+  label?: string;
+}
+
+export interface RgTimelineItemProps extends ReglowHostProps {
+  heading?: string;
+  description?: string;
+  timestamp?: string;
+  dateTime?: string;
+  tone?: RgTimelineTone;
 }
 
 export interface RgFormatDateProps extends ReglowHostProps {
@@ -1171,6 +1199,17 @@ export const RgAvatar = /* @__PURE__ */ (() =>
       slots: { fallback: 'fallback', statusContent: 'status' },
     },
     RgAvatarElementConstructor,
+  ))();
+export const RgAvatarGroup = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgAvatarGroupElement, RgAvatarGroupProps>(
+    'rg-avatar-group',
+    {
+      displayName: 'RgAvatarGroup',
+      props: ['label', 'max', 'moreLabel', 'size'],
+      numberProps: ['max'],
+      attributes: { moreLabel: 'more-label' },
+    },
+    RgAvatarGroupElementConstructor,
   ))();
 export const RgCard = /* @__PURE__ */ (() =>
   createReglowVueComponent<RgCardElement, RgCardProps>(
@@ -1575,6 +1614,23 @@ export const RgStep = /* @__PURE__ */ (() =>
     },
     RgStepElementConstructor,
   ))();
+export const RgTimeline = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTimelineElement, RgTimelineProps>(
+    'rg-timeline',
+    { displayName: 'RgTimeline', props: ['label'] },
+    RgTimelineElementConstructor,
+  ))();
+export const RgTimelineItem = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTimelineItemElement, RgTimelineItemProps>(
+    'rg-timeline-item',
+    {
+      displayName: 'RgTimelineItem',
+      props: ['heading', 'description', 'timestamp', 'dateTime', 'tone'],
+      attributes: { dateTime: 'datetime' },
+      slots: ['icon', 'time', 'description'],
+    },
+    RgTimelineItemElementConstructor,
+  ))();
 export const RgPopover = /* @__PURE__ */ (() =>
   createReglowVueComponent<RgPopoverElement, RgPopoverProps>(
     'rg-popover',
@@ -1849,6 +1905,7 @@ export const ReglowPlugin = /* @__PURE__ */ (() =>
     RgSlider,
     RgBadge,
     RgAvatar,
+    RgAvatarGroup,
     RgCard,
     RgDivider,
     RgAlert,
@@ -1877,6 +1934,8 @@ export const ReglowPlugin = /* @__PURE__ */ (() =>
     RgPagination,
     RgStepIndicator,
     RgStep,
+    RgTimeline,
+    RgTimelineItem,
     RgPopover,
     RgMenu,
     RgMenuItem,
@@ -1910,6 +1969,7 @@ declare module 'vue' {
     RgSlider: typeof RgSlider;
     RgBadge: typeof RgBadge;
     RgAvatar: typeof RgAvatar;
+    RgAvatarGroup: typeof RgAvatarGroup;
     RgCard: typeof RgCard;
     RgDivider: typeof RgDivider;
     RgAlert: typeof RgAlert;
@@ -1938,6 +1998,8 @@ declare module 'vue' {
     RgPagination: typeof RgPagination;
     RgStepIndicator: typeof RgStepIndicator;
     RgStep: typeof RgStep;
+    RgTimeline: typeof RgTimeline;
+    RgTimelineItem: typeof RgTimelineItem;
     RgPopover: typeof RgPopover;
     RgMenu: typeof RgMenu;
     RgMenuItem: typeof RgMenuItem;
@@ -1960,6 +2022,7 @@ export type {
   RgAccordionItemElement,
   RgAlertElement,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgBadgeElement,
   RgBreadcrumbElement,
   RgBreadcrumbItemElement,
@@ -2010,6 +2073,8 @@ export type {
   RgTabsElement,
   RgTextareaElement,
   RgThemeElement,
+  RgTimelineElement,
+  RgTimelineItemElement,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,

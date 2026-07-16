@@ -4,6 +4,7 @@ import {
 } from '@reglow/elements/components/accordion';
 import { RgAlertElement as RgAlertElementConstructor } from '@reglow/elements/components/alert';
 import { RgAvatarElement as RgAvatarElementConstructor } from '@reglow/elements/components/avatar';
+import { RgAvatarGroupElement as RgAvatarGroupElementConstructor } from '@reglow/elements/components/avatar-group';
 import { RgBadgeElement as RgBadgeElementConstructor } from '@reglow/elements/components/badge';
 import {
   RgBreadcrumbElement as RgBreadcrumbElementConstructor,
@@ -77,6 +78,10 @@ import {
 import { RgTextareaElement as RgTextareaElementConstructor } from '@reglow/elements/components/textarea';
 import { RgThemeElement as RgThemeElementConstructor } from '@reglow/elements/components/theme';
 import {
+  RgTimelineElement as RgTimelineElementConstructor,
+  RgTimelineItemElement as RgTimelineItemElementConstructor,
+} from '@reglow/elements/components/timeline';
+import {
   RgToastElement as RgToastElementConstructor,
   RgToastRegionElement as RgToastRegionElementConstructor,
 } from '@reglow/elements/components/toast';
@@ -99,6 +104,7 @@ import type {
   RgAlertElement,
   RgAvatarErrorDetail,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgAvatarLoadDetail,
   RgAvatarLoading,
   RgAvatarShape,
@@ -223,6 +229,9 @@ import type {
   RgThemeElement,
   RgThemeMode,
   RgThemeMotion,
+  RgTimelineElement,
+  RgTimelineItemElement,
+  RgTimelineTone,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,
@@ -437,6 +446,13 @@ export interface AvatarProps extends Omit<ReglowHostProps, 'onLoad' | 'onError'>
   statusContent?: ReactNode;
   onLoad?: (event: ReglowElementEvent<RgAvatarElement, RgAvatarLoadDetail>) => void;
   onError?: (event: ReglowElementEvent<RgAvatarElement, RgAvatarErrorDetail>) => void;
+}
+
+export interface AvatarGroupProps extends ReglowHostProps {
+  label?: string;
+  max?: number;
+  moreLabel?: string;
+  size?: RgAvatarSize;
 }
 
 export interface CardProps extends ReglowHostProps {
@@ -798,6 +814,20 @@ export interface RelativeTimeProps extends ReglowHostProps {
   sync?: boolean;
 }
 
+export interface TimelineProps extends ReglowHostProps {
+  label?: string;
+}
+
+export interface TimelineItemProps extends ReglowHostProps {
+  heading?: string;
+  description?: ReactNode;
+  timestamp?: string;
+  dateTime?: string;
+  tone?: RgTimelineTone;
+  icon?: ReactNode;
+  time?: ReactNode;
+}
+
 export interface FormatDateProps extends ReglowHostProps {
   date?: string | Date;
   locale?: string;
@@ -1030,6 +1060,15 @@ export const Avatar = /* @__PURE__ */ (() =>
       slots: { fallback: 'fallback', statusContent: 'status' },
     },
     RgAvatarElementConstructor,
+  ))();
+export const AvatarGroup = /* @__PURE__ */ (() =>
+  createReglowComponent<RgAvatarGroupElement, AvatarGroupProps>(
+    'rg-avatar-group',
+    {
+      displayName: 'AvatarGroup',
+      attributes: { moreLabel: 'more-label' },
+    },
+    RgAvatarGroupElementConstructor,
   ))();
 export const Card = /* @__PURE__ */ (() =>
   createReglowComponent<RgCardElement, CardProps>(
@@ -1325,6 +1364,22 @@ export const Step = /* @__PURE__ */ (() =>
     },
     RgStepElementConstructor,
   ))();
+export const Timeline = /* @__PURE__ */ (() =>
+  createReglowComponent<RgTimelineElement, TimelineProps>(
+    'rg-timeline',
+    { displayName: 'Timeline' },
+    RgTimelineElementConstructor,
+  ))();
+export const TimelineItem = /* @__PURE__ */ (() =>
+  createReglowComponent<RgTimelineItemElement, TimelineItemProps>(
+    'rg-timeline-item',
+    {
+      displayName: 'TimelineItem',
+      attributes: { dateTime: 'datetime' },
+      slots: { icon: 'icon', time: 'time', description: 'description' },
+    },
+    RgTimelineItemElementConstructor,
+  ))();
 export const Popover = /* @__PURE__ */ (() =>
   createReglowComponent<RgPopoverElement, PopoverProps>(
     'rg-popover',
@@ -1489,6 +1544,7 @@ export type {
   RgAccordionItemElement,
   RgAlertElement,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgBadgeElement,
   RgBreadcrumbElement,
   RgBreadcrumbItemElement,
@@ -1539,6 +1595,8 @@ export type {
   RgTabsElement,
   RgTextareaElement,
   RgThemeElement,
+  RgTimelineElement,
+  RgTimelineItemElement,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,

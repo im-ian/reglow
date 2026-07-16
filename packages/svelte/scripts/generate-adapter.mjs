@@ -46,6 +46,7 @@ const componentModuleOverrides = {
   'rg-step': 'step-indicator',
   'rg-tab': 'tabs',
   'rg-tab-panel': 'tabs',
+  'rg-timeline-item': 'timeline',
   'rg-toast-region': 'toast',
 };
 

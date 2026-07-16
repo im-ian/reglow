@@ -43,7 +43,9 @@ type CanonicalAttributeContract = [
   Expect<HasKeys<ReglowPreactIntrinsicElements['rg-meter'], 'showValue' | 'valueText'>>,
   Expect<HasKeys<ReglowPreactIntrinsicElements['rg-step-indicator'], 'completeLabel' | 'value'>>,
   Expect<HasKeys<ReglowPreactIntrinsicElements['rg-avatar-group'], 'max' | 'moreLabel' | 'size'>>,
-  Expect<HasKeys<ReglowPreactIntrinsicElements['rg-timeline-item'], 'dateTime' | 'timestamp' | 'tone'>>,
+  Expect<
+    HasKeys<ReglowPreactIntrinsicElements['rg-timeline-item'], 'dateTime' | 'timestamp' | 'tone'>
+  >,
 ];
 
 const canonicalAttributeContract: CanonicalAttributeContract = [

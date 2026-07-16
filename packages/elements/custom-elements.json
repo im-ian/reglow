@@ -1322,6 +1322,43 @@
         },
         {
           "kind": "class",
+          "name": "RgAvatarGroupElement",
+          "summary": "Overlapping avatar collection with a deterministic overflow summary.",
+          "customElement": true,
+          "tagName": "rg-avatar-group",
+          "attributes": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "more-label"
+            },
+            {
+              "name": "size"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "list"
+            },
+            {
+              "name": "overflow"
+            }
+          ]
+        },
+        {
+          "kind": "class",
           "name": "RgCardElement",
           "summary": "Content surface with optional media, header, and footer regions.",
           "customElement": true,
@@ -3508,6 +3545,95 @@
         },
         {
           "kind": "class",
+          "name": "RgTimelineElement",
+          "summary": "Accessible vertical chronology for read-only events and activity.",
+          "customElement": true,
+          "tagName": "rg-timeline",
+          "attributes": [
+            {
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "list"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTimelineItemElement",
+          "summary": "Timestamped entry rendered within an rg-timeline.",
+          "customElement": true,
+          "tagName": "rg-timeline-item",
+          "attributes": [
+            {
+              "name": "datetime"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "heading"
+            },
+            {
+              "name": "timestamp"
+            },
+            {
+              "name": "tone"
+            }
+          ],
+          "slots": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "rail"
+            },
+            {
+              "name": "marker"
+            },
+            {
+              "name": "line"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "description"
+            }
+          ]
+        },
+        {
+          "kind": "class",
           "name": "RgFormatDateElement",
           "summary": "Formats an absolute date and time with native Intl semantics.",
           "customElement": true,
@@ -3758,6 +3884,13 @@
           "name": "RgAvatarElement",
           "declaration": {
             "name": "RgAvatarElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgAvatarGroupElement",
+          "declaration": {
+            "name": "RgAvatarGroupElement"
           }
         },
         {
@@ -4035,6 +4168,20 @@
         },
         {
           "kind": "js",
+          "name": "RgTimelineElement",
+          "declaration": {
+            "name": "RgTimelineElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTimelineItemElement",
+          "declaration": {
+            "name": "RgTimelineItemElement"
+          }
+        },
+        {
+          "kind": "js",
           "name": "RgFormatDateElement",
           "declaration": {
             "name": "RgFormatDateElement"
@@ -4177,6 +4324,14 @@
           "name": "rg-avatar",
           "declaration": {
             "name": "RgAvatarElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-avatar-group",
+          "declaration": {
+            "name": "RgAvatarGroupElement",
             "module": "dist/index.js"
           }
         },
@@ -4489,6 +4644,22 @@
           "name": "rg-relative-time",
           "declaration": {
             "name": "RgRelativeTimeElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-timeline",
+          "declaration": {
+            "name": "RgTimelineElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-timeline-item",
+          "declaration": {
+            "name": "RgTimelineItemElement",
             "module": "dist/index.js"
           }
         },

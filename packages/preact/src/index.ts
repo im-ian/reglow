@@ -11,6 +11,7 @@ import type {
   RgAccordionItemElement,
   RgAlertElement,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgAvatarErrorDetail,
   RgAvatarLoadDetail,
   RgBadgeElement,
@@ -78,6 +79,8 @@ import type {
   RgTextareaElement,
   RgThemeChangeDetail,
   RgThemeElement,
+  RgTimelineElement,
+  RgTimelineItemElement,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,
@@ -257,6 +260,7 @@ export interface ReglowPreactIntrinsicElements {
   'rg-segment': ReglowPreactProps<RgSegmentElement>;
   'rg-badge': ReglowPreactProps<RgBadgeElement, BadgeEvents>;
   'rg-avatar': ReglowPreactProps<RgAvatarElement, AvatarEvents, AvatarAttributes>;
+  'rg-avatar-group': ReglowPreactProps<RgAvatarGroupElement>;
   'rg-card': ReglowPreactProps<RgCardElement>;
   'rg-divider': ReglowPreactProps<RgDividerElement>;
   'rg-kbd': ReglowPreactProps<RgKbdElement>;
@@ -292,6 +296,8 @@ export interface ReglowPreactIntrinsicElements {
   'rg-pagination': ReglowPreactProps<RgPaginationElement, PaginationEvents>;
   'rg-step-indicator': ReglowPreactProps<RgStepIndicatorElement>;
   'rg-step': ReglowPreactProps<RgStepElement>;
+  'rg-timeline': ReglowPreactProps<RgTimelineElement>;
+  'rg-timeline-item': ReglowPreactProps<RgTimelineItemElement>;
   'rg-dialog': ReglowPreactProps<RgDialogElement, DialogEvents<RgDialogElement>, DialogAttributes>;
   'rg-drawer': ReglowPreactProps<RgDrawerElement, DialogEvents<RgDrawerElement>, DialogAttributes>;
   'rg-tooltip': ReglowPreactProps<RgTooltipElement, TooltipEvents>;

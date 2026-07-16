@@ -93,9 +93,7 @@ describe('timeline', () => {
     expect(items.map((item) => item.hasAttribute('data-last'))).toEqual([false, true]);
     expect(firstTime.dateTime).toBe('2026-07-16T10:30:00+09:00');
     expect(firstTime.textContent).toBe('Jul 16, 10:30');
-    expect(items[0]!.shadowRoot!.querySelector('[part="title"]')!.textContent).toBe(
-      'Order placed',
-    );
+    expect(items[0]!.shadowRoot!.querySelector('[part="title"]')!.textContent).toBe('Order placed');
     expect(items[0]!.shadowRoot!.querySelector('[part="description"]')!.textContent).toBe(
       'The order was received',
     );

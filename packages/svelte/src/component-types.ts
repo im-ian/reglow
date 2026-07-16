@@ -2,6 +2,7 @@ import type * as AccordionTypes from '@reglow/elements/components/accordion';
 import type * as AccordionItemTypes from '@reglow/elements/components/accordion';
 import type * as AlertTypes from '@reglow/elements/components/alert';
 import type * as AvatarTypes from '@reglow/elements/components/avatar';
+import type * as AvatarGroupTypes from '@reglow/elements/components/avatar-group';
 import type * as BadgeTypes from '@reglow/elements/components/badge';
 import type * as BreadcrumbTypes from '@reglow/elements/components/breadcrumb';
 import type * as BreadcrumbItemTypes from '@reglow/elements/components/breadcrumb';
@@ -52,6 +53,8 @@ import type * as TabPanelTypes from '@reglow/elements/components/tabs';
 import type * as TabsTypes from '@reglow/elements/components/tabs';
 import type * as TextareaTypes from '@reglow/elements/components/textarea';
 import type * as ThemeTypes from '@reglow/elements/components/theme';
+import type * as TimelineTypes from '@reglow/elements/components/timeline';
+import type * as TimelineItemTypes from '@reglow/elements/components/timeline';
 import type * as ToastTypes from '@reglow/elements/components/toast';
 import type * as ToastRegionTypes from '@reglow/elements/components/toast';
 import type * as TooltipTypes from '@reglow/elements/components/tooltip';
@@ -147,6 +150,18 @@ export type RgAvatarProps = ReglowSvelteProps<
     srcSet?: ReglowAttributeValue;
     status?: ReglowAttributeValue;
     statusLabel?: ReglowAttributeValue;
+  }
+>;
+
+export type RgAvatarGroupProps = ReglowSvelteProps<
+  AvatarGroupTypes.RgAvatarGroupElement,
+  {},
+  {},
+  {
+    label?: ReglowAttributeValue;
+    max?: ReglowAttributeValue;
+    moreLabel?: ReglowAttributeValue;
+    size?: ReglowAttributeValue;
   }
 >;
 
@@ -1129,6 +1144,31 @@ export type RgThemeProps = ReglowSvelteProps<
     mode?: ReglowAttributeValue;
     density?: ReglowAttributeValue;
     motion?: ReglowAttributeValue;
+  }
+>;
+
+export type RgTimelineProps = ReglowSvelteProps<
+  TimelineTypes.RgTimelineElement,
+  {},
+  {},
+  {
+    label?: ReglowAttributeValue;
+  }
+>;
+
+export type RgTimelineItemProps = ReglowSvelteProps<
+  TimelineItemTypes.RgTimelineItemElement,
+  {},
+  {
+    icon?: ReglowSlotContent;
+    time?: ReglowSlotContent;
+    description?: ReglowSlotContent;
+  },
+  {
+    datetime?: ReglowAttributeValue;
+    heading?: ReglowAttributeValue;
+    timestamp?: ReglowAttributeValue;
+    tone?: ReglowAttributeValue;
   }
 >;
 
