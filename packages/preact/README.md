@@ -25,4 +25,4 @@ export function Example() {
 Importing `@reglow/preact` is runtime-empty and only activates its Preact JSX declarations. Import
 individual constructors from `@reglow/elements/components/*` and register only the tags rendered by
 the browser entry so unused elements remain tree-shakable. `@reglow/elements/register` is an
-explicit convenience opt-in for entries that need all 57 elements.
+explicit convenience opt-in for entries that need all 60 elements.

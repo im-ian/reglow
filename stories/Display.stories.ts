@@ -43,6 +43,48 @@ export const Avatars: Story = {
   `,
 };
 
+export const AvatarGroups: Story = {
+  render: () => html`
+    <div class="rg-story-grid rg-card-grid">
+      <rg-card variant="outlined">
+        <div slot="header" class="rg-card-heading">
+          <div>
+            <span class="rg-story-eyebrow">Project crew</span>
+            <strong>Launch team</strong>
+          </div>
+          <rg-badge variant="soft">5 people</rg-badge>
+        </div>
+        <rg-avatar-group label="Launch team" max="3" more-label="more teammates" size="lg">
+          <rg-avatar name="Mina Park"></rg-avatar>
+          <rg-avatar name="Alex Kim"></rg-avatar>
+          <rg-avatar name="Noah Lee"></rg-avatar>
+          <rg-avatar name="Sora Han"></rg-avatar>
+          <rg-avatar name="Ian Cho"></rg-avatar>
+        </rg-avatar-group>
+        <p slot="footer" class="rg-muted">
+          Three visible avatars with an accessible overflow count.
+        </p>
+      </rg-card>
+      <rg-card variant="soft">
+        <div slot="header" class="rg-card-heading">
+          <div>
+            <span class="rg-story-eyebrow">Compact</span>
+            <strong>Online now</strong>
+          </div>
+          <span class="rg-inline-success">${CheckIcon} Active</span>
+        </div>
+        <rg-avatar-group label="Online teammates" size="sm">
+          <rg-avatar name="Ari Moon"></rg-avatar>
+          <rg-avatar name="Joon Seo"></rg-avatar>
+          <rg-avatar name="Rina Yu"></rg-avatar>
+          <rg-avatar name="Theo Lim"></rg-avatar>
+        </rg-avatar-group>
+        <p slot="footer" class="rg-muted">The group can also inherit one compact size.</p>
+      </rg-card>
+    </div>
+  `,
+};
+
 export const Cards: Story = {
   render: () => html`
     <div class="rg-story-grid rg-card-grid">
@@ -108,6 +150,45 @@ export const RelativeTimes: Story = {
       </div>
     `;
   },
+};
+
+export const Timelines: Story = {
+  render: () => html`
+    <rg-card variant="outlined" class="rg-wide-demo">
+      <div slot="header" class="rg-card-heading">
+        <div>
+          <span class="rg-story-eyebrow">Release activity</span>
+          <strong>Version 1.4 timeline</strong>
+        </div>
+        <rg-badge tone="success" dot>On track</rg-badge>
+      </div>
+      <rg-timeline label="Version 1.4 release activity">
+        <rg-timeline-item
+          heading="Workspace created"
+          description="Mina opened the release workspace and invited the core team."
+          timestamp="Today · 09:40"
+          datetime="2026-07-16T09:40:00+09:00"
+          tone="success"
+        >
+          <span slot="icon">${CheckIcon}</span>
+        </rg-timeline-item>
+        <rg-timeline-item
+          heading="Design tokens published"
+          description="Color, type, and motion updates are ready for review."
+          timestamp="Today · 11:15"
+          datetime="2026-07-16T11:15:00+09:00"
+          tone="brand"
+        ></rg-timeline-item>
+        <rg-timeline-item
+          heading="Deployment review"
+          description="Waiting for the final accessibility and bundle-size checks."
+          timestamp="Today · 14:30"
+          datetime="2026-07-16T14:30:00+09:00"
+          tone="warning"
+        ></rg-timeline-item>
+      </rg-timeline>
+    </rg-card>
+  `,
 };
 
 export const LocaleFormatting: Story = {
