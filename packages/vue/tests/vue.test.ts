@@ -15,6 +15,7 @@ import {
   RgCombobox,
   RgCopyButton,
   RgDatePicker,
+  RgDateTimePicker,
   RgDialog,
   RgDivider,
   RgEmptyState,
@@ -42,6 +43,7 @@ import {
   RgTimelineItem,
   RgTextarea,
   RgTheme,
+  RgTimePicker,
   RgToastRegion,
   ReglowPlugin,
   createReglowVueComponent,
@@ -101,6 +103,30 @@ describe('@reglow/vue', () => {
 
     expect([slider.min, slider.max, slider.step]).toEqual([10, 80, 5]);
     expect(textarea.rows).toBe(7);
+  });
+
+  it('maps picker display and overlay options to custom-element attributes', () => {
+    const wrapper = mount({
+      components: { RgDatePicker, RgDateTimePicker, RgTimePicker },
+      template: `
+        <div>
+          <RgDatePicker date-format="long" overlay-width="full" overlay-align="center" />
+          <RgTimePicker overlay-width="full" overlay-align="center" />
+          <RgDateTimePicker date-format="iso" overlay-width="full" overlay-align="end" />
+        </div>
+      `,
+    });
+
+    const date = wrapper.element.querySelector('rg-date-picker')!;
+    const time = wrapper.element.querySelector('rg-time-picker')!;
+    const dateTime = wrapper.element.querySelector('rg-date-time-picker')!;
+    expect(date.getAttribute('date-format')).toBe('long');
+    expect(date.getAttribute('overlay-width')).toBe('full');
+    expect(date.getAttribute('overlay-align')).toBe('center');
+    expect(time.getAttribute('overlay-width')).toBe('full');
+    expect(time.getAttribute('overlay-align')).toBe('center');
+    expect(dateTime.getAttribute('date-format')).toBe('iso');
+    expect(dateTime.getAttribute('overlay-align')).toBe('end');
   });
 
   it('wraps plain text so it can participate in a named native slot', () => {
@@ -277,13 +303,14 @@ describe('@reglow/vue', () => {
     const component = vi.fn();
     ReglowPlugin.install({ component } as never);
     expect(component).toHaveBeenCalledWith('RgTheme', RgTheme);
-    expect(component.mock.calls.length).toBe(60);
+    expect(component.mock.calls.length).toBe(62);
     expect([
       RgBreadcrumb,
       RgBreadcrumbItem,
       RgButtonGroup,
       RgCombobox,
       RgDatePicker,
+      RgDateTimePicker,
       RgEmptyState,
       RgFieldset,
       RgKbd,
@@ -291,7 +318,8 @@ describe('@reglow/vue', () => {
       RgMenuItem,
       RgPagination,
       RgPopover,
-    ]).toHaveLength(12);
+      RgTimePicker,
+    ]).toHaveLength(14);
   });
 
   it('installs the researched catalog batch and forwards array chip models', () => {

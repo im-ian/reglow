@@ -15,6 +15,7 @@ import type * as ChipGroupTypes from '@reglow/elements/components/chip';
 import type * as ComboboxTypes from '@reglow/elements/components/combobox';
 import type * as CopyButtonTypes from '@reglow/elements/components/copy-button';
 import type * as DatePickerTypes from '@reglow/elements/components/date-picker';
+import type * as DateTimePickerTypes from '@reglow/elements/components/date-time-picker';
 import type * as DialogTypes from '@reglow/elements/components/dialog';
 import type * as DividerTypes from '@reglow/elements/components/divider';
 import type * as DrawerTypes from '@reglow/elements/components/dialog';
@@ -53,6 +54,7 @@ import type * as TabPanelTypes from '@reglow/elements/components/tabs';
 import type * as TabsTypes from '@reglow/elements/components/tabs';
 import type * as TextareaTypes from '@reglow/elements/components/textarea';
 import type * as ThemeTypes from '@reglow/elements/components/theme';
+import type * as TimePickerTypes from '@reglow/elements/components/time-picker';
 import type * as TimelineTypes from '@reglow/elements/components/timeline';
 import type * as TimelineItemTypes from '@reglow/elements/components/timeline';
 import type * as ToastTypes from '@reglow/elements/components/toast';
@@ -400,6 +402,10 @@ export type RgDatePickerProps = ReglowSvelteProps<
   {
     onValueChange?: ReglowSvelteEventHandler<DatePickerTypes.RgDatePickerElement, Event>;
     onValueCommit?: ReglowSvelteEventHandler<DatePickerTypes.RgDatePickerElement, Event>;
+    onOpenChange?: ReglowSvelteEventHandler<
+      DatePickerTypes.RgDatePickerElement,
+      CustomEvent<DatePickerTypes.RgDatePickerOpenChangeDetail>
+    >;
   },
   {
     label?: ReglowSlotContent;
@@ -407,11 +413,48 @@ export type RgDatePickerProps = ReglowSvelteProps<
     error?: ReglowSlotContent;
   },
   {
+    dateFormat?: ReglowAttributeValue;
     disabled?: ReglowAttributeValue;
     invalid?: ReglowAttributeValue;
+    locale?: ReglowAttributeValue;
     max?: ReglowAttributeValue;
     min?: ReglowAttributeValue;
     name?: ReglowAttributeValue;
+    overlayAlign?: ReglowAttributeValue;
+    overlayWidth?: ReglowAttributeValue;
+    picker?: ReglowAttributeValue;
+    readOnly?: ReglowAttributeValue;
+    required?: ReglowAttributeValue;
+    size?: ReglowAttributeValue;
+    step?: ReglowAttributeValue;
+  }
+>;
+
+export type RgDateTimePickerProps = ReglowSvelteProps<
+  DateTimePickerTypes.RgDateTimePickerElement,
+  {
+    onValueChange?: ReglowSvelteEventHandler<DateTimePickerTypes.RgDateTimePickerElement, Event>;
+    onValueCommit?: ReglowSvelteEventHandler<DateTimePickerTypes.RgDateTimePickerElement, Event>;
+    onOpenChange?: ReglowSvelteEventHandler<
+      DateTimePickerTypes.RgDateTimePickerElement,
+      CustomEvent<DateTimePickerTypes.RgDateTimePickerOpenChangeDetail>
+    >;
+  },
+  {
+    label?: ReglowSlotContent;
+    description?: ReglowSlotContent;
+    error?: ReglowSlotContent;
+  },
+  {
+    dateFormat?: ReglowAttributeValue;
+    disabled?: ReglowAttributeValue;
+    invalid?: ReglowAttributeValue;
+    locale?: ReglowAttributeValue;
+    max?: ReglowAttributeValue;
+    min?: ReglowAttributeValue;
+    name?: ReglowAttributeValue;
+    overlayAlign?: ReglowAttributeValue;
+    overlayWidth?: ReglowAttributeValue;
     readOnly?: ReglowAttributeValue;
     required?: ReglowAttributeValue;
     size?: ReglowAttributeValue;
@@ -1144,6 +1187,36 @@ export type RgThemeProps = ReglowSvelteProps<
     mode?: ReglowAttributeValue;
     density?: ReglowAttributeValue;
     motion?: ReglowAttributeValue;
+  }
+>;
+
+export type RgTimePickerProps = ReglowSvelteProps<
+  TimePickerTypes.RgTimePickerElement,
+  {
+    onValueChange?: ReglowSvelteEventHandler<TimePickerTypes.RgTimePickerElement, Event>;
+    onValueCommit?: ReglowSvelteEventHandler<TimePickerTypes.RgTimePickerElement, Event>;
+    onOpenChange?: ReglowSvelteEventHandler<
+      TimePickerTypes.RgTimePickerElement,
+      CustomEvent<TimePickerTypes.RgTimePickerOpenChangeDetail>
+    >;
+  },
+  {
+    label?: ReglowSlotContent;
+    description?: ReglowSlotContent;
+    error?: ReglowSlotContent;
+  },
+  {
+    disabled?: ReglowAttributeValue;
+    invalid?: ReglowAttributeValue;
+    max?: ReglowAttributeValue;
+    min?: ReglowAttributeValue;
+    name?: ReglowAttributeValue;
+    overlayAlign?: ReglowAttributeValue;
+    overlayWidth?: ReglowAttributeValue;
+    readOnly?: ReglowAttributeValue;
+    required?: ReglowAttributeValue;
+    size?: ReglowAttributeValue;
+    step?: ReglowAttributeValue;
   }
 >;
 

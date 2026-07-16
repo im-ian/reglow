@@ -33,6 +33,9 @@ import type {
   RgCopyDetail,
   RgCopyErrorDetail,
   RgDatePickerElement,
+  RgDatePickerOpenChangeDetail,
+  RgDateTimePickerElement,
+  RgDateTimePickerOpenChangeDetail,
   RgDialogElement,
   RgDividerElement,
   RgDrawerElement,
@@ -79,6 +82,8 @@ import type {
   RgTextareaElement,
   RgThemeChangeDetail,
   RgThemeElement,
+  RgTimePickerElement,
+  RgTimePickerOpenChangeDetail,
   RgTimelineElement,
   RgTimelineItemElement,
   RgToastElement,
@@ -230,6 +235,21 @@ type SegmentedControlEvents = CustomEventProp<
   RgSegmentedValueChangeDetail
 >;
 type RatingEvents = CustomEventProp<'rg-value-change', RgRatingElement, RgRatingValueChangeDetail>;
+type DatePickerEvents = CustomEventProp<
+  'rg-open-change',
+  RgDatePickerElement,
+  RgDatePickerOpenChangeDetail
+>;
+type TimePickerEvents = CustomEventProp<
+  'rg-open-change',
+  RgTimePickerElement,
+  RgTimePickerOpenChangeDetail
+>;
+type DateTimePickerEvents = CustomEventProp<
+  'rg-open-change',
+  RgDateTimePickerElement,
+  RgDateTimePickerOpenChangeDetail
+>;
 
 export interface ReglowPreactIntrinsicElements {
   'rg-theme': ReglowPreactProps<RgThemeElement, ThemeEvents>;
@@ -247,7 +267,13 @@ export interface ReglowPreactIntrinsicElements {
   'rg-select': ReglowPreactProps<RgSelectElement>;
   'rg-option': ReglowPreactProps<RgOptionElement>;
   'rg-combobox': ReglowPreactProps<RgComboboxElement, ComboboxEvents, ReadonlyAttribute>;
-  'rg-date-picker': ReglowPreactProps<RgDatePickerElement, object, ReadonlyAttribute>;
+  'rg-date-picker': ReglowPreactProps<RgDatePickerElement, DatePickerEvents, ReadonlyAttribute>;
+  'rg-time-picker': ReglowPreactProps<RgTimePickerElement, TimePickerEvents, ReadonlyAttribute>;
+  'rg-date-time-picker': ReglowPreactProps<
+    RgDateTimePickerElement,
+    DateTimePickerEvents,
+    ReadonlyAttribute
+  >;
   'rg-checkbox': ReglowPreactProps<RgCheckboxElement>;
   'rg-switch': ReglowPreactProps<RgSwitchElement>;
   'rg-radio-group': ReglowPreactProps<RgRadioGroupElement>;

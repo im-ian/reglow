@@ -2450,10 +2450,13 @@
         {
           "kind": "class",
           "name": "RgDatePickerElement",
-          "summary": "Form-associated date field backed by the native date picker.",
+          "summary": "Form-associated date field with native and custom calendar presentations.",
           "customElement": true,
           "tagName": "rg-date-picker",
           "attributes": [
+            {
+              "name": "date-format"
+            },
             {
               "name": "description"
             },
@@ -2470,6 +2473,9 @@
               "name": "label"
             },
             {
+              "name": "locale"
+            },
+            {
               "name": "max"
             },
             {
@@ -2477,6 +2483,18 @@
             },
             {
               "name": "name"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "overlay-align"
+            },
+            {
+              "name": "overlay-width"
+            },
+            {
+              "name": "picker"
             },
             {
               "name": "readonly"
@@ -2505,6 +2523,12 @@
               "name": "change",
               "type": {
                 "text": "Event"
+              }
+            },
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<RgDatePickerOpenChangeDetail>"
               }
             }
           ],
@@ -2540,6 +2564,306 @@
             },
             {
               "name": "icon"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "calendar"
+            },
+            {
+              "name": "calendar-navigation"
+            },
+            {
+              "name": "action"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTimePickerElement",
+          "summary": "Form-associated time field with AM/PM, hour, and minute controls.",
+          "customElement": true,
+          "tagName": "rg-time-picker",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "min"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "overlay-align"
+            },
+            {
+              "name": "overlay-width"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "step"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<RgTimePickerOpenChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": "period-list"
+            },
+            {
+              "name": "hour-list"
+            },
+            {
+              "name": "minute-list"
+            },
+            {
+              "name": "time-selection"
+            },
+            {
+              "name": "action"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgDateTimePickerElement",
+          "summary": "Form-associated date and time field with a unified custom picker.",
+          "customElement": true,
+          "tagName": "rg-date-time-picker",
+          "attributes": [
+            {
+              "name": "date-format"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "invalid"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "locale"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "min"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "open"
+            },
+            {
+              "name": "overlay-align"
+            },
+            {
+              "name": "overlay-width"
+            },
+            {
+              "name": "readonly"
+            },
+            {
+              "name": "required"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "step"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "rg-open-change",
+              "type": {
+                "text": "CustomEvent<RgDateTimePickerOpenChangeDetail>"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "error"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "field"
+            },
+            {
+              "name": "label-row"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "control-wrap"
+            },
+            {
+              "name": "control"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "icon"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "calendar"
+            },
+            {
+              "name": "calendar-navigation"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": "period-list"
+            },
+            {
+              "name": "hour-list"
+            },
+            {
+              "name": "minute-list"
+            },
+            {
+              "name": "time-selection"
+            },
+            {
+              "name": "action"
             },
             {
               "name": "description"
@@ -4035,6 +4359,20 @@
         },
         {
           "kind": "js",
+          "name": "RgTimePickerElement",
+          "declaration": {
+            "name": "RgTimePickerElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgDateTimePickerElement",
+          "declaration": {
+            "name": "RgDateTimePickerElement"
+          }
+        },
+        {
+          "kind": "js",
           "name": "RgKbdElement",
           "declaration": {
             "name": "RgKbdElement"
@@ -4492,6 +4830,22 @@
           "name": "rg-date-picker",
           "declaration": {
             "name": "RgDatePickerElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-time-picker",
+          "declaration": {
+            "name": "RgTimePickerElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-date-time-picker",
+          "declaration": {
+            "name": "RgDateTimePickerElement",
             "module": "dist/index.js"
           }
         },

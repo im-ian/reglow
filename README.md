@@ -187,7 +187,7 @@ export class WorkspaceForm {
 
 - Foundation: Theme
 - Actions: Button, Icon Button, Button Group, Copy Button, Link
-- Forms: Input, Textarea, Select, Option, Combobox, Date Picker, Checkbox, Switch, Radio Group, Radio, Slider, Rating, Fieldset, Chip Group, Chip, Segmented Control, Segment
+- Forms: Input, Textarea, Select, Option, Combobox, Date Picker, Time Picker, Date Time Picker, Checkbox, Switch, Radio Group, Radio, Slider, Rating, Fieldset, Chip Group, Chip, Segmented Control, Segment
 - Display: Badge, Avatar, Avatar Group, Card, Divider, Kbd, Empty State, Relative Time, Timeline, Timeline Item, Format Date, Format Number, Format Bytes
 - Feedback: Alert, Progress, Meter, Progress Ring, Spinner, Skeleton, Toast Region, Toast
 - Navigation: Tabs, Tab, Tab Panel, Accordion, Accordion Item, Breadcrumb, Breadcrumb Item, Pagination, Step Indicator, Step

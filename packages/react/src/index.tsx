@@ -24,6 +24,7 @@ import {
 import { RgComboboxElement as RgComboboxElementConstructor } from '@reglow/elements/components/combobox';
 import { RgCopyButtonElement as RgCopyButtonElementConstructor } from '@reglow/elements/components/copy-button';
 import { RgDatePickerElement as RgDatePickerElementConstructor } from '@reglow/elements/components/date-picker';
+import { RgDateTimePickerElement as RgDateTimePickerElementConstructor } from '@reglow/elements/components/date-time-picker';
 import {
   RgDialogElement as RgDialogElementConstructor,
   RgDrawerElement as RgDrawerElementConstructor,
@@ -77,6 +78,7 @@ import {
 } from '@reglow/elements/components/tabs';
 import { RgTextareaElement as RgTextareaElementConstructor } from '@reglow/elements/components/textarea';
 import { RgThemeElement as RgThemeElementConstructor } from '@reglow/elements/components/theme';
+import { RgTimePickerElement as RgTimePickerElementConstructor } from '@reglow/elements/components/time-picker';
 import {
   RgTimelineElement as RgTimelineElementConstructor,
   RgTimelineItemElement as RgTimelineItemElementConstructor,
@@ -143,8 +145,19 @@ import type {
   RgCopyButtonElement,
   RgCopyDetail,
   RgCopyErrorDetail,
+  RgDatePickerDateFormat,
   RgDatePickerElement,
+  RgDatePickerOpenChangeDetail,
+  RgDatePickerOverlayAlign,
+  RgDatePickerOverlayWidth,
   RgDatePickerSize,
+  RgDatePickerType,
+  RgDateTimePickerDateFormat,
+  RgDateTimePickerElement,
+  RgDateTimePickerOpenChangeDetail,
+  RgDateTimePickerOverlayAlign,
+  RgDateTimePickerOverlayWidth,
+  RgDateTimePickerSize,
   RgDialogElement,
   RgDividerElement,
   RgDividerOrientation,
@@ -229,6 +242,11 @@ import type {
   RgThemeElement,
   RgThemeMode,
   RgThemeMotion,
+  RgTimePickerElement,
+  RgTimePickerOpenChangeDetail,
+  RgTimePickerOverlayAlign,
+  RgTimePickerOverlayWidth,
+  RgTimePickerSize,
   RgTimelineElement,
   RgTimelineItemElement,
   RgTimelineTone,
@@ -637,9 +655,52 @@ export interface DatePickerProps extends Omit<
   'placeholder' | 'size'
 > {
   size?: RgDatePickerSize;
+  picker?: RgDatePickerType;
+  dateFormat?: RgDatePickerDateFormat;
+  overlayWidth?: RgDatePickerOverlayWidth;
+  overlayAlign?: RgDatePickerOverlayAlign;
+  locale?: string;
+  open?: boolean;
   min?: string;
   max?: string;
   step?: number;
+  onOpenChange?: (
+    event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
+  ) => void;
+}
+
+export interface TimePickerProps extends Omit<
+  FieldProps<RgTimePickerElement>,
+  'placeholder' | 'size'
+> {
+  size?: RgTimePickerSize;
+  overlayWidth?: RgTimePickerOverlayWidth;
+  overlayAlign?: RgTimePickerOverlayAlign;
+  open?: boolean;
+  min?: string;
+  max?: string;
+  step?: number;
+  onOpenChange?: (
+    event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
+  ) => void;
+}
+
+export interface DateTimePickerProps extends Omit<
+  FieldProps<RgDateTimePickerElement>,
+  'placeholder' | 'size'
+> {
+  size?: RgDateTimePickerSize;
+  dateFormat?: RgDateTimePickerDateFormat;
+  overlayWidth?: RgDateTimePickerOverlayWidth;
+  overlayAlign?: RgDateTimePickerOverlayAlign;
+  locale?: string;
+  open?: boolean;
+  min?: string;
+  max?: string;
+  step?: number;
+  onOpenChange?: (
+    event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
+  ) => void;
 }
 
 export interface KbdProps extends ReglowHostProps {
@@ -1281,11 +1342,47 @@ export const DatePicker = /* @__PURE__ */ (() =>
     'rg-date-picker',
     {
       displayName: 'DatePicker',
-      events: valueEvents,
-      attributes: { readOnly: 'readonly' },
+      events: { ...valueEvents, onOpenChange: 'rg-open-change' },
+      attributes: {
+        dateFormat: 'date-format',
+        overlayAlign: 'overlay-align',
+        overlayWidth: 'overlay-width',
+        readOnly: 'readonly',
+      },
       slots: fieldSlots,
     },
     RgDatePickerElementConstructor,
+  ))();
+export const TimePicker = /* @__PURE__ */ (() =>
+  createReglowComponent<RgTimePickerElement, TimePickerProps>(
+    'rg-time-picker',
+    {
+      displayName: 'TimePicker',
+      events: { ...valueEvents, onOpenChange: 'rg-open-change' },
+      attributes: {
+        overlayAlign: 'overlay-align',
+        overlayWidth: 'overlay-width',
+        readOnly: 'readonly',
+      },
+      slots: fieldSlots,
+    },
+    RgTimePickerElementConstructor,
+  ))();
+export const DateTimePicker = /* @__PURE__ */ (() =>
+  createReglowComponent<RgDateTimePickerElement, DateTimePickerProps>(
+    'rg-date-time-picker',
+    {
+      displayName: 'DateTimePicker',
+      events: { ...valueEvents, onOpenChange: 'rg-open-change' },
+      attributes: {
+        dateFormat: 'date-format',
+        overlayAlign: 'overlay-align',
+        overlayWidth: 'overlay-width',
+        readOnly: 'readonly',
+      },
+      slots: fieldSlots,
+    },
+    RgDateTimePickerElementConstructor,
   ))();
 export const Kbd = /* @__PURE__ */ (() =>
   createReglowComponent<RgKbdElement, KbdProps>(
@@ -1557,6 +1654,7 @@ export type {
   RgComboboxElement,
   RgCopyButtonElement,
   RgDatePickerElement,
+  RgDateTimePickerElement,
   RgDialogElement,
   RgDividerElement,
   RgDrawerElement,
@@ -1595,6 +1693,7 @@ export type {
   RgTabsElement,
   RgTextareaElement,
   RgThemeElement,
+  RgTimePickerElement,
   RgTimelineElement,
   RgTimelineItemElement,
   RgToastElement,

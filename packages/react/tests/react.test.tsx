@@ -14,6 +14,7 @@ import {
   Combobox,
   CopyButton,
   DatePicker,
+  DateTimePicker,
   Dialog,
   EmptyState,
   Fieldset,
@@ -37,6 +38,7 @@ import {
   StepIndicator,
   Timeline,
   TimelineItem,
+  TimePicker,
   createReglowComponent,
   type InputProps,
   type RgButtonElement,
@@ -72,6 +74,27 @@ describe('@reglow/react', () => {
     fireEvent.input(control);
     expect(ref.current!.value).toBe('Reglow UI');
     expect(onValueChange).toHaveBeenCalledOnce();
+  });
+
+  it('maps picker display and overlay options to custom-element attributes', () => {
+    const { container } = render(
+      <>
+        <DatePicker dateFormat="long" overlayWidth="full" overlayAlign="center" />
+        <TimePicker overlayWidth="full" overlayAlign="center" />
+        <DateTimePicker dateFormat="iso" overlayWidth="full" overlayAlign="end" />
+      </>,
+    );
+
+    const date = container.querySelector('rg-date-picker')!;
+    const time = container.querySelector('rg-time-picker')!;
+    const dateTime = container.querySelector('rg-date-time-picker')!;
+    expect(date.getAttribute('date-format')).toBe('long');
+    expect(date.getAttribute('overlay-width')).toBe('full');
+    expect(date.getAttribute('overlay-align')).toBe('center');
+    expect(time.getAttribute('overlay-width')).toBe('full');
+    expect(time.getAttribute('overlay-align')).toBe('center');
+    expect(dateTime.getAttribute('date-format')).toBe('iso');
+    expect(dateTime.getAttribute('overlay-align')).toBe('end');
   });
 
   it('keeps native value events typed to their custom-element host', () => {
@@ -194,6 +217,7 @@ describe('@reglow/react', () => {
       ButtonGroup,
       Combobox,
       DatePicker,
+      DateTimePicker,
       EmptyState,
       Fieldset,
       Kbd,
@@ -201,7 +225,8 @@ describe('@reglow/react', () => {
       MenuItem,
       Pagination,
       Popover,
-    ]).toHaveLength(12);
+      TimePicker,
+    ]).toHaveLength(14);
 
     const { container } = render(
       <Combobox

@@ -59,7 +59,14 @@ const models = {
     { property: 'value', event: 'change', fallback: "''" },
     { property: 'open', event: 'rg-open-change', fallback: 'false' },
   ],
-  'rg-date-picker': [{ property: 'value', event: 'input', fallback: "''" }],
+  'rg-date-picker': [
+    { property: 'value', event: 'input', fallback: "''" },
+    { property: 'open', event: 'rg-open-change', fallback: 'false' },
+  ],
+  'rg-date-time-picker': [
+    { property: 'value', event: 'input', fallback: "''" },
+    { property: 'open', event: 'rg-open-change', fallback: 'false' },
+  ],
   'rg-dialog': [{ property: 'open', event: 'rg-open-change', fallback: 'false' }],
   'rg-drawer': [{ property: 'open', event: 'rg-open-change', fallback: 'false' }],
   'rg-input': [{ property: 'value', event: 'input', fallback: "''" }],
@@ -74,6 +81,10 @@ const models = {
   'rg-switch': [{ property: 'checked', event: 'change', fallback: 'false' }],
   'rg-tabs': [{ property: 'value', event: 'rg-value-change', fallback: "''" }],
   'rg-textarea': [{ property: 'value', event: 'input', fallback: "''" }],
+  'rg-time-picker': [
+    { property: 'value', event: 'input', fallback: "''" },
+    { property: 'open', event: 'rg-open-change', fallback: 'false' },
+  ],
   'rg-toast': [{ property: 'open', event: 'rg-open-change', fallback: 'false' }],
   'rg-tooltip': [{ property: 'open', event: 'rg-open-change', fallback: 'false' }],
 };

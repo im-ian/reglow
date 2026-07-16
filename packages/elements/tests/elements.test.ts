@@ -25,7 +25,7 @@ afterEach(() => {
 describe('custom element platform contract', () => {
   it('registers every element idempotently', async () => {
     await import('../src/register.js');
-    expect(reglowElementTags).toHaveLength(60);
+    expect(reglowElementTags).toHaveLength(62);
     reglowElementTags.forEach((tag) => expect(customElements.get(tag)).toBeTypeOf('function'));
   });
 
