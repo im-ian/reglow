@@ -3,6 +3,9 @@
 Reglow is a soft-kinetic design system built on the web platform. Use it directly from HTML or
 through the official React 19 and Vue 3 adapters.
 
+Explore the components, themes, and interaction states in the
+[live Storybook](https://im-ian.github.io/reglow/).
+
 ## Highlights
 
 - **Zero runtime dependencies in the core.** `@reglow/elements` and `@reglow/tokens` ship without

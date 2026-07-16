@@ -5,7 +5,7 @@ addons.setConfig({
   theme: create({
     base: 'light',
     brandTitle: 'Reglow',
-    brandUrl: '/',
+    brandUrl: './',
     brandTarget: '_self',
     colorPrimary: '#5367f8',
     colorSecondary: '#ff745b',
