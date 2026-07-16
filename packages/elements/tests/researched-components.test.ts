@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
+import { RgStepElement } from '../src/components/step-indicator.js';
 import { reglowElementTags } from '../src/definitions.js';
 import '../src/register.js';
 
@@ -146,6 +147,18 @@ describe('meter', () => {
 });
 
 describe('step indicator', () => {
+  it('uses one marker circle and primary styling for the completed path', () => {
+    const styles = RgStepElement.styles;
+
+    expect(styles).not.toMatch(/box-shadow:\s*0 0 0/);
+    expect(styles).toMatch(
+      /:host\(\[data-state='complete'\]\) \.line\s*\{\s*background: var\(--_rg-brand\);\s*\}/,
+    );
+    expect(styles).toMatch(
+      /:host\(\[data-state='complete'\]\) \.marker\s*\{[\s\S]*?border-color: var\(--_rg-brand\);/,
+    );
+  });
+
   it('can synchronize child steps before their connected callbacks run', () => {
     const indicator = document.createElement('rg-step-indicator') as HTMLElement & {
       connectedCallback(): void;
