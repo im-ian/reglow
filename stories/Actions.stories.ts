@@ -136,8 +136,8 @@ export const CopyButton: Story = {
       <div class="rg-story-row">
         <rg-copy-button from="#install-command" copy-label="Copy install command"></rg-copy-button>
         <rg-copy-button
-          value="import '@reglow/elements/register';"
-          copy-label="Copy registration import"
+          value="import { RgCopyButtonElement } from '@reglow/elements/components/copy-button';"
+          copy-label="Copy component import"
         ></rg-copy-button>
       </div>
     </div>

@@ -3,6 +3,14 @@ import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 
+function componentClassName(component) {
+  const pascalCase = component
+    .split('-')
+    .map((segment) => `${segment[0].toUpperCase()}${segment.slice(1)}`)
+    .join('');
+  return `Rg${pascalCase}Element`;
+}
+
 const examples = [
   {
     directory: 'preact',
@@ -10,6 +18,7 @@ const examples = [
     source: 'src/app.tsx',
     dependencies: ['@reglow/elements', '@reglow/preact', '@reglow/tokens', 'preact'],
     markers: ['@reglow/preact', '<rg-input', 'onrg-press'],
+    registeredComponents: ['button', 'input', 'rating', 'select', 'switch'],
   },
   {
     directory: 'svelte',
@@ -23,19 +32,21 @@ const examples = [
     packageName: '@reglow/example-lit',
     source: 'src/app.ts',
     dependencies: ['@reglow/elements', '@reglow/tokens', 'lit'],
-    markers: ['@reglow/elements/register', '.options=', '@rg-press='],
+    markers: ['defineElements', '.options=', '@rg-press='],
+    registeredComponents: ['button', 'input', 'rating', 'select', 'switch'],
   },
   {
     directory: 'astro',
     packageName: '@reglow/example-astro',
     source: 'src/pages/index.astro',
     dependencies: ['@reglow/elements', '@reglow/tokens', 'astro'],
-    markers: ['@reglow/elements/register', '<rg-input', 'addEventListener'],
+    markers: ['defineElements', '<rg-input', 'addEventListener'],
+    registeredComponents: ['button', 'input', 'rating', 'select', 'switch'],
   },
   {
     directory: 'angular',
     packageName: '@reglow/example-angular',
-    source: ['src/app/app.ts', 'src/app/app.html'],
+    source: ['src/main.ts', 'src/app/app.ts', 'src/app/app.html'],
     dependencies: [
       '@angular/core',
       '@angular/forms',
@@ -44,6 +55,7 @@ const examples = [
       '@reglow/tokens',
     ],
     markers: ['REGLOW_FORM_DIRECTIVES', 'formControl', '<rg-input'],
+    registeredComponents: ['badge', 'button', 'input', 'rating', 'select', 'switch'],
   },
 ];
 
@@ -84,6 +96,41 @@ for (const example of examples) {
   const source = sourcePaths.map((sourcePath) => readFileSync(sourcePath, 'utf8')).join('\n');
   for (const marker of example.markers) {
     if (!source.includes(marker)) failures.push(`${example.directory}: source must use ${marker}`);
+  }
+
+  if (example.registeredComponents) {
+    if (source.includes('@reglow/elements/register')) {
+      failures.push(`${example.directory}: full element registration defeats tree-shaking`);
+    }
+    if (!source.includes('defineElements([')) {
+      failures.push(`${example.directory}: selective registrations must use defineElements`);
+    }
+
+    const registeredComponents = [
+      ...source.matchAll(/@reglow\/elements\/components\/([a-z-]+)/g),
+    ].map((match) => match[1]);
+    const expectedComponents = [...example.registeredComponents].sort();
+    const actualComponents = [...new Set(registeredComponents)].sort();
+    if (actualComponents.join(',') !== expectedComponents.join(',')) {
+      failures.push(
+        `${example.directory}: expected selective registrations ${expectedComponents.join(', ')}, received ${actualComponents.join(', ') || 'none'}`,
+      );
+    }
+
+    for (const component of expectedComponents) {
+      const constructorName = componentClassName(component);
+      for (const marker of [
+        `tagName: ${constructorName}.tagName`,
+        `constructor: ${constructorName}`,
+      ]) {
+        const occurrences = source.split(marker).length - 1;
+        if (occurrences !== 1) {
+          failures.push(
+            `${example.directory}: expected one ${component} registration marker ${marker}, received ${occurrences}`,
+          );
+        }
+      }
+    }
   }
 }
 

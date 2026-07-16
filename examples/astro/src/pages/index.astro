@@ -127,15 +127,20 @@ import '@reglow/example-theme/demo.css';
     </div>
 
     <script>
-      import '@reglow/elements/register';
-      import type {
-        RgButtonElement,
-        RgInputElement,
-        RgRatingElement,
-        RgSelectElement,
-        RgSelectOption,
-        RgSwitchElement,
-      } from '@reglow/elements';
+      import { defineElements, type RgSelectOption } from '@reglow/elements';
+      import { RgButtonElement } from '@reglow/elements/components/button';
+      import { RgInputElement } from '@reglow/elements/components/input';
+      import { RgRatingElement } from '@reglow/elements/components/rating';
+      import { RgSelectElement } from '@reglow/elements/components/select';
+      import { RgSwitchElement } from '@reglow/elements/components/switch';
+
+      defineElements([
+        { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+        { tagName: RgInputElement.tagName, constructor: RgInputElement },
+        { tagName: RgRatingElement.tagName, constructor: RgRatingElement },
+        { tagName: RgSelectElement.tagName, constructor: RgSelectElement },
+        { tagName: RgSwitchElement.tagName, constructor: RgSwitchElement },
+      ]);
 
       const regionOptions = [
         { value: 'seoul', label: 'Seoul · ICN' },

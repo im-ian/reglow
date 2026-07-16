@@ -3,7 +3,7 @@
 Official React 19 adapter for Reglow Custom Elements.
 
 ```tsx
-import { Button, Input } from '@reglow/react';
+import { Input } from '@reglow/react';
 import '@reglow/tokens/css';
 
 export function Example() {

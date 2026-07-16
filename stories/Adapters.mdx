@@ -66,8 +66,15 @@ emits `update:modelValue` from the same composed DOM events used everywhere else
 
 ```html
 <script type="module">
-  import '@reglow/elements/register';
+  import { defineElements } from '@reglow/elements';
+  import { RgButtonElement } from '@reglow/elements/components/button';
+  import { RgInputElement } from '@reglow/elements/components/input';
   import '@reglow/tokens/css';
+
+  defineElements([
+    { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+    { tagName: RgInputElement.tagName, constructor: RgInputElement },
+  ]);
 </script>
 
 <rg-input label="Workspace name" placeholder="e.g. North star"></rg-input>
@@ -77,3 +84,4 @@ emits `update:modelValue` from the same composed DOM events used everywhere else
 Angular, Svelte, Solid, Astro, and vanilla applications can use the standards-based elements
 directly. All public events bubble across the Shadow DOM boundary and all visual customization is
 expressed through semantic CSS variables, host attributes, slots, and documented `::part` hooks.
+Component subpath imports keep unused Custom Element implementations out of the consumer bundle.
