@@ -7,6 +7,7 @@
 
 <RgInput
   bind:value
+  autoComplete="name"
   label="Name"
   onValueChange={(event) => (eventValue = event.currentTarget.value)}
 />

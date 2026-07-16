@@ -2,13 +2,14 @@ import { gzipSync } from 'node:zlib';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { build } from 'vite';
 
 const root = resolve(import.meta.dirname, '..');
 const consumerRoot = mkdtempSync(join(tmpdir(), 'reglow-tree-shaking-'));
 const packageScope = join(consumerRoot, 'node_modules', '@reglow');
 mkdirSync(packageScope, { recursive: true });
-for (const packageName of ['elements', 'preact', 'react', 'vue']) {
+for (const packageName of ['elements', 'preact', 'react', 'svelte', 'vue']) {
   symlinkSync(
     resolve(root, 'packages', packageName),
     join(packageScope, packageName),
@@ -60,6 +61,18 @@ const cases = [
     external: 'react',
   },
   {
+    name: 'svelte-button',
+    source: `import { RgButton } from '@reglow/svelte'; console.log(RgButton);`,
+    external: 'svelte',
+    maxGzipBytes: 14_000,
+    expectedComponents: ['rg-button'],
+  },
+  {
+    name: 'svelte-all',
+    source: `import * as Reglow from '@reglow/svelte'; console.log(Object.keys(Reglow));`,
+    external: 'svelte',
+  },
+  {
     name: 'vue-button',
     source: `import { RgButton } from '@reglow/vue'; console.log(RgButton.name);`,
     external: 'vue',
@@ -80,6 +93,9 @@ async function bundle(testCase) {
     root: consumerRoot,
     logLevel: 'silent',
     plugins: [
+      svelte({
+        configFile: resolve(root, 'packages/svelte/svelte.config.js'),
+      }),
       {
         name: 'reglow-tree-shaking-entry',
         resolveId(id) {
@@ -160,7 +176,7 @@ for (const testCase of cases) {
   }
 }
 
-for (const family of ['elements', 'react', 'vue']) {
+for (const family of ['elements', 'react', 'svelte', 'vue']) {
   const selected = results.find(({ name }) => name === `${family}-button`);
   const complete = results.find(({ name }) => name === `${family}-all`);
   if (selected.gzipBytes >= complete.gzipBytes * 0.5) {

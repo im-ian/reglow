@@ -8,6 +8,7 @@
       "@reglow/elements/register": ["./packages/elements/src/register.ts"],
       "@reglow/preact": ["./packages/preact/src/index.ts"],
       "@reglow/react": ["./packages/react/src/index.tsx"],
+      "@reglow/svelte": ["./packages/svelte/src/index.ts"],
       "@reglow/vue": ["./packages/vue/src/index.ts"]
     }
   },
