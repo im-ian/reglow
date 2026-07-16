@@ -37,7 +37,6 @@ export class RgAvatarGroupElement extends ReglowElement {
       flex: 0 0 var(--_rg-avatar-group-size);
       width: var(--_rg-avatar-group-size);
       height: var(--_rg-avatar-group-size);
-      border: 2px solid var(--_rg-surface);
       border-radius: 50%;
       box-shadow: var(--_rg-shadow-xs);
     }
@@ -62,8 +61,7 @@ export class RgAvatarGroupElement extends ReglowElement {
     .overflow[hidden] { display: none; }
 
     @media (forced-colors: active) {
-      ::slotted(rg-avatar),
-      .overflow { border-color: CanvasText; }
+      .overflow { outline: 1px solid CanvasText; }
     }
   `;
 

@@ -70,7 +70,6 @@ export class RgTimelineItemElement extends ReglowElement {
       border-radius: 50%;
       color: var(--_rg-timeline-color);
       background: var(--_rg-surface);
-      box-shadow: 0 0 0 2px var(--_rg-surface);
       z-index: 1;
     }
 
