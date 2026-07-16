@@ -1,6 +1,7 @@
 import { RgAccordionElement, RgAccordionItemElement } from './components/accordion.js';
 import { RgAlertElement } from './components/alert.js';
 import { RgAvatarElement } from './components/avatar.js';
+import { RgAvatarGroupElement } from './components/avatar-group.js';
 import { RgBadgeElement } from './components/badge.js';
 import { RgBreadcrumbElement, RgBreadcrumbItemElement } from './components/breadcrumb.js';
 import { RgButtonElement, RgIconButtonElement } from './components/button.js';
@@ -39,6 +40,7 @@ import { RgStepElement, RgStepIndicatorElement } from './components/step-indicat
 import { RgTabElement, RgTabPanelElement, RgTabsElement } from './components/tabs.js';
 import { RgTextareaElement } from './components/textarea.js';
 import { RgThemeElement } from './components/theme.js';
+import { RgTimelineElement, RgTimelineItemElement } from './components/timeline.js';
 import { RgToastElement, RgToastRegionElement } from './components/toast.js';
 import { RgTooltipElement } from './components/tooltip.js';
 import type { ReglowElementDefinition } from './core/define.js';
@@ -68,6 +70,7 @@ export const reglowElementDefinitions = [
   RgSegmentElement,
   RgBadgeElement,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgCardElement,
   RgDividerElement,
   RgKbdElement,
@@ -95,6 +98,8 @@ export const reglowElementDefinitions = [
   RgPaginationElement,
   RgStepIndicatorElement,
   RgStepElement,
+  RgTimelineElement,
+  RgTimelineItemElement,
   RgDialogElement,
   RgDrawerElement,
   RgTooltipElement,
@@ -131,6 +136,7 @@ export interface ReglowHTMLElementTagNameMap {
   'rg-segment': RgSegmentElement;
   'rg-badge': RgBadgeElement;
   'rg-avatar': RgAvatarElement;
+  'rg-avatar-group': RgAvatarGroupElement;
   'rg-card': RgCardElement;
   'rg-divider': RgDividerElement;
   'rg-kbd': RgKbdElement;
@@ -158,6 +164,8 @@ export interface ReglowHTMLElementTagNameMap {
   'rg-pagination': RgPaginationElement;
   'rg-step-indicator': RgStepIndicatorElement;
   'rg-step': RgStepElement;
+  'rg-timeline': RgTimelineElement;
+  'rg-timeline-item': RgTimelineItemElement;
   'rg-dialog': RgDialogElement;
   'rg-drawer': RgDrawerElement;
   'rg-tooltip': RgTooltipElement;
