@@ -56,7 +56,7 @@ export const Tokens: Story = {
           <div class="rg-radius-row">
             <span style="border-radius:var(--rg-radius-sm)">sm</span>
             <span style="border-radius:var(--rg-radius-md)">md</span>
-            <span style="border-radius:var(--rg-radius-lg)">lg</span>
+            <span style="border-radius:var(--rg-radius-lg)">lg · button</span>
             <span style="border-radius:var(--rg-radius-pill)">pill</span>
           </div>
         </article>

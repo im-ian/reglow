@@ -79,6 +79,28 @@ export const SizesAndStates: Story = {
   `,
 };
 
+export const Radius: Story = {
+  render: () => html`
+    <div class="rg-story-stack">
+      <div class="rg-story-row">
+        <rg-button>Default · lg</rg-button>
+        <rg-icon-button label="Default lg radius">${PlusIcon}</rg-icon-button>
+      </div>
+      <div class="rg-story-row">
+        <rg-button style="--rg-button-border-radius: var(--rg-radius-pill)">
+          Pill override
+        </rg-button>
+        <rg-icon-button
+          label="Pill radius override"
+          style="--rg-button-border-radius: var(--rg-radius-pill)"
+        >
+          ${PlusIcon}
+        </rg-icon-button>
+      </div>
+    </div>
+  `,
+};
+
 export const IconButtonsAndLinks: Story = {
   render: () => html`
     <div class="rg-story-row">
