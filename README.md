@@ -97,6 +97,12 @@ vue({
 
 The PascalCase adapter components do not require that rule.
 
+### Astro and Lit
+
+Astro and Lit consume the standards-based elements directly. See the focused guides for
+[Astro](./docs/integrations/astro.md) and [Lit](./docs/integrations/lit.md), including selective
+registration, complex property values, events, and client-side navigation behavior.
+
 ### Preact
 
 Preact consumes Reglow elements directly. Import `@reglow/preact` for typed element properties,
