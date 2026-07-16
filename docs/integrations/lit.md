@@ -10,11 +10,18 @@ declarative event listeners for Reglow events.
 pnpm add lit @reglow/elements @reglow/tokens
 ```
 
-Register the full catalog once at the browser entry point:
+Register only the elements rendered by the browser entry:
 
 ```ts
-import '@reglow/elements/register';
+import { defineElements } from '@reglow/elements';
+import { RgButtonElement } from '@reglow/elements/components/button';
+import { RgSelectElement } from '@reglow/elements/components/select';
 import '@reglow/tokens/css';
+
+defineElements([
+  { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+  { tagName: RgSelectElement.tagName, constructor: RgSelectElement },
+]);
 ```
 
 ## Template bindings
@@ -22,9 +29,15 @@ import '@reglow/tokens/css';
 ```ts
 import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { RgPressDetail, RgSelectElement, RgSelectOption } from '@reglow/elements';
-import '@reglow/elements/register';
+import { defineElements, type RgPressDetail, type RgSelectOption } from '@reglow/elements';
+import { RgButtonElement } from '@reglow/elements/components/button';
+import { RgSelectElement } from '@reglow/elements/components/select';
 import '@reglow/tokens/css';
+
+defineElements([
+  { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+  { tagName: RgSelectElement.tagName, constructor: RgSelectElement },
+]);
 
 @customElement('workspace-form')
 export class WorkspaceForm extends LitElement {
@@ -79,22 +92,19 @@ The binding forms have distinct jobs:
 Reglow events bubble and are composed, so a Lit parent can listen at the element boundary even when
 the original interaction happens inside Reglow's shadow root.
 
-## Register only selected elements
+## Registration and bundle size
 
-The full registration entry intentionally includes every element. Applications that need the
-narrowest bundle can register the constructors retained by their Lit templates:
+Component subpath imports let the bundler retain only the constructors used by Lit templates.
+Register every related tag rendered in light DOM too. For example, a declarative `<rg-option>`
+needs `RgOptionElement`; assigning `RgSelectElement.options` does not.
 
 ```ts
-import { defineElement } from '@reglow/elements';
-import { RgButtonElement } from '@reglow/elements/components/button';
-import { RgSelectElement } from '@reglow/elements/components/select';
-
-defineElement({ tagName: RgButtonElement.tagName, constructor: RgButtonElement });
-defineElement({ tagName: RgSelectElement.tagName, constructor: RgSelectElement });
+// Explicit opt-in when this entry really needs the complete 51-element catalog:
+import '@reglow/elements/register';
 ```
 
-Register related tags too when they appear in light DOM. For example, a declarative
-`<rg-option>` needs `RgOptionElement`; assigning `RgSelectElement.options` does not.
+The full registration entry is convenient, but all registrations are observable side effects, so
+the complete catalog stays in that client bundle.
 
 See Lit's official [expression documentation][lit-expressions] for attribute, property, boolean,
 and event bindings.

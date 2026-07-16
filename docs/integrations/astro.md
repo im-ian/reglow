@@ -11,9 +11,9 @@ component or layout frontmatter.
 pnpm add @reglow/elements @reglow/tokens
 ```
 
-## Register the catalog
+## Register selected elements
 
-Put the imports in a shared layout when the site uses Reglow on several pages:
+Put the selected registrations in a shared layout when several pages render the same Reglow tags:
 
 ```astro
 ---
@@ -28,13 +28,21 @@ import '@reglow/tokens/css';
 </html>
 
 <script>
-  import '@reglow/elements/register';
+  import { defineElements } from '@reglow/elements';
+  import { RgButtonElement } from '@reglow/elements/components/button';
+  import { RgInputElement } from '@reglow/elements/components/input';
+
+  defineElements([
+    { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+    { tagName: RgInputElement.tagName, constructor: RgInputElement },
+  ]);
 </script>
 ```
 
 The script is processed by Astro, bundled as a module, and deduplicated when the layout or
-component appears more than once. The package registration is idempotent, so sharing this layout
-with other browser entry points is safe.
+component appears more than once. Registration is idempotent, so sharing this layout with other
+browser entry points is safe. Component subpath imports let the client bundler remove the rest of
+the catalog.
 
 Use the elements as ordinary HTML in any `.astro` file:
 
@@ -70,27 +78,22 @@ import AppLayout from '../layouts/AppLayout.astro';
 Reglow's public events bubble and cross the shadow boundary. Page-level event delegation is
 therefore also available when many instances share the same behavior.
 
-## Register only selected elements
+## Registration boundaries and full-catalog opt-in
 
-The full registration entry includes all 51 elements. For a smaller client bundle, define only the
-classes used by that browser entry:
+Add every related element rendered by a page to its browser entry. For example, markup containing
+`<rg-select>` and `<rg-option>` needs both constructors when it uses selective registration.
+Assigning an `options` property to `<rg-select>` does not render an `<rg-option>` tag and therefore
+does not require that second constructor.
 
 ```astro
-<rg-button variant="soft">Create workspace</rg-button>
-
 <script>
-  import { defineElement } from '@reglow/elements';
-  import { RgButtonElement } from '@reglow/elements/components/button';
-
-  defineElement({
-    tagName: RgButtonElement.tagName,
-    constructor: RgButtonElement,
-  });
+  // Explicit opt-in when this entry really needs the complete 51-element catalog:
+  import '@reglow/elements/register';
 </script>
 ```
 
-Add every related element rendered by the page to the same entry. For example, markup containing
-`<rg-select>` and `<rg-option>` needs both constructors when it uses selective registration.
+The full registration entry is convenient, but all registrations are observable side effects, so
+the complete catalog stays in that client bundle.
 
 ## Pass complex values
 
@@ -101,7 +104,10 @@ properties from a client script instead:
 <rg-select data-region label="Region"></rg-select>
 
 <script>
-  import type { RgSelectElement, RgSelectOption } from '@reglow/elements';
+  import { defineElement, type RgSelectOption } from '@reglow/elements';
+  import { RgSelectElement } from '@reglow/elements/components/select';
+
+  defineElement({ tagName: RgSelectElement.tagName, constructor: RgSelectElement });
 
   const options: readonly RgSelectOption[] = [
     { value: 'seoul', label: 'Seoul' },

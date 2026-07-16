@@ -7,14 +7,21 @@ DOM API.
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { REGLOW_FORM_DIRECTIVES } from '@reglow/angular';
-import '@reglow/elements/register';
+import { ReglowCheckedValueAccessor, ReglowValueAccessor } from '@reglow/angular';
+import { defineElements } from '@reglow/elements';
+import { RgInputElement } from '@reglow/elements/components/input';
+import { RgSwitchElement } from '@reglow/elements/components/switch';
 import '@reglow/tokens/css';
+
+defineElements([
+  { tagName: RgInputElement.tagName, constructor: RgInputElement },
+  { tagName: RgSwitchElement.tagName, constructor: RgSwitchElement },
+]);
 
 @Component({
   selector: 'app-workspace-form',
   standalone: true,
-  imports: [ReactiveFormsModule, ...REGLOW_FORM_DIRECTIVES],
+  imports: [ReactiveFormsModule, ReglowValueAccessor, ReglowCheckedValueAccessor],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <rg-input label="Workspace name" [formControl]="name" />
@@ -27,7 +34,7 @@ export class WorkspaceForm {
 }
 ```
 
-`REGLOW_FORM_DIRECTIVES` supports `[formControl]`, `formControlName`, and `ngModel` on these
+The standalone accessors support `[formControl]`, `formControlName`, and `ngModel` on these
 elements:
 
 - Value controls: input, textarea, select, radio group, slider, combobox, date picker, chip group,
@@ -38,7 +45,13 @@ Value controls update Angular from their `input` event without converting the el
 numbers and multi-selection arrays retain their runtime type. Checked controls update from
 `change`. Both accessors synchronize `disabled` and mark the Angular control touched on `blur`.
 
-The directives do not register elements. Import `@reglow/elements/register` once, or selectively
-register the constructors used by the application. Angular validators also remain explicit: this
-bridge does not translate the Custom Element's `ElementInternals.validity` into Angular validator
-errors.
+Import only `ReglowValueAccessor` or `ReglowCheckedValueAccessor` when a component uses one control
+category, allowing Angular's production linker and optimizer to remove the other directive.
+`REGLOW_FORM_DIRECTIVES` is a convenience array for components that need both categories.
+
+The directives do not register elements. Import constructors from
+`@reglow/elements/components/*` and register only the tags used by the browser entry so the client
+bundler can remove unused elements.
+`@reglow/elements/register` remains an explicit convenience opt-in for entries that need the
+complete 51-element catalog. Angular validators also remain explicit: this bridge does not
+translate the Custom Element's `ElementInternals.validity` into Angular validator errors.

@@ -22,15 +22,15 @@ Runnable applications for Preact, Svelte, Lit, Astro, and Angular live in the
 
 ## Packages
 
-| Package            | Purpose                                  | Runtime dependencies     |
-| ------------------ | ---------------------------------------- | ------------------------ |
-| `@reglow/elements` | 51 standards-based Custom Elements       | None                     |
-| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                     |
-| `@reglow/react`    | Typed React components and event aliases | React peer + elements    |
-| `@reglow/preact`   | Typed native Custom Element JSX          | Preact peer + elements   |
-| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements      |
-| `@reglow/svelte`   | Svelte components and bindable state     | Svelte peer + elements   |
-| `@reglow/angular`  | Angular Forms value accessors            | Angular peers + elements |
+| Package            | Purpose                                  | Runtime relationship               |
+| ------------------ | ---------------------------------------- | ---------------------------------- |
+| `@reglow/elements` | 51 standards-based Custom Elements       | None                               |
+| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                               |
+| `@reglow/react`    | Typed React components and event aliases | React peer + elements              |
+| `@reglow/preact`   | Typed native Custom Element JSX          | Type-only; Preact + elements peers |
+| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements                |
+| `@reglow/svelte`   | Svelte components and bindable state     | Svelte peer + elements             |
+| `@reglow/angular`  | Angular Forms value accessors            | Angular + elements peers; `tslib`  |
 
 The core can be imported safely during SSR; v1 upgrades shadow content on the client.
 
@@ -39,14 +39,24 @@ The core can be imported safely during SSR; v1 upgrades shadow content on the cl
 ### HTML and any framework
 
 ```ts
-import '@reglow/elements/register';
+import { defineElements } from '@reglow/elements';
+import { RgButtonElement } from '@reglow/elements/components/button';
+import { RgInputElement } from '@reglow/elements/components/input';
 import '@reglow/tokens/css';
+
+defineElements([
+  { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+  { tagName: RgInputElement.tagName, constructor: RgInputElement },
+]);
 ```
 
 ```html
 <rg-input label="Workspace name" placeholder="e.g. North star"></rg-input>
 <rg-button variant="solid" tone="brand">Create workspace</rg-button>
 ```
+
+Add a constructor for every tag rendered by the browser entry. If an entry intentionally needs the
+complete 51-element catalog, `@reglow/elements/register` remains available as a convenience opt-in.
 
 ### React 19
 
@@ -114,9 +124,12 @@ refs, and hyphenated custom events without adding an adapter runtime.
 
 ```tsx
 /** @jsxImportSource preact */
-import '@reglow/elements/register';
+import { defineElements } from '@reglow/elements';
+import { RgButtonElement } from '@reglow/elements/components/button';
 import '@reglow/preact';
 import '@reglow/tokens/css';
+
+defineElements([{ tagName: RgButtonElement.tagName, constructor: RgButtonElement }]);
 
 export function CreateButton() {
   return (
@@ -152,13 +165,16 @@ properties and events to `formControl`, `formControlName`, and `ngModel`.
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { REGLOW_FORM_DIRECTIVES } from '@reglow/angular';
-import '@reglow/elements/register';
+import { ReglowValueAccessor } from '@reglow/angular';
+import { defineElements } from '@reglow/elements';
+import { RgInputElement } from '@reglow/elements/components/input';
 import '@reglow/tokens/css';
+
+defineElements([{ tagName: RgInputElement.tagName, constructor: RgInputElement }]);
 
 @Component({
   standalone: true,
-  imports: [ReactiveFormsModule, ...REGLOW_FORM_DIRECTIVES],
+  imports: [ReactiveFormsModule, ReglowValueAccessor],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `<rg-input label="Workspace name" [formControl]="name" />`,
 })
@@ -217,6 +233,12 @@ pnpm check
 The canonical Storybook uses the Web Components renderer. Framework integrations are verified with
 their own test utilities so the library keeps one visual source of truth.
 
+`pnpm test:tree-shaking` builds every public package, bundles minimal and full-catalog consumer
+entries, reports their raw, gzip, and Brotli sizes, and rejects bundle-budget regressions. The
+framework peer runtimes are externalized, so the report measures Reglow's incremental payload
+rather than a complete application bundle. The generated measurements are the source of truth for
+bundle size rather than fixed numbers in this README.
+
 ## Architecture
 
 - Autonomous Custom Elements avoid customized-built-in compatibility gaps.
@@ -225,7 +247,10 @@ their own test utilities so the library keeps one visual source of truth.
   labels, and keyboard behavior.
 - Primitive values are reflected through attributes; live state also has typed properties.
 - Public `rg-*` events bubble and cross the shadow boundary.
-- Registration is explicit and idempotent through `@reglow/elements/register`.
+- Registration is explicit and idempotent. Register component constructors from
+  `@reglow/elements/components/*` by default so unused elements can be tree-shaken.
+- `@reglow/elements/register` is an opt-in convenience entry for applications that intentionally
+  need the complete 51-element catalog in one browser entry.
 - Framework adapters contain no component styling or behavior.
 
 See [the v1 plan](./docs/ROADMAP.md) for scope and completion gates.
