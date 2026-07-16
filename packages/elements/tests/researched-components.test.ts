@@ -146,6 +146,19 @@ describe('meter', () => {
 });
 
 describe('step indicator', () => {
+  it('can synchronize child steps before their connected callbacks run', () => {
+    const indicator = document.createElement('rg-step-indicator') as HTMLElement & {
+      connectedCallback(): void;
+    };
+    indicator.innerHTML = `
+      <rg-step value="account">Account</rg-step>
+      <rg-step value="delivery">Delivery</rg-step>
+    `;
+
+    expect(() => indicator.connectedCallback()).not.toThrow();
+    expect(indicator.querySelector('rg-step')!.shadowRoot).not.toBeNull();
+  });
+
   it('announces complete, current, and upcoming steps without becoming interactive', () => {
     const indicator = document.createElement('rg-step-indicator') as HTMLElement & {
       value: string;
