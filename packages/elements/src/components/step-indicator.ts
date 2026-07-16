@@ -59,7 +59,6 @@ export class RgStepElement extends ReglowElement {
       border-radius: 50%;
       color: var(--_rg-text-muted);
       background: var(--_rg-surface);
-      box-shadow: 0 0 0 0.28rem var(--_rg-surface);
       font-size: 0.75rem;
       font-weight: 780;
       font-variant-numeric: tabular-nums;
@@ -68,8 +67,8 @@ export class RgStepElement extends ReglowElement {
     .marker svg { display: none; width: 1rem; height: 1rem; }
     :host([data-state='complete']) .marker {
       border-color: var(--_rg-brand);
-      color: var(--_rg-on-brand);
-      background: var(--_rg-brand);
+      color: var(--_rg-brand);
+      background: var(--_rg-surface);
     }
     :host([data-state='complete']) .marker svg { display: block; }
     :host([data-state='complete']) [data-index] { display: none; }
@@ -77,7 +76,6 @@ export class RgStepElement extends ReglowElement {
       border-color: var(--_rg-brand);
       color: var(--_rg-brand-text);
       background: var(--_rg-brand-soft);
-      box-shadow: 0 0 0 0.28rem var(--_rg-surface), 0 0 0 0.38rem color-mix(in srgb, var(--_rg-brand) 20%, transparent);
       transform: scale(1.06);
     }
     .content { display: flex; min-width: 0; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 0.18rem 0.4rem; text-align: center; }
