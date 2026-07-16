@@ -78,6 +78,8 @@ export class RgTimelineItemElement extends ReglowElement {
       display: inline-flex;
       width: 0.65rem;
       height: 0.65rem;
+      font-size: 0.65rem;
+      line-height: 0;
       align-items: center;
       justify-content: center;
     }
