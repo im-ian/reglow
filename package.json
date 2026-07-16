@@ -37,6 +37,7 @@
     "@vue/test-utils": "^2.4.11",
     "happy-dom": "^20.10.6",
     "lit": "^3.3.3",
+    "lucide-static": "^1.24.0",
     "prettier": "^3.9.5",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

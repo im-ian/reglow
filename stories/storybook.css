@@ -59,6 +59,22 @@
   transition-duration: 1ms !important;
 }
 
+.rg-story-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.rg-story-icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .rg-story-section {
   width: min(100%, 72rem);
 }
