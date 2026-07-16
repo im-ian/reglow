@@ -19,12 +19,13 @@ Explore the components, themes, and interaction states in the
 
 ## Packages
 
-| Package            | Purpose                                  | Runtime dependencies  |
-| ------------------ | ---------------------------------------- | --------------------- |
-| `@reglow/elements` | 51 standards-based Custom Elements       | None                  |
-| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                  |
-| `@reglow/react`    | Typed React components and event aliases | React peer + elements |
-| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements   |
+| Package            | Purpose                                  | Runtime dependencies   |
+| ------------------ | ---------------------------------------- | ---------------------- |
+| `@reglow/elements` | 51 standards-based Custom Elements       | None                   |
+| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                   |
+| `@reglow/react`    | Typed React components and event aliases | React peer + elements  |
+| `@reglow/preact`   | Typed native Custom Element JSX          | Preact peer + elements |
+| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements    |
 
 The core can be imported safely during SSR; v1 upgrades shadow content on the client.
 
@@ -94,6 +95,26 @@ vue({
 ```
 
 The PascalCase adapter components do not require that rule.
+
+### Preact
+
+Preact consumes Reglow elements directly. Import `@reglow/preact` for typed element properties,
+refs, and hyphenated custom events without adding an adapter runtime.
+
+```tsx
+/** @jsxImportSource preact */
+import '@reglow/elements/register';
+import '@reglow/preact';
+import '@reglow/tokens/css';
+
+export function CreateButton() {
+  return (
+    <rg-button variant="soft" onrg-press={(event) => console.log(event.detail.pressed)}>
+      Create workspace
+    </rg-button>
+  );
+}
+```
 
 ## Component families
 

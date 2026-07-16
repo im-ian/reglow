@@ -17,8 +17,9 @@
     }
   },
   "scripts": {
-    "test": "vitest run tests/preact.test.tsx",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "vite build",
+    "test": "vitest run --environment happy-dom tests/preact.test.tsx",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
     "typecheck:test": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
@@ -31,6 +32,8 @@
     "@testing-library/preact": "^3.2.4",
     "preact": "^10.29.7",
     "typescript": "^6.0.3",
+    "vite": "^8.1.4",
+    "vite-plugin-dts": "^5.0.3",
     "vitest": "^4.1.10"
   }
 }

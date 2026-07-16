@@ -9,7 +9,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/vue build",
+    "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/preact build && pnpm --filter @reglow/vue build",
     "build:storybook": "storybook build",
     "check": "pnpm typecheck && pnpm test && pnpm build && pnpm test:tree-shaking && pnpm build:storybook",
     "format": "prettier --write .",

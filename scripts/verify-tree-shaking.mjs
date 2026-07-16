@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, '..');
 const consumerRoot = mkdtempSync(join(tmpdir(), 'reglow-tree-shaking-'));
 const packageScope = join(consumerRoot, 'node_modules', '@reglow');
 mkdirSync(packageScope, { recursive: true });
-for (const packageName of ['elements', 'react', 'vue']) {
+for (const packageName of ['elements', 'preact', 'react', 'vue']) {
   symlinkSync(
     resolve(root, 'packages', packageName),
     join(packageScope, packageName),
@@ -29,6 +29,7 @@ const cases = [
     name: 'elements-button',
     source: `import { RgButtonElement } from '@reglow/elements'; console.log(RgButtonElement.tagName);`,
     maxGzipBytes: 8_000,
+    expectedComponents: ['rg-button'],
   },
   {
     name: 'elements-all',
@@ -40,10 +41,18 @@ const cases = [
     expectedComponentCount: publicElementTags.length,
   },
   {
+    name: 'preact-types',
+    source: `import '@reglow/preact'; console.log('typed');`,
+    external: 'preact',
+    maxGzipBytes: 200,
+    expectedComponents: [],
+  },
+  {
     name: 'react-button',
     source: `import { Button } from '@reglow/react'; console.log(Button.displayName);`,
     external: 'react',
     maxGzipBytes: 14_000,
+    expectedComponents: ['rg-button'],
   },
   {
     name: 'react-all',
@@ -55,6 +64,7 @@ const cases = [
     source: `import { RgButton } from '@reglow/vue'; console.log(RgButton.name);`,
     external: 'vue',
     maxGzipBytes: 16_000,
+    expectedComponents: ['rg-button'],
   },
   {
     name: 'vue-all',
@@ -132,9 +142,12 @@ for (const testCase of cases) {
       `${testCase.name} is ${result.gzipBytes} bytes gzip; expected at most ${testCase.maxGzipBytes}`,
     );
   }
-  if (testCase.maxGzipBytes && result.componentTags.join(',') !== 'rg-button') {
+  if (
+    testCase.expectedComponents &&
+    result.componentTags.join(',') !== testCase.expectedComponents.join(',')
+  ) {
     failures.push(
-      `${testCase.name} contains unexpected component implementations: ${result.componentTags.join(', ')}`,
+      `${testCase.name} contains ${result.componentTags.join(', ') || 'no'} component implementations; expected ${testCase.expectedComponents.join(', ') || 'none'}`,
     );
   }
   if (
