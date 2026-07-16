@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { RgRadioElement } from '../src/index.js';
 import type { RgAvatarElement, RgTextareaElement } from '../src/index.js';
 import '../src/register.js';
 
@@ -8,6 +9,15 @@ afterEach(() => {
 });
 
 describe('display regressions', () => {
+  it('keeps the keyboard focus ring visible on a checked radio', () => {
+    const styles = RgRadioElement.styles;
+    const checkedStateIndex = styles.lastIndexOf(':host([checked]) .indicator');
+    const focusVisibleIndex = styles.lastIndexOf('.native:focus-visible + .indicator');
+
+    expect(checkedStateIndex).toBeGreaterThan(-1);
+    expect(focusVisibleIndex).toBeGreaterThan(checkedStateIndex);
+  });
+
   it('keeps the avatar fallback visible until the current source loads', () => {
     const avatar = document.createElement('rg-avatar') as RgAvatarElement;
     avatar.name = 'Reglow User';
