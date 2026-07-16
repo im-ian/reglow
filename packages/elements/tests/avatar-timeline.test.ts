@@ -100,14 +100,28 @@ describe('timeline', () => {
     );
   });
 
-  it('mounts timeline items before a detached parent synchronizes them', () => {
+  it('renders attribute content when a detached parent synchronizes formatted markup', () => {
     const timeline = document.createElement('rg-timeline') as HTMLElement & {
       connectedCallback(): void;
     };
-    timeline.innerHTML = '<rg-timeline-item heading="Created"></rg-timeline-item>';
+    timeline.innerHTML = `
+      <rg-timeline-item
+        heading="Created"
+        description="Workspace ready"
+        timestamp="Today, 09:40"
+        datetime="2026-07-16T09:40:00+09:00"
+      >
+      </rg-timeline-item>
+    `;
 
     expect(() => timeline.connectedCallback()).not.toThrow();
-    expect(timeline.querySelector('rg-timeline-item')!.shadowRoot).not.toBeNull();
+    const item = timeline.querySelector('rg-timeline-item')!;
+    expect(item.shadowRoot).not.toBeNull();
+    expect(item.shadowRoot!.querySelector('[part="title"]')!.textContent!.trim()).toBe('Created');
+    expect(item.shadowRoot!.querySelector('[part="description"]')!.textContent!.trim()).toBe(
+      'Workspace ready',
+    );
+    expect(item.shadowRoot!.querySelector('time')!.textContent!.trim()).toBe('Today, 09:40');
   });
 });
 
