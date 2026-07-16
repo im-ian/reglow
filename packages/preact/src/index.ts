@@ -83,10 +83,19 @@ import type {
 
 type ElementOwnKey<TElement extends HTMLElement> = Exclude<keyof TElement, keyof HTMLElement>;
 
+type IfEquals<TLeft, TRight, TWhenEqual = TLeft, TWhenDifferent = never> =
+  (<TValue>() => TValue extends TLeft ? 1 : 2) extends <TValue>() => TValue extends TRight ? 1 : 2
+    ? TWhenEqual
+    : TWhenDifferent;
+
+type InternalElementDataKey = 'groupDisabled' | 'grouped';
+
 type ElementDataKey<TElement extends HTMLElement> = {
-  [TKey in ElementOwnKey<TElement>]: TElement[TKey] extends (...args: never[]) => unknown
+  [TKey in ElementOwnKey<TElement>]-?: TKey extends InternalElementDataKey
     ? never
-    : TKey;
+    : TElement[TKey] extends (...args: never[]) => unknown
+      ? never
+      : IfEquals<Pick<TElement, TKey>, Readonly<Pick<TElement, TKey>>, never, TKey>;
 }[ElementOwnKey<TElement>];
 
 type ElementDataProps<TElement extends HTMLElement> = Partial<
@@ -106,12 +115,45 @@ type CustomEventProp<TName extends `rg-${string}`, TElement extends HTMLElement,
   [TKey in `on${TName}`]?: ReglowPreactEventHandler<TElement, TDetail>;
 };
 
-export type ReglowPreactProps<TElement extends HTMLElement, TEvents extends object = object> = Omit<
+export type ReglowPreactProps<
+  TElement extends HTMLElement,
+  TEvents extends object = object,
+  TAttributes extends object = object,
+> = Omit<
   JSX.HTMLAttributes<TElement>,
-  ElementDataKey<TElement>
+  ElementOwnKey<TElement> | keyof TEvents | keyof TAttributes
 > &
   ElementDataProps<TElement> &
-  TEvents;
+  TEvents &
+  TAttributes;
+
+type StandardAttributes<TKey extends keyof JSX.AllHTMLAttributes> = Pick<
+  JSX.AllHTMLAttributes,
+  TKey
+>;
+type StringAttribute = JSX.Signalish<string | undefined>;
+type BooleanAttribute = JSX.Signalish<boolean | undefined>;
+type NumberAttribute = JSX.Signalish<number | string | undefined>;
+
+type ButtonAttributes = StandardAttributes<'formnovalidate'>;
+type LinkAttributes = StandardAttributes<'hreflang' | 'referrerpolicy' | 'type'>;
+type InputAttributes = StandardAttributes<'maxlength' | 'minlength' | 'readonly'>;
+type TextareaAttributes = StandardAttributes<'maxlength' | 'minlength' | 'readonly'>;
+type AvatarAttributes = StandardAttributes<
+  'crossorigin' | 'decoding' | 'referrerpolicy' | 'sizes' | 'srcset'
+>;
+type ReadonlyAttribute = StandardAttributes<'readonly'>;
+type AlertAttributes = { 'dismiss-label'?: StringAttribute };
+type SpinnerAttributes = { size?: JSX.Signalish<'sm' | 'md' | 'lg' | undefined> };
+type SkeletonAttributes = { width?: StringAttribute; height?: StringAttribute };
+type ToastRegionAttributes = { label?: StringAttribute; 'pause-on-hover'?: BooleanAttribute };
+type ToastAttributes = { 'dismiss-label'?: StringAttribute };
+type AccordionItemAttributes = { 'heading-level'?: NumberAttribute };
+type DialogAttributes = {
+  label?: StringAttribute;
+  'hide-close'?: BooleanAttribute;
+  'close-label'?: StringAttribute;
+};
 
 type ThemeEvents = CustomEventProp<'rg-theme-change', RgThemeElement, RgThemeChangeDetail>;
 type ButtonEvents<TElement extends RgButtonElement | RgIconButtonElement> = CustomEventProp<
@@ -182,52 +224,64 @@ type RatingEvents = CustomEventProp<'rg-value-change', RgRatingElement, RgRating
 
 export interface ReglowPreactIntrinsicElements {
   'rg-theme': ReglowPreactProps<RgThemeElement, ThemeEvents>;
-  'rg-button': ReglowPreactProps<RgButtonElement, ButtonEvents<RgButtonElement>>;
-  'rg-icon-button': ReglowPreactProps<RgIconButtonElement, ButtonEvents<RgIconButtonElement>>;
+  'rg-button': ReglowPreactProps<RgButtonElement, ButtonEvents<RgButtonElement>, ButtonAttributes>;
+  'rg-icon-button': ReglowPreactProps<
+    RgIconButtonElement,
+    ButtonEvents<RgIconButtonElement>,
+    ButtonAttributes
+  >;
   'rg-button-group': ReglowPreactProps<RgButtonGroupElement>;
   'rg-copy-button': ReglowPreactProps<RgCopyButtonElement, CopyButtonEvents>;
-  'rg-link': ReglowPreactProps<RgLinkElement, LinkEvents>;
-  'rg-input': ReglowPreactProps<RgInputElement, InputEvents>;
-  'rg-textarea': ReglowPreactProps<RgTextareaElement>;
+  'rg-link': ReglowPreactProps<RgLinkElement, LinkEvents, LinkAttributes>;
+  'rg-input': ReglowPreactProps<RgInputElement, InputEvents, InputAttributes>;
+  'rg-textarea': ReglowPreactProps<RgTextareaElement, object, TextareaAttributes>;
   'rg-select': ReglowPreactProps<RgSelectElement>;
   'rg-option': ReglowPreactProps<RgOptionElement>;
-  'rg-combobox': ReglowPreactProps<RgComboboxElement, ComboboxEvents>;
-  'rg-date-picker': ReglowPreactProps<RgDatePickerElement>;
+  'rg-combobox': ReglowPreactProps<RgComboboxElement, ComboboxEvents, ReadonlyAttribute>;
+  'rg-date-picker': ReglowPreactProps<RgDatePickerElement, object, ReadonlyAttribute>;
   'rg-checkbox': ReglowPreactProps<RgCheckboxElement>;
   'rg-switch': ReglowPreactProps<RgSwitchElement>;
   'rg-radio-group': ReglowPreactProps<RgRadioGroupElement>;
   'rg-radio': ReglowPreactProps<RgRadioElement>;
   'rg-slider': ReglowPreactProps<RgSliderElement>;
-  'rg-rating': ReglowPreactProps<RgRatingElement, RatingEvents>;
+  'rg-rating': ReglowPreactProps<RgRatingElement, RatingEvents, ReadonlyAttribute>;
   'rg-chip-group': ReglowPreactProps<RgChipGroupElement, ChipGroupEvents>;
   'rg-chip': ReglowPreactProps<RgChipElement, ChipEvents>;
   'rg-segmented-control': ReglowPreactProps<RgSegmentedControlElement, SegmentedControlEvents>;
   'rg-segment': ReglowPreactProps<RgSegmentElement>;
   'rg-badge': ReglowPreactProps<RgBadgeElement, BadgeEvents>;
-  'rg-avatar': ReglowPreactProps<RgAvatarElement, AvatarEvents>;
+  'rg-avatar': ReglowPreactProps<RgAvatarElement, AvatarEvents, AvatarAttributes>;
   'rg-card': ReglowPreactProps<RgCardElement>;
   'rg-divider': ReglowPreactProps<RgDividerElement>;
   'rg-kbd': ReglowPreactProps<RgKbdElement>;
   'rg-relative-time': ReglowPreactProps<RgRelativeTimeElement>;
   'rg-fieldset': ReglowPreactProps<RgFieldsetElement>;
   'rg-empty-state': ReglowPreactProps<RgEmptyStateElement>;
-  'rg-alert': ReglowPreactProps<RgAlertElement, AlertEvents>;
+  'rg-alert': ReglowPreactProps<RgAlertElement, AlertEvents, AlertAttributes>;
   'rg-progress': ReglowPreactProps<RgProgressElement>;
   'rg-progress-ring': ReglowPreactProps<RgProgressRingElement>;
-  'rg-spinner': ReglowPreactProps<RgSpinnerElement>;
-  'rg-skeleton': ReglowPreactProps<RgSkeletonElement>;
-  'rg-toast-region': ReglowPreactProps<RgToastRegionElement, ToastRegionEvents>;
-  'rg-toast': ReglowPreactProps<RgToastElement, ToastEvents>;
+  'rg-spinner': ReglowPreactProps<RgSpinnerElement, object, SpinnerAttributes>;
+  'rg-skeleton': ReglowPreactProps<RgSkeletonElement, object, SkeletonAttributes>;
+  'rg-toast-region': ReglowPreactProps<
+    RgToastRegionElement,
+    ToastRegionEvents,
+    ToastRegionAttributes
+  >;
+  'rg-toast': ReglowPreactProps<RgToastElement, ToastEvents, ToastAttributes>;
   'rg-tabs': ReglowPreactProps<RgTabsElement, TabsEvents>;
   'rg-tab': ReglowPreactProps<RgTabElement>;
   'rg-tab-panel': ReglowPreactProps<RgTabPanelElement>;
   'rg-accordion': ReglowPreactProps<RgAccordionElement, AccordionEvents>;
-  'rg-accordion-item': ReglowPreactProps<RgAccordionItemElement, AccordionItemEvents>;
+  'rg-accordion-item': ReglowPreactProps<
+    RgAccordionItemElement,
+    AccordionItemEvents,
+    AccordionItemAttributes
+  >;
   'rg-breadcrumb': ReglowPreactProps<RgBreadcrumbElement>;
   'rg-breadcrumb-item': ReglowPreactProps<RgBreadcrumbItemElement>;
   'rg-pagination': ReglowPreactProps<RgPaginationElement, PaginationEvents>;
-  'rg-dialog': ReglowPreactProps<RgDialogElement, DialogEvents<RgDialogElement>>;
-  'rg-drawer': ReglowPreactProps<RgDrawerElement, DialogEvents<RgDrawerElement>>;
+  'rg-dialog': ReglowPreactProps<RgDialogElement, DialogEvents<RgDialogElement>, DialogAttributes>;
+  'rg-drawer': ReglowPreactProps<RgDrawerElement, DialogEvents<RgDrawerElement>, DialogAttributes>;
   'rg-tooltip': ReglowPreactProps<RgTooltipElement, TooltipEvents>;
   'rg-popover': ReglowPreactProps<RgPopoverElement, PopoverEvents>;
   'rg-menu': ReglowPreactProps<RgMenuElement, MenuEvents>;

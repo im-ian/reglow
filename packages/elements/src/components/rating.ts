@@ -87,6 +87,10 @@ export class RgRatingElement extends FormAssociatedElement {
   }
 
   set max(value: number) {
+    if (!Number.isFinite(value)) {
+      this.removeAttribute('max');
+      return;
+    }
     this.setNumber('max', Math.min(20, Math.max(1, Math.round(value))));
   }
 

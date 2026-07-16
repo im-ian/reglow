@@ -237,6 +237,10 @@ export class RgPaginationElement extends ReglowElement {
   }
 
   set siblingCount(value: number) {
+    if (!Number.isFinite(value)) {
+      this.removeAttribute('sibling-count');
+      return;
+    }
     this.setNumber('sibling-count', Math.max(0, Math.trunc(value)));
   }
 

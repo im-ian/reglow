@@ -11,11 +11,7 @@ type ElementOwnKey<TElement extends HTMLElement> = Exclude<keyof TElement, keyof
 type ElementWritableDataKey<TElement extends HTMLElement> = {
   [TKey in ElementOwnKey<TElement>]: TElement[TKey] extends (...args: never[]) => unknown
     ? never
-    : IfEquals<
-        { [TProperty in TKey]: TElement[TProperty] },
-        { -readonly [TProperty in TKey]: TElement[TProperty] },
-        TKey
-      >;
+    : IfEquals<Pick<TElement, TKey>, Readonly<Pick<TElement, TKey>>, never, TKey>;
 }[ElementOwnKey<TElement>];
 
 type ElementDataProps<TElement extends HTMLElement> = Partial<
