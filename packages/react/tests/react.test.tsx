@@ -2,6 +2,8 @@ import { fireEvent, render } from '@testing-library/react';
 import { createRef } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
+  Avatar,
+  AvatarGroup,
   Breadcrumb,
   BreadcrumbItem,
   Button,
@@ -33,6 +35,8 @@ import {
   Select,
   Step,
   StepIndicator,
+  Timeline,
+  TimelineItem,
   createReglowComponent,
   type InputProps,
   type RgButtonElement,
@@ -263,5 +267,37 @@ describe('@reglow/react', () => {
       Array.from(container.querySelectorAll('rg-step')).map((step) => step.dataset.state),
     ).toEqual(['complete', 'current']);
     expect([FormatDate, FormatNumber, FormatBytes, Meter, StepIndicator, Step]).toHaveLength(6);
+  });
+
+  it('adapts avatar groups and timeline item slots', () => {
+    const { container } = render(
+      <>
+        <AvatarGroup label="Reviewers" max={2} moreLabel="more reviewers" size="sm">
+          <Avatar name="Mina Park" />
+          <Avatar name="Alex Kim" />
+          <Avatar name="Noah Lee" />
+        </AvatarGroup>
+        <Timeline label="Activity">
+          <TimelineItem
+            heading="Review completed"
+            dateTime="2026-07-16T12:00:00Z"
+            timestamp="12:00"
+            tone="success"
+            icon={<span>✓</span>}
+            description={<span>Approved by Mina</span>}
+          />
+        </Timeline>
+      </>,
+    );
+
+    expect(container.querySelector('rg-avatar-group')?.shadowRoot?.textContent).toContain('+1');
+    expect(container.querySelector('rg-avatar')?.getAttribute('size')).toBe('sm');
+    expect(container.querySelector('rg-timeline-item [slot="icon"]')?.textContent).toBe('✓');
+    expect(container.querySelector('rg-timeline-item [slot="description"]')?.textContent).toBe(
+      'Approved by Mina',
+    );
+    expect(container.querySelector('rg-timeline-item')?.getAttribute('datetime')).toBe(
+      '2026-07-16T12:00:00Z',
+    );
   });
 });

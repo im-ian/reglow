@@ -3,6 +3,7 @@ import { Fragment, h } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   RgAvatar,
+  RgAvatarGroup,
   RgBreadcrumb,
   RgBreadcrumbItem,
   RgButton,
@@ -37,6 +38,8 @@ import {
   RgSlider,
   RgStep,
   RgStepIndicator,
+  RgTimeline,
+  RgTimelineItem,
   RgTextarea,
   RgTheme,
   RgToastRegion,
@@ -274,7 +277,7 @@ describe('@reglow/vue', () => {
     const component = vi.fn();
     ReglowPlugin.install({ component } as never);
     expect(component).toHaveBeenCalledWith('RgTheme', RgTheme);
-    expect(component.mock.calls.length).toBe(57);
+    expect(component.mock.calls.length).toBe(60);
     expect([
       RgBreadcrumb,
       RgBreadcrumbItem,
@@ -368,5 +371,46 @@ describe('@reglow/vue', () => {
       RgStepIndicator,
       RgStep,
     ]).toHaveLength(6);
+  });
+
+  it('adapts avatar groups and timeline item slots', () => {
+    const group = mount(RgAvatarGroup, {
+      attachTo: document.body,
+      props: { label: 'Reviewers', max: 2, moreLabel: 'more reviewers', size: 'sm' },
+      slots: {
+        default: () => [
+          h(RgAvatar, { name: 'Mina Park' }),
+          h(RgAvatar, { name: 'Alex Kim' }),
+          h(RgAvatar, { name: 'Noah Lee' }),
+        ],
+      },
+    }).element as HTMLElement;
+    const timeline = mount(RgTimeline, {
+      attachTo: document.body,
+      props: { label: 'Activity' },
+      slots: {
+        default: () =>
+          h(
+            RgTimelineItem,
+            {
+              heading: 'Review completed',
+              dateTime: '2026-07-16T12:00:00Z',
+              timestamp: '12:00',
+              tone: 'success',
+            },
+            {
+              icon: () => '✓',
+              description: () => 'Approved by Mina',
+            },
+          ),
+      },
+    }).element as HTMLElement;
+
+    expect(group.shadowRoot?.textContent).toContain('+1');
+    expect(group.querySelector('rg-avatar')?.getAttribute('size')).toBe('sm');
+    expect(timeline.querySelector('rg-timeline-item [slot="icon"]')?.textContent).toBe('✓');
+    expect(timeline.querySelector('rg-timeline-item [slot="description"]')?.textContent).toBe(
+      'Approved by Mina',
+    );
   });
 });
