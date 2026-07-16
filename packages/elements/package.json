@@ -5,6 +5,7 @@
   "license": "MIT",
   "type": "module",
   "sideEffects": [
+    "./src/register.ts",
     "./dist/register.js"
   ],
   "files": [

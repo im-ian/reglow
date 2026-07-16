@@ -34,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Storybook
-        run: pnpm build:storybook
+      - name: Run checks and build Storybook
+        run: pnpm check
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6

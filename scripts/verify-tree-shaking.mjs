@@ -35,6 +35,11 @@ const cases = [
     source: `import '@reglow/elements/register';`,
   },
   {
+    name: 'elements-source-register',
+    source: `import ${JSON.stringify(resolve(root, 'packages/elements/src/register.ts'))};`,
+    expectedComponentCount: publicElementTags.length,
+  },
+  {
     name: 'react-button',
     source: `import { Button } from '@reglow/react'; console.log(Button.displayName);`,
     external: 'react',
@@ -121,16 +126,23 @@ console.table(
 
 const failures = [];
 for (const testCase of cases) {
-  if (!testCase.maxGzipBytes) continue;
   const result = results.find(({ name }) => name === testCase.name);
-  if (result.gzipBytes > testCase.maxGzipBytes) {
+  if (testCase.maxGzipBytes && result.gzipBytes > testCase.maxGzipBytes) {
     failures.push(
       `${testCase.name} is ${result.gzipBytes} bytes gzip; expected at most ${testCase.maxGzipBytes}`,
     );
   }
-  if (result.componentTags.join(',') !== 'rg-button') {
+  if (testCase.maxGzipBytes && result.componentTags.join(',') !== 'rg-button') {
     failures.push(
       `${testCase.name} contains unexpected component implementations: ${result.componentTags.join(', ')}`,
+    );
+  }
+  if (
+    testCase.expectedComponentCount &&
+    result.componentTags.length !== testCase.expectedComponentCount
+  ) {
+    failures.push(
+      `${testCase.name} contains ${result.componentTags.length} registered components; expected ${testCase.expectedComponentCount}`,
     );
   }
 }
