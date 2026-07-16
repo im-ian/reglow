@@ -15,7 +15,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006 --no-open",
-    "test": "vitest run && pnpm --filter @reglow/angular test",
+    "test": "vitest run && pnpm --filter @reglow/angular test && pnpm test:examples",
+    "test:examples": "node scripts/verify-examples.mjs",
     "test:tree-shaking": "node scripts/verify-tree-shaking.mjs",
     "test:watch": "vitest",
     "typecheck": "pnpm -r typecheck"
