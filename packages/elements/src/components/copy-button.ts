@@ -127,6 +127,10 @@ export class RgCopyButtonElement extends ReglowElement {
   }
 
   set feedbackDuration(value: number) {
+    if (!Number.isFinite(value)) {
+      this.removeAttribute('feedback-duration');
+      return;
+    }
     this.setNumber('feedback-duration', Math.max(0, value));
   }
 

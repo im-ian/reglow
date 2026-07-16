@@ -1,0 +1,21 @@
+{
+  "name": "@reglow/example-astro",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@reglow/elements": "workspace:*",
+    "@reglow/example-theme": "workspace:*",
+    "@reglow/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.6",
+    "astro": "7.0.9",
+    "typescript": "5.9.3"
+  }
+}

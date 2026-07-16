@@ -1,0 +1,39 @@
+{
+  "name": "@reglow/preact",
+  "version": "0.1.0",
+  "description": "Typed Preact JSX integration for Reglow Web Components.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "typecheck:test": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@reglow/elements": "workspace:^"
+  },
+  "peerDependencies": {
+    "preact": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/preact": "^3.2.4",
+    "preact": "^10.29.7",
+    "typescript": "^6.0.3",
+    "vite": "^8.1.4",
+    "vite-plugin-dts": "^5.0.3",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,9 @@
+:host {
+  display: contents;
+}
+
+rg-input,
+rg-select,
+rg-rating {
+  min-width: 0;
+}

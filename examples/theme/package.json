@@ -1,0 +1,14 @@
+{
+  "name": "@reglow/example-theme",
+  "version": "0.1.0",
+  "private": true,
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./demo.css": "./demo.css"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8"
+  }
+}

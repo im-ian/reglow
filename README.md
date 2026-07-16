@@ -1,30 +1,36 @@
 # Reglow
 
 Reglow is a soft-kinetic design system built on the web platform. Use it directly from HTML or
-through the official React 19 and Vue 3 adapters.
+through the official Angular 22, React 19, Preact, Vue 3, and Svelte 5 integrations.
 
 Explore the components, themes, and interaction states in the
 [live Storybook](https://im-ian.github.io/reglow/).
 
+Runnable applications for Preact, Svelte, Lit, Astro, and Angular live in the
+[framework examples](./examples/README.md).
+
 ## Highlights
 
 - **Zero runtime dependencies in the core.** `@reglow/elements` and `@reglow/tokens` ship without
-  third-party runtime packages. React and Vue support is provided through thin, optional adapters.
+  third-party runtime packages. Framework support is provided through thin, optional integrations.
 - **Built on web standards.** Components are autonomous Custom Elements composed from open Shadow
   DOM, slots, CSS custom properties, `::part`, `ElementInternals`, native controls, and composed DOM
   events. The same component implementation works with plain HTML and framework adapters.
 - **Tree-shakable by component.** ESM module boundaries are preserved through the published build.
-  React and Vue adapters register only the component exports retained by the consumer bundle, while
-  full custom-element registration remains an explicit opt-in.
+  React, Vue, and Svelte adapters register only the component exports retained by the consumer
+  bundle, while full custom-element registration remains an explicit opt-in.
 
 ## Packages
 
-| Package            | Purpose                                  | Runtime dependencies  |
-| ------------------ | ---------------------------------------- | --------------------- |
-| `@reglow/elements` | 51 standards-based Custom Elements       | None                  |
-| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                  |
-| `@reglow/react`    | Typed React components and event aliases | React peer + elements |
-| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements   |
+| Package            | Purpose                                  | Runtime dependencies     |
+| ------------------ | ---------------------------------------- | ------------------------ |
+| `@reglow/elements` | 51 standards-based Custom Elements       | None                     |
+| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                     |
+| `@reglow/react`    | Typed React components and event aliases | React peer + elements    |
+| `@reglow/preact`   | Typed native Custom Element JSX          | Preact peer + elements   |
+| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements      |
+| `@reglow/svelte`   | Svelte components and bindable state     | Svelte peer + elements   |
+| `@reglow/angular`  | Angular Forms value accessors            | Angular peers + elements |
 
 The core can be imported safely during SSR; v1 upgrades shadow content on the client.
 
@@ -95,6 +101,72 @@ vue({
 
 The PascalCase adapter components do not require that rule.
 
+### Astro and Lit
+
+Astro and Lit consume the standards-based elements directly. See the focused guides for
+[Astro](./docs/integrations/astro.md) and [Lit](./docs/integrations/lit.md), including selective
+registration, complex property values, events, and client-side navigation behavior.
+
+### Preact
+
+Preact consumes Reglow elements directly. Import `@reglow/preact` for typed element properties,
+refs, and hyphenated custom events without adding an adapter runtime.
+
+```tsx
+/** @jsxImportSource preact */
+import '@reglow/elements/register';
+import '@reglow/preact';
+import '@reglow/tokens/css';
+
+export function CreateButton() {
+  return (
+    <rg-button variant="soft" onrg-press={(event) => console.log(event.detail.pressed)}>
+      Create workspace
+    </rg-button>
+  );
+}
+```
+
+### Svelte 5
+
+Svelte components register their matching element on demand and expose typed callback props and
+bindable control state.
+
+```svelte
+<script lang="ts">
+  import { RgButton, RgInput } from '@reglow/svelte';
+  import '@reglow/tokens/css';
+
+  let name = $state('');
+</script>
+
+<RgInput bind:value={name} label="Workspace name" />
+<RgButton onPress={(event) => console.log(event.detail.pressed)}>Create workspace</RgButton>
+```
+
+### Angular 22
+
+Angular uses the native elements directly. The optional forms bridge connects their typed
+properties and events to `formControl`, `formControlName`, and `ngModel`.
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { REGLOW_FORM_DIRECTIVES } from '@reglow/angular';
+import '@reglow/elements/register';
+import '@reglow/tokens/css';
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, ...REGLOW_FORM_DIRECTIVES],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `<rg-input label="Workspace name" [formControl]="name" />`,
+})
+export class WorkspaceForm {
+  readonly name = new FormControl('', { nonNullable: true });
+}
+```
+
 ## Component families
 
 - Foundation: Theme
@@ -142,8 +214,8 @@ pnpm build:storybook
 pnpm check
 ```
 
-The canonical Storybook uses the Web Components renderer. React and Vue adapters are verified with
-their framework test utilities so the library keeps one visual source of truth.
+The canonical Storybook uses the Web Components renderer. Framework integrations are verified with
+their own test utilities so the library keeps one visual source of truth.
 
 ## Architecture
 
@@ -154,6 +226,6 @@ their framework test utilities so the library keeps one visual source of truth.
 - Primitive values are reflected through attributes; live state also has typed properties.
 - Public `rg-*` events bubble and cross the shadow boundary.
 - Registration is explicit and idempotent through `@reglow/elements/register`.
-- React and Vue adapters contain no component styling or behavior.
+- Framework adapters contain no component styling or behavior.
 
 See [the v1 plan](./docs/ROADMAP.md) for scope and completion gates.
