@@ -19,7 +19,7 @@ export class RgTabElement extends ReglowElement {
     'selected',
     'disabled',
   ];
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host {
       display: inline-flex;
       min-width: 0;
@@ -124,7 +124,8 @@ export class RgTabPanelElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-tab-panel';
   static readonly delegatesFocus = false;
   static readonly observedAttributes = ['value', 'active'];
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${motionStyles}
 
     :host { display: block; }
@@ -133,6 +134,7 @@ export class RgTabPanelElement extends ReglowElement {
     .panel:focus { outline: none; }
     .panel:focus-visible { border-radius: var(--rg-radius-md, 0.875rem); box-shadow: var(--_rg-ring); }
   `;
+  }
   static readonly template = '<div class="panel" part="base"><slot></slot></div>';
 
   get value(): string {
@@ -161,7 +163,7 @@ export class RgTabPanelElement extends ReglowElement {
 export class RgTabsElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-tabs';
   static readonly observedAttributes = ['value', 'orientation', 'activation', 'loop'];
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; }
     .tabs { min-width: 0; }
     .tablist {
@@ -199,7 +201,7 @@ export class RgTabsElement extends ReglowElement {
     :host([orientation='vertical']) .tablist { flex-direction: column; align-items: stretch; }
     :host([orientation='vertical']) ::slotted(rg-tab) { display: flex; }
   `;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="tabs" part="base">
       <div class="tablist" part="tablist">
         <span class="indicator" part="indicator" aria-hidden="true"></span>
@@ -337,12 +339,12 @@ export class RgTabsElement extends ReglowElement {
   private tabs(): RgTabElement[] {
     return this.query<HTMLSlotElement>('slot[name="tab"]')
       .assignedElements({ flatten: true })
-      .filter((element): element is RgTabElement => element.localName === RgTabElement.tagName);
+      .filter((element): element is RgTabElement => element.localName === 'rg-tab');
   }
 
   private normalizeSlots(): void {
     Array.from(this.children).forEach((child) => {
-      if (child.localName === RgTabElement.tagName && !child.hasAttribute('slot')) {
+      if (child.localName === 'rg-tab' && !child.hasAttribute('slot')) {
         child.setAttribute('slot', 'tab');
       }
     });
@@ -351,9 +353,7 @@ export class RgTabsElement extends ReglowElement {
   private panels(): RgTabPanelElement[] {
     return this.query<HTMLSlotElement>('.panels slot')
       .assignedElements({ flatten: true })
-      .filter(
-        (element): element is RgTabPanelElement => element.localName === RgTabPanelElement.tagName,
-      );
+      .filter((element): element is RgTabPanelElement => element.localName === 'rg-tab-panel');
   }
 
   private eventTab(event: Event): RgTabElement | undefined {
@@ -361,7 +361,7 @@ export class RgTabsElement extends ReglowElement {
       .composedPath()
       .find(
         (target): target is RgTabElement =>
-          target instanceof HTMLElement && target.localName === RgTabElement.tagName,
+          target instanceof HTMLElement && target.localName === 'rg-tab',
       );
   }
 

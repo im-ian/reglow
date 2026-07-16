@@ -11,6 +11,7 @@ import {
   RgRatingElement,
   RgSelectElement,
   defineElement,
+  type ReglowElementTagName,
   type RgPressDetail,
 } from '@reglow/elements';
 import type { ReglowPreactIntrinsicElements } from '../src/index.js';
@@ -48,6 +49,15 @@ type CanonicalAttributeContract = [
   >,
 ];
 
+type CatalogContract = [
+  Expect<
+    Exclude<ReglowElementTagName, keyof ReglowPreactIntrinsicElements> extends never ? true : false
+  >,
+  Expect<
+    Exclude<keyof ReglowPreactIntrinsicElements, ReglowElementTagName> extends never ? true : false
+  >,
+];
+
 const canonicalAttributeContract: CanonicalAttributeContract = [
   true,
   true,
@@ -63,12 +73,17 @@ const canonicalAttributeContract: CanonicalAttributeContract = [
   true,
   true,
 ];
+const catalogContract: CatalogContract = [true, true];
 
 afterEach(() => {
   document.body.replaceChildren();
 });
 
 describe('@reglow/preact', () => {
+  it('types every public Reglow element without extra catalog entries', () => {
+    expect(catalogContract).toEqual([true, true]);
+  });
+
   it('declares canonical custom-element attributes', () => {
     expect(canonicalAttributeContract).toHaveLength(13);
 

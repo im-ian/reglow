@@ -21,7 +21,7 @@ export interface DialogCloseDetail {
   readonly returnValue: string;
 }
 
-const dialogTemplate = String.raw`
+const dialogTemplate = `
   <span class="trigger" part="trigger"><slot name="trigger"></slot></span>
   <dialog class="dialog" part="base">
     <section class="panel" part="dialog panel">
@@ -41,9 +41,18 @@ const dialogTemplate = String.raw`
   </dialog>
 `;
 
-const dialogStyles = String.raw`
-  ${motionStyles}
+const dialogObservedAttributes = [
+  'open',
+  'size',
+  'label',
+  'escape-key-action',
+  'backdrop-action',
+  'hide-close',
+  'close-label',
+] as const;
+const drawerObservedAttributes = [...dialogObservedAttributes, 'placement'] as const;
 
+const dialogStyles = `
   :host { display: contents; }
   .trigger { display: contents; }
   .dialog {
@@ -121,18 +130,11 @@ const dialogStyles = String.raw`
   @keyframes rg-dialog-backdrop { from { opacity: 0; } to { opacity: 1; } }
 `;
 
-export class RgDialogElement extends ReglowElement {
-  static readonly tagName: `rg-${string}` = 'rg-dialog';
-  static readonly observedAttributes = [
-    'open',
-    'size',
-    'label',
-    'escape-key-action',
-    'backdrop-action',
-    'hide-close',
-    'close-label',
-  ];
-  static readonly styles = dialogStyles;
+class ReglowDialogElement extends ReglowElement {
+  static readonly observedAttributes: readonly string[] = dialogObservedAttributes;
+  static get styles(): string {
+    return `${motionStyles}${dialogStyles}`;
+  }
   static readonly template = dialogTemplate;
 
   #titleId = '';
@@ -200,8 +202,7 @@ export class RgDialogElement extends ReglowElement {
         const closeOwner = path.find(
           (node): node is HTMLElement =>
             node instanceof HTMLElement &&
-            (node.localName === RgDialogElement.tagName ||
-              node.localName === RgDrawerElement.tagName),
+            (node.localName === 'rg-dialog' || node.localName === 'rg-drawer'),
         );
         if (closeControl && closeOwner === this && !event.defaultPrevented && this.open) {
           this.requestClose(
@@ -377,12 +378,15 @@ export class RgDialogElement extends ReglowElement {
   }
 }
 
-export class RgDrawerElement extends RgDialogElement {
-  static readonly tagName: `rg-${string}` = 'rg-drawer';
-  static readonly observedAttributes = [...RgDialogElement.observedAttributes, 'placement'];
-  static readonly styles = String.raw`
-    ${dialogStyles}
+export class RgDialogElement extends ReglowDialogElement {
+  static readonly tagName: `rg-${string}` = 'rg-dialog';
+}
 
+export class RgDrawerElement extends ReglowDialogElement {
+  static readonly tagName: `rg-${string}` = 'rg-drawer';
+  static readonly observedAttributes = drawerObservedAttributes;
+  static get styles(): string {
+    return `${super.styles}
     .dialog {
       width: 100vw;
       height: 100dvh;
@@ -427,6 +431,7 @@ export class RgDrawerElement extends RgDialogElement {
     @keyframes rg-drawer-from-start { from { opacity: 0; transform: translateX(-2.5rem); } to { opacity: 1; transform: none; } }
     @keyframes rg-drawer-from-bottom { from { opacity: 0; transform: translateY(2.5rem); } to { opacity: 1; transform: none; } }
   `;
+  }
 
   get placement(): DrawerPlacement {
     const value = this.getString('placement', 'end');

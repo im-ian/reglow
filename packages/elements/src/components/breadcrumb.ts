@@ -4,11 +4,11 @@ export class RgBreadcrumbItemElement extends ReglowElement {
   static readonly tagName = 'rg-breadcrumb-item' as const;
   static readonly observedAttributes = ['current', 'href', 'target', 'rel'] as const;
   static readonly delegatesFocus = false;
-  static readonly template = String.raw`
+  static readonly template = `
     <span class="separator" part="separator" aria-hidden="true">/</span>
     <a class="item" part="base link"><slot></slot></a>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: inline-flex; min-width: 0; align-items: center; gap: 0.6rem; }
     :host([data-first]) .separator { display: none; }
     .separator { color: var(--_rg-text-subtle); font-weight: 650; user-select: none; }
@@ -85,12 +85,12 @@ export class RgBreadcrumbElement extends ReglowElement {
   static readonly tagName = 'rg-breadcrumb' as const;
   static readonly observedAttributes = ['label'] as const;
   static readonly delegatesFocus = false;
-  static readonly template = String.raw`
+  static readonly template = `
     <nav part="base nav">
       <ol part="list"><slot></slot></ol>
     </nav>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; min-width: 0; }
     ol {
       display: flex;
@@ -120,8 +120,7 @@ export class RgBreadcrumbElement extends ReglowElement {
   protected update(): void {
     this.query<HTMLElement>('nav').setAttribute('aria-label', this.label);
     const items = Array.from(this.children).filter(
-      (child): child is RgBreadcrumbItemElement =>
-        child.localName === RgBreadcrumbItemElement.tagName,
+      (child): child is RgBreadcrumbItemElement => child.localName === 'rg-breadcrumb-item',
     );
     items.forEach((item, index) => item.toggleAttribute('data-first', index === 0));
   }

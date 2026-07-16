@@ -13,7 +13,7 @@ export class RgStepElement extends ReglowElement {
     'optional-label',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="step" part="base">
       <span class="rail" part="rail" aria-hidden="true">
         <span class="line" part="line"></span>
@@ -32,7 +32,7 @@ export class RgStepElement extends ReglowElement {
       </span>
     </div>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; min-width: 0; }
     .step { display: grid; min-width: 0; gap: 0.55rem; }
     .rail { position: relative; display: grid; min-height: 2rem; place-items: center; }
@@ -205,12 +205,12 @@ export class RgStepIndicatorElement extends ReglowElement {
     'upcoming-label',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <nav part="base nav">
       <ol part="list" role="list"><slot></slot></ol>
     </nav>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; min-width: 0; }
     ol {
       display: grid;
@@ -296,7 +296,7 @@ export class RgStepIndicatorElement extends ReglowElement {
     nav.setAttribute('aria-label', this.label);
 
     const steps = Array.from(this.children).filter(
-      (child): child is RgStepElement => child.localName === RgStepElement.tagName,
+      (child): child is RgStepElement => child.localName === 'rg-step',
     );
     this.style.setProperty('--_rg-step-count', String(Math.max(1, steps.length)));
     if (steps.length === 0) return;

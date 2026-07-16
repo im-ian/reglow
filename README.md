@@ -24,7 +24,7 @@ Runnable applications for Preact, Svelte, Lit, Astro, and Angular live in the
 
 | Package            | Purpose                                  | Runtime relationship               |
 | ------------------ | ---------------------------------------- | ---------------------------------- |
-| `@reglow/elements` | 60 standards-based Custom Elements       | None                               |
+| `@reglow/elements` | 62 standards-based Custom Elements       | None                               |
 | `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                               |
 | `@reglow/react`    | Typed React components and event aliases | React peer + elements              |
 | `@reglow/preact`   | Typed native Custom Element JSX          | Type-only; Preact + elements peers |
@@ -56,7 +56,7 @@ defineElements([
 ```
 
 Add a constructor for every tag rendered by the browser entry. If an entry intentionally needs the
-complete 60-element catalog, `@reglow/elements/register` remains available as a convenience opt-in.
+complete 62-element catalog, `@reglow/elements/register` remains available as a convenience opt-in.
 
 ### React 19
 
@@ -233,9 +233,10 @@ pnpm check
 The canonical Storybook uses the Web Components renderer. Framework integrations are verified with
 their own test utilities so the library keeps one visual source of truth.
 
-`pnpm test:tree-shaking` builds every public package, bundles minimal and full-catalog consumer
-entries, reports their raw, gzip, and Brotli sizes, and rejects bundle-budget regressions. The
-framework peer runtimes are externalized, so the report measures Reglow's incremental payload
+`pnpm test:tree-shaking` builds every public package, bundles every component in isolation across
+the core and framework adapters plus full-catalog consumer entries, reports their raw, gzip, and
+Brotli sizes, and rejects bundle-budget regressions. The framework peer runtimes are externalized,
+so the report measures Reglow's incremental payload
 rather than a complete application bundle. The generated measurements are the source of truth for
 bundle size rather than fixed numbers in this README.
 
@@ -250,7 +251,7 @@ bundle size rather than fixed numbers in this README.
 - Registration is explicit and idempotent. Register component constructors from
   `@reglow/elements/components/*` by default so unused elements can be tree-shaken.
 - `@reglow/elements/register` is an opt-in convenience entry for applications that intentionally
-  need the complete 60-element catalog in one browser entry.
+  need the complete 62-element catalog in one browser entry.
 - Framework adapters contain no component styling or behavior.
 
 See [the v1 plan](./docs/ROADMAP.md) for scope and completion gates.

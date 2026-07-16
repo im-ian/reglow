@@ -4,7 +4,8 @@ import { motionStyles } from '../styles/base.js';
 export class RgProgressElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-progress';
   static readonly observedAttributes = ['aria-label', 'value', 'max', 'label'];
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${motionStyles}
 
     :host { display: block; }
@@ -53,7 +54,8 @@ export class RgProgressElement extends ReglowElement {
     slot[name='label']:not([data-has-content]) { display: none; }
     .meta[data-empty] { display: none; }
   `;
-  static readonly template = String.raw`
+  }
+  static readonly template = `
     <div class="progress" part="base">
       <div class="meta" part="meta">
         <span class="label" part="label"><slot name="label"></slot><span data-label></span></span>
@@ -154,7 +156,8 @@ export class RgProgressElement extends ReglowElement {
 export class RgSpinnerElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-spinner';
   static readonly observedAttributes = ['size', 'label'];
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${motionStyles}
 
     :host { display: inline-flex; vertical-align: middle; }
@@ -176,7 +179,8 @@ export class RgSpinnerElement extends ReglowElement {
     :host([size='lg']) .spinner { --rg-spinner-size: 1.65rem; }
     .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   `;
-  static readonly template = String.raw`
+  }
+  static readonly template = `
     <span class="spinner" part="base">
       <span class="indicator" part="indicator"></span>
       <span class="label" data-label></span>

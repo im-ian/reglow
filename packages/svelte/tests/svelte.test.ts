@@ -1,14 +1,19 @@
 import { render, screen } from '@testing-library/svelte';
 import { tick } from 'svelte';
 import { describe, expect, it } from 'vitest';
-import type { RgInputElement, RgSelectElement } from '@reglow/elements';
+import { componentMetadata, type RgInputElement, type RgSelectElement } from '@reglow/elements';
 import * as Reglow from '../src/index.js';
 import InputBinding from './fixtures/input-binding.svelte';
 import SelectOptions from './fixtures/select-options.svelte';
 
 describe('@reglow/svelte', () => {
   it('exports one Svelte component for every public Reglow element', () => {
-    expect(Object.keys(Reglow).filter((name) => name.startsWith('Rg'))).toHaveLength(62);
+    const exports = Reglow as unknown as Record<string, unknown>;
+    const expectedNames = componentMetadata.map(
+      ({ className }) => `Rg${className.replace(/^Rg/, '').replace(/Element$/, '')}`,
+    );
+
+    expect(expectedNames.filter((name) => exports[name] === undefined)).toEqual([]);
   });
 
   it('updates the binding before invoking the typed value callback', async () => {

@@ -27,7 +27,7 @@ let toastId = 0;
 export class RgToastElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-toast';
   static readonly observedAttributes = ['open', 'tone', 'duration', 'dismissible', 'dismiss-label'];
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; pointer-events: auto; }
     :host(:not([open])) { display: none; }
 
@@ -142,7 +142,7 @@ export class RgToastElement extends ReglowElement {
     slot[name='title']:not([data-has-content]),
     slot[name='action']:not([data-has-content]) { display: none; }
   `;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="toast" part="base" aria-atomic="true">
       <span class="accent" part="accent"></span>
       <div class="layout" part="layout">
@@ -328,7 +328,7 @@ export class RgToastElement extends ReglowElement {
 export class RgToastRegionElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-toast-region';
   static readonly observedAttributes = ['position', 'max-visible', 'label', 'pause-on-hover'];
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host {
       position: fixed;
       z-index: var(--rg-z-toast, 1200);
@@ -344,7 +344,7 @@ export class RgToastRegionElement extends ReglowElement {
     ::slotted(rg-toast) { pointer-events: auto; }
     :host([position^='bottom']) .viewport { align-items: end; }
   `;
-  static readonly template = String.raw`
+  static readonly template = `
     <section class="viewport" part="viewport" role="region">
       <slot></slot>
     </section>
@@ -379,7 +379,7 @@ export class RgToastRegionElement extends ReglowElement {
           (record) =>
             record.type === 'attributes' &&
             record.target instanceof HTMLElement &&
-            record.target.localName === RgToastElement.tagName,
+            record.target.localName === 'rg-toast',
         );
         if (toastStateChanged) this.enforceLimit();
       });
@@ -392,7 +392,7 @@ export class RgToastRegionElement extends ReglowElement {
       (event) => {
         const customEvent = event as CustomEvent<ToastOpenChangeDetail>;
         const toast = customEvent.target;
-        if (!(toast instanceof HTMLElement) || toast.localName !== RgToastElement.tagName) return;
+        if (!(toast instanceof HTMLElement) || toast.localName !== 'rg-toast') return;
 
         if (customEvent.detail.open) {
           this.enforceLimit();
@@ -467,7 +467,7 @@ export class RgToastRegionElement extends ReglowElement {
 
   private toasts(): RgToastElement[] {
     return Array.from(this.children).filter(
-      (child): child is RgToastElement => child.localName === RgToastElement.tagName,
+      (child): child is RgToastElement => child.localName === 'rg-toast',
     );
   }
 

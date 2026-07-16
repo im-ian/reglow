@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { Fragment, h } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { componentMetadata } from '@reglow/elements';
+import * as Reglow from '../src/index.js';
 import {
   RgAvatar,
   RgAvatarGroup,
@@ -65,6 +67,15 @@ afterEach(() => {
 });
 
 describe('@reglow/vue', () => {
+  it('exports an adapter for every public Reglow element', () => {
+    const exports = Reglow as unknown as Record<string, unknown>;
+    const expectedNames = componentMetadata.map(
+      ({ className }) => `Rg${className.replace(/^Rg/, '').replace(/Element$/, '')}`,
+    );
+
+    expect(expectedNames.filter((name) => exports[name] === undefined)).toEqual([]);
+  });
+
   it('passes props and named slots to the custom element', () => {
     const wrapper = mount(RgButton, {
       attachTo: document.body,

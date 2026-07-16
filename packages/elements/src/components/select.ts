@@ -78,7 +78,7 @@ export class RgSelectElement extends FormAssociatedElement {
     'size',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="field" part="field">
       <div class="label-row" part="label-row">
         <label class="label" part="label"><slot name="label"><span data-label></span></slot></label>
@@ -99,7 +99,8 @@ export class RgSelectElement extends FormAssociatedElement {
       <slot class="source"></slot>
     </div>
   `;
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${fieldStyles}
 
     .control {
@@ -126,6 +127,7 @@ export class RgSelectElement extends FormAssociatedElement {
     :host([size='lg']) .control { min-height: 3.25rem; border-radius: var(--rg-radius-lg, 1.1rem); font-size: 1.0625rem; }
     .source { display: none; }
   `;
+  }
 
   #controlId = '';
   #descriptionId = '';
@@ -328,9 +330,7 @@ export class RgSelectElement extends FormAssociatedElement {
 
   #optionRecordsFromChildren(): readonly RgSelectOption[] {
     return Array.from(this.children)
-      .filter(
-        (element): element is RgOptionElement => element.localName === RgOptionElement.tagName,
-      )
+      .filter((element): element is RgOptionElement => element.localName === 'rg-option')
       .map((option) => ({
         value: option.value,
         label: option.label,

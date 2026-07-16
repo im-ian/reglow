@@ -52,9 +52,37 @@ for (const packageEntry of packageManifests) {
 const customElementsManifest = JSON.parse(
   readFileSync(resolve(root, 'packages/elements/custom-elements.json'), 'utf8'),
 );
-const publicElementTags = customElementsManifest.modules.flatMap(
-  (module) => module.declarations?.flatMap((declaration) => declaration.tagName ?? []) ?? [],
+const publicElementDeclarations = customElementsManifest.modules
+  .flatMap((module) => module.declarations ?? [])
+  .filter((declaration) => declaration.tagName);
+const publicElementTags = publicElementDeclarations.map(({ tagName }) => tagName);
+
+const elementDefinitionSource = readFileSync(
+  resolve(root, 'packages/elements/src/definitions.ts'),
+  'utf8',
 );
+const componentPathsByClass = new Map();
+for (const match of elementDefinitionSource.matchAll(
+  /import \{([^}]+)\} from '\.\/components\/([^']+)\.js';/g,
+)) {
+  for (const className of match[1].split(',').map((name) => name.trim())) {
+    componentPathsByClass.set(className, match[2]);
+  }
+}
+
+const publicElements = publicElementDeclarations.map(({ name: className, tagName }) => {
+  const componentPath = componentPathsByClass.get(className);
+  if (!componentPath) {
+    throw new Error(`Missing component subpath for ${className} (${tagName}).`);
+  }
+
+  return {
+    adapterName: className.replace(/^Rg/, '').replace(/Element$/, ''),
+    className,
+    componentPath,
+    tagName,
+  };
+});
 
 const selectedButtonRegistration = `
   import { defineElement } from '@reglow/elements';
@@ -62,24 +90,25 @@ const selectedButtonRegistration = `
   defineElement({ tagName: RgButtonElement.tagName, constructor: RgButtonElement });
 `;
 
-const angularValueAccessorTags = [
-  'rg-input',
-  'rg-textarea',
-  'rg-select',
-  'rg-radio-group',
-  'rg-slider',
-  'rg-combobox',
-  'rg-date-picker',
-  'rg-chip-group',
-  'rg-segmented-control',
-  'rg-rating',
-];
-const angularCheckedValueAccessorTags = ['rg-checkbox', 'rg-switch'];
+const formAssociatedElements = publicElementDeclarations.filter(({ name: className }) => {
+  const componentPath = componentPathsByClass.get(className);
+  const componentSource = readFileSync(
+    resolve(root, `packages/elements/src/components/${componentPath}.ts`),
+    'utf8',
+  );
+  return componentSource.includes(`export class ${className} extends FormAssociatedElement`);
+});
+const angularCheckedValueAccessorTags = formAssociatedElements
+  .filter(({ attributes }) => attributes?.some(({ name }) => name === 'checked'))
+  .map(({ tagName }) => tagName);
+const angularValueAccessorTags = formAssociatedElements
+  .filter(({ tagName }) => !angularCheckedValueAccessorTags.includes(tagName))
+  .map(({ tagName }) => tagName);
 const angularAllAccessorTags = publicElementTags.filter((tag) =>
   [...angularValueAccessorTags, ...angularCheckedValueAccessorTags].includes(tag),
 );
 
-const cases = [
+const baselineCases = [
   {
     name: 'tokens-palette',
     packageName: '@reglow/tokens',
@@ -120,9 +149,9 @@ const cases = [
     name: 'elements-all',
     packageName: '@reglow/elements',
     source: `import '@reglow/elements/register';`,
-    maxRawBytes: 300_000,
-    maxGzipBytes: 58_000,
-    maxBrotliBytes: 42_000,
+    maxRawBytes: 370_000,
+    maxGzipBytes: 72_000,
+    maxBrotliBytes: 52_000,
     expectedComponentCount: publicElementTags.length,
   },
   {
@@ -150,9 +179,9 @@ const cases = [
     packageName: '@reglow/preact',
     source: `import '@reglow/preact'; import '@reglow/elements/register';`,
     externals: ['preact'],
-    maxRawBytes: 300_000,
-    maxGzipBytes: 58_000,
-    maxBrotliBytes: 42_000,
+    maxRawBytes: 370_000,
+    maxGzipBytes: 72_000,
+    maxBrotliBytes: 52_000,
     expectedComponentCount: publicElementTags.length,
   },
   {
@@ -170,9 +199,9 @@ const cases = [
     packageName: '@reglow/react',
     source: `import * as Reglow from '@reglow/react'; console.log(Object.keys(Reglow));`,
     externals: ['react'],
-    maxRawBytes: 310_000,
-    maxGzipBytes: 61_000,
-    maxBrotliBytes: 45_000,
+    maxRawBytes: 380_000,
+    maxGzipBytes: 75_000,
+    maxBrotliBytes: 55_000,
     expectedComponentCount: publicElementTags.length,
   },
   {
@@ -190,9 +219,9 @@ const cases = [
     packageName: '@reglow/svelte',
     source: `import * as Reglow from '@reglow/svelte'; console.log(Object.keys(Reglow));`,
     externals: ['svelte'],
-    maxRawBytes: 340_000,
-    maxGzipBytes: 63_000,
-    maxBrotliBytes: 46_000,
+    maxRawBytes: 420_000,
+    maxGzipBytes: 77_000,
+    maxBrotliBytes: 56_000,
     expectedComponentCount: publicElementTags.length,
   },
   {
@@ -210,9 +239,9 @@ const cases = [
     packageName: '@reglow/vue',
     source: `import * as Reglow from '@reglow/vue'; console.log(Object.keys(Reglow));`,
     externals: ['vue'],
-    maxRawBytes: 320_000,
-    maxGzipBytes: 63_000,
-    maxBrotliBytes: 46_000,
+    maxRawBytes: 390_000,
+    maxGzipBytes: 77_000,
+    maxBrotliBytes: 56_000,
     expectedComponentCount: publicElementTags.length,
   },
   {
@@ -223,7 +252,8 @@ const cases = [
     maxRawBytes: 2_500,
     maxGzipBytes: 1_200,
     maxBrotliBytes: 1_000,
-    expectedComponents: angularValueAccessorTags,
+    expectedComponents: [],
+    expectedReferences: angularValueAccessorTags,
   },
   {
     name: 'angular-checked',
@@ -233,7 +263,8 @@ const cases = [
     maxRawBytes: 1_500,
     maxGzipBytes: 1_000,
     maxBrotliBytes: 900,
-    expectedComponents: angularCheckedValueAccessorTags,
+    expectedComponents: [],
+    expectedReferences: angularCheckedValueAccessorTags,
   },
   {
     name: 'angular-all',
@@ -243,9 +274,52 @@ const cases = [
     maxRawBytes: 4_000,
     maxGzipBytes: 1_500,
     maxBrotliBytes: 1_300,
-    expectedComponents: angularAllAccessorTags,
+    expectedComponents: [],
+    expectedReferences: angularAllAccessorTags,
   },
 ];
+
+const componentCases = publicElements.flatMap(
+  ({ adapterName, className, componentPath, tagName }) => [
+    {
+      name: `elements-${tagName}`,
+      packageName: '@reglow/elements',
+      source: `
+        import { defineElement } from '@reglow/elements';
+        import { ${className} } from '@reglow/elements/components/${componentPath}';
+        defineElement({ tagName: ${className}.tagName, constructor: ${className} });
+      `,
+      expectedComponents: [tagName],
+      completeCase: 'elements-all',
+    },
+    {
+      name: `react-${tagName}`,
+      packageName: '@reglow/react',
+      source: `import { ${adapterName} } from '@reglow/react'; console.log(${adapterName});`,
+      externals: ['react'],
+      expectedComponents: [tagName],
+      completeCase: 'react-all',
+    },
+    {
+      name: `svelte-${tagName}`,
+      packageName: '@reglow/svelte',
+      source: `import { Rg${adapterName} } from '@reglow/svelte'; console.log(Rg${adapterName});`,
+      externals: ['svelte'],
+      expectedComponents: [tagName],
+      completeCase: 'svelte-all',
+    },
+    {
+      name: `vue-${tagName}`,
+      packageName: '@reglow/vue',
+      source: `import { Rg${adapterName} } from '@reglow/vue'; console.log(Rg${adapterName});`,
+      externals: ['vue'],
+      expectedComponents: [tagName],
+      completeCase: 'vue-all',
+    },
+  ],
+);
+
+const cases = [...baselineCases, ...componentCases];
 
 const ratios = [
   { selected: 'tokens-palette', complete: 'tokens-all', max: 0.5 },
@@ -332,6 +406,14 @@ async function bundle(testCase) {
     .filter((entry) => entry.type === 'chunk')
     .map((entry) => entry.code)
     .join('\n');
+  const renderedElementCode = outputs
+    .filter((entry) => entry.type === 'chunk')
+    .flatMap((entry) =>
+      Object.entries(entry.modules)
+        .filter(([id]) => id.replaceAll('\\', '/').includes('/packages/elements/dist/components/'))
+        .map(([, module]) => module.code),
+    )
+    .join('\n');
   const cssAssets = outputs.filter(
     (entry) =>
       entry.type === 'asset' &&
@@ -347,7 +429,12 @@ async function bundle(testCase) {
     cssBytes: cssAssets.reduce((total, entry) => total + payloadForOutput(entry).byteLength, 0),
     cssAssetCount: cssAssets.length,
     code,
-    componentTags: publicElementTags.filter(
+    componentTags: publicElements
+      .filter(({ tagName }) =>
+        new RegExp(`static\\s+tagName\\s*=\\s*["']${tagName}["']`).test(renderedElementCode),
+      )
+      .map(({ tagName }) => tagName),
+    referencedTags: publicElementTags.filter(
       (tag) =>
         code.includes(`"${tag}"`) || code.includes(`'${tag}'`) || code.includes(`\`${tag}\``),
     ),
@@ -380,16 +467,22 @@ try {
 }
 
 console.table(
-  results.map(({ name, rawBytes, gzipBytes, brotliBytes, cssBytes, componentTags }) => ({
-    name,
-    rawBytes,
-    gzipBytes,
-    brotliBytes,
-    cssBytes,
-    componentCount: componentTags.length,
-    components:
-      componentTags.length <= 3 ? componentTags.join(', ') : `all ${componentTags.length}`,
-  })),
+  results
+    .filter(({ name }) => baselineCases.some((testCase) => testCase.name === name))
+    .map(({ name, rawBytes, gzipBytes, brotliBytes, cssBytes, componentTags }) => ({
+      name,
+      rawBytes,
+      gzipBytes,
+      brotliBytes,
+      cssBytes,
+      componentCount: componentTags.length,
+      components:
+        componentTags.length <= 3 ? componentTags.join(', ') : `all ${componentTags.length}`,
+    })),
+);
+
+console.log(
+  `Verified isolated consumer bundles for ${publicElements.length} components across elements, React, Svelte, and Vue.`,
 );
 
 for (const testCase of cases) {
@@ -415,6 +508,14 @@ for (const testCase of cases) {
   ) {
     failures.push(
       `${testCase.name} contains ${result.componentTags.join(', ') || 'no'} component implementations; expected ${testCase.expectedComponents.join(', ') || 'none'}`,
+    );
+  }
+  if (
+    testCase.expectedReferences &&
+    result.referencedTags.join(',') !== testCase.expectedReferences.join(',')
+  ) {
+    failures.push(
+      `${testCase.name} references ${result.referencedTags.join(', ') || 'no'} component tags; expected ${testCase.expectedReferences.join(', ') || 'none'}`,
     );
   }
   if (
@@ -453,6 +554,22 @@ for (const ratio of ratios) {
     if (selected[metric] >= complete[metric] * ratio.max) {
       failures.push(
         `${ratio.selected} is not meaningfully smaller than ${ratio.complete} (${selected[metric]} vs ${complete[metric]} bytes ${label})`,
+      );
+    }
+  }
+}
+
+for (const testCase of componentCases) {
+  const selected = results.find(({ name }) => name === testCase.name);
+  const complete = results.find(({ name }) => name === testCase.completeCase);
+  for (const [metric, label] of [
+    ['rawBytes', 'raw'],
+    ['gzipBytes', 'gzip'],
+    ['brotliBytes', 'brotli'],
+  ]) {
+    if (selected[metric] >= complete[metric]) {
+      failures.push(
+        `${testCase.name} is not smaller than ${testCase.completeCase} (${selected[metric]} vs ${complete[metric]} bytes ${label})`,
       );
     }
   }

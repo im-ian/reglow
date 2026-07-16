@@ -15,6 +15,10 @@ export interface RgChipValueChangeDetail {
   readonly previousValue: string | string[];
 }
 
+function isChip(value: unknown): value is RgChipElement {
+  return value instanceof HTMLElement && value.localName === 'rg-chip';
+}
+
 export class RgChipElement extends ReglowElement {
   static readonly tagName = 'rg-chip' as const;
   static readonly delegatesFocus = false;
@@ -28,7 +32,7 @@ export class RgChipElement extends ReglowElement {
     'size',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <span class="chip" part="base chip">
       <span class="start" part="start"><slot name="start"></slot></span>
       <span class="label" part="label"><slot></slot></span>
@@ -36,7 +40,8 @@ export class RgChipElement extends ReglowElement {
       <button class="remove" part="remove" type="button" data-remove aria-hidden="true">×</button>
     </span>
   `;
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${motionStyles}
 
     :host {
@@ -103,6 +108,7 @@ export class RgChipElement extends ReglowElement {
     .remove:focus-visible { outline: none; box-shadow: var(--_rg-ring); }
     .remove:disabled { cursor: not-allowed; }
   `;
+  }
 
   #selection: RgChipSelection = 'none';
   #groupDisabled = false;
@@ -250,13 +256,13 @@ export class RgChipGroupElement extends FormAssociatedElement {
     'selection',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="group" part="base">
       <span class="label" part="label"></span>
       <div class="chips" part="group"><slot></slot></div>
     </div>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; }
     .group { display: grid; gap: 0.45rem; }
     .label { color: var(--_rg-text); font-size: 0.82rem; font-weight: 720; }
@@ -404,8 +410,7 @@ export class RgChipGroupElement extends FormAssociatedElement {
   #handleClick(event: MouseEvent): void {
     if (this.selection === 'none' || this.disabled || this.hasAttribute('data-form-disabled'))
       return;
-    const chip = event.composedPath().find((item) => item instanceof RgChipElement) as
-      RgChipElement | undefined;
+    const chip = event.composedPath().find(isChip);
     if (!chip || chip.disabled || !this.#chips().includes(chip)) return;
     this.#select(chip, true);
   }
@@ -413,8 +418,7 @@ export class RgChipGroupElement extends FormAssociatedElement {
   #handleKeydown(event: KeyboardEvent): void {
     if (this.selection === 'none' || this.disabled || this.hasAttribute('data-form-disabled'))
       return;
-    const chip = event.composedPath().find((item) => item instanceof RgChipElement) as
-      RgChipElement | undefined;
+    const chip = event.composedPath().find(isChip);
     const enabled = this.#chips().filter((item) => !item.disabled);
     if (!chip || !enabled.includes(chip)) return;
     const index = enabled.indexOf(chip);
@@ -480,9 +484,7 @@ export class RgChipGroupElement extends FormAssociatedElement {
   }
 
   #chips(): RgChipElement[] {
-    return Array.from(this.children).filter(
-      (child): child is RgChipElement => child instanceof RgChipElement,
-    );
+    return Array.from(this.children).filter(isChip);
   }
 
   #selectedChips(): RgChipElement[] {

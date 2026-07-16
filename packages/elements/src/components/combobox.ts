@@ -1,6 +1,6 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
 import { fieldStyles, motionStyles } from '../styles/base.js';
-import { RgOptionElement, type RgSelectOption } from './select.js';
+import type { RgOptionElement, RgSelectOption } from './select.js';
 
 function hasAssignedContent(slot: HTMLSlotElement): boolean {
   return slot.assignedNodes({ flatten: true }).some((node) => {
@@ -48,7 +48,7 @@ export class RgComboboxElement extends FormAssociatedElement {
     'size',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="field" part="field">
       <div class="label-row" part="label-row">
         <label class="label" part="label"><slot name="label"><span data-label></span></slot></label>
@@ -69,7 +69,7 @@ export class RgComboboxElement extends FormAssociatedElement {
       <slot class="source"></slot>
     </div>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     ${fieldStyles}
     ${motionStyles}
     .control { padding: 0.65rem 2.7rem 0.65rem 0.85rem; }
@@ -351,7 +351,7 @@ export class RgComboboxElement extends FormAssociatedElement {
 
   #optionsFromChildren(): readonly RgSelectOption[] {
     return Array.from(this.children)
-      .filter((child): child is RgOptionElement => child.localName === RgOptionElement.tagName)
+      .filter((child): child is RgOptionElement => child.localName === 'rg-option')
       .map((option) => ({
         value: option.value,
         label: option.label,

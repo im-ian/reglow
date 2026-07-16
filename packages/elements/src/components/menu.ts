@@ -13,18 +13,22 @@ export interface RgMenuOpenChangeDetail {
   readonly reason: 'trigger' | 'escape' | 'outside' | 'selection' | 'api';
 }
 
+function isMenuItem(value: unknown): value is RgMenuItemElement {
+  return value instanceof HTMLElement && value.localName === 'rg-menu-item';
+}
+
 export class RgMenuItemElement extends ReglowElement {
   static readonly tagName = 'rg-menu-item' as const;
   static readonly observedAttributes = ['disabled', 'value'] as const;
   static readonly delegatesFocus = false;
-  static readonly template = String.raw`
+  static readonly template = `
     <span class="item" part="base item">
       <span class="start" part="start"><slot name="start"></slot></span>
       <span class="label" part="label"><slot></slot></span>
       <span class="end" part="end"><slot name="end"></slot></span>
     </span>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; border-radius: var(--rg-radius-sm, 0.7rem); cursor: pointer; outline: none; }
     :host([disabled]) { opacity: 0.42; cursor: not-allowed; }
     .item {
@@ -78,11 +82,12 @@ export class RgMenuItemElement extends ReglowElement {
 export class RgMenuElement extends ReglowElement {
   static readonly tagName = 'rg-menu' as const;
   static readonly observedAttributes = ['disabled', 'label', 'open', 'placement'] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <span class="trigger" part="trigger"><slot name="trigger"></slot></span>
     <div class="menu" part="menu" role="menu" hidden><slot></slot></div>
   `;
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${motionStyles}
     :host { display: inline-flex; }
     .trigger { display: contents; }
@@ -103,6 +108,7 @@ export class RgMenuElement extends ReglowElement {
       animation: rg-pop-in var(--_rg-slow) var(--_rg-spring) both;
     }
   `;
+  }
 
   #triggerElement: HTMLElement | null = null;
   #menuId = '';
@@ -187,7 +193,7 @@ export class RgMenuElement extends ReglowElement {
 
   #items(): RgMenuItemElement[] {
     return Array.from(this.children).filter(
-      (child): child is RgMenuItemElement => child instanceof RgMenuItemElement && !child.disabled,
+      (child): child is RgMenuItemElement => isMenuItem(child) && !child.disabled,
     );
   }
 
@@ -213,9 +219,7 @@ export class RgMenuElement extends ReglowElement {
       if (this.open) this.#focus(0);
       return;
     }
-    const item = path.find(
-      (target): target is RgMenuItemElement => target instanceof RgMenuItemElement,
-    );
+    const item = path.find(isMenuItem);
     if (item && !item.disabled) this.#select(item, event);
   }
 

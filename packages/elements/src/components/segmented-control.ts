@@ -9,12 +9,16 @@ export interface RgSegmentedValueChangeDetail {
   readonly previousValue: string;
 }
 
+function isSegment(value: unknown): value is RgSegmentElement {
+  return value instanceof HTMLElement && value.localName === 'rg-segment';
+}
+
 export class RgSegmentElement extends ReglowElement {
   static readonly tagName = 'rg-segment' as const;
   static readonly delegatesFocus = false;
   static readonly observedAttributes = ['disabled', 'selected', 'value'] as const;
   static readonly template = '<span class="segment" part="base segment"><slot></slot></span>';
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host {
       display: inline-flex;
       min-width: 0;
@@ -123,7 +127,7 @@ export class RgSegmentedControlElement extends FormAssociatedElement {
     'size',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="field" part="base">
       <span class="label" part="label"></span>
       <div class="control" part="control">
@@ -132,7 +136,7 @@ export class RgSegmentedControlElement extends FormAssociatedElement {
       </div>
     </div>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: inline-block; max-width: 100%; }
     :host([full-width]) { display: block; width: 100%; }
     .field { display: grid; gap: 0.42rem; }
@@ -324,15 +328,13 @@ export class RgSegmentedControlElement extends FormAssociatedElement {
 
   #handleClick(event: MouseEvent): void {
     if (this.disabled || this.hasAttribute('data-form-disabled')) return;
-    const segment = event.composedPath().find((item) => item instanceof RgSegmentElement) as
-      RgSegmentElement | undefined;
+    const segment = event.composedPath().find(isSegment);
     if (segment && this.#segments().includes(segment)) this.#select(segment, true);
   }
 
   #handleKeydown(event: KeyboardEvent): void {
     if (this.disabled || this.hasAttribute('data-form-disabled')) return;
-    const segment = event.composedPath().find((item) => item instanceof RgSegmentElement) as
-      RgSegmentElement | undefined;
+    const segment = event.composedPath().find(isSegment);
     const enabled = this.#segments().filter((item) => !item.disabled);
     if (!segment || !enabled.includes(segment)) return;
     const index = enabled.indexOf(segment);
@@ -375,9 +377,7 @@ export class RgSegmentedControlElement extends FormAssociatedElement {
   }
 
   #segments(): RgSegmentElement[] {
-    return Array.from(this.children).filter(
-      (child): child is RgSegmentElement => child instanceof RgSegmentElement,
-    );
+    return Array.from(this.children).filter(isSegment);
   }
 
   #scheduleIndicator(): void {

@@ -50,7 +50,7 @@ export class RgRadioElement extends ReglowElement {
     'label',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <label class="row" part="base">
       <input class="native" part="control" type="radio" />
       <span class="indicator" part="indicator" aria-hidden="true"><span class="dot"></span></span>
@@ -62,7 +62,7 @@ export class RgRadioElement extends ReglowElement {
       </span>
     </label>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; width: fit-content; max-width: 100%; }
     .row {
       position: relative;
@@ -264,7 +264,7 @@ export class RgRadioGroupElement extends FormAssociatedElement {
     'required',
     'value',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <div class="field" part="group">
       <div class="label-row" part="label-row">
         <span class="label" part="label"><slot name="label"><span data-label></span></slot></span>
@@ -279,7 +279,8 @@ export class RgRadioGroupElement extends FormAssociatedElement {
       </div>
     </div>
   `;
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${fieldStyles}
 
     .options { display: flex; flex-direction: column; gap: 0.65rem; }
@@ -292,6 +293,7 @@ export class RgRadioGroupElement extends FormAssociatedElement {
       background: var(--_rg-danger-soft);
     }
   `;
+  }
 
   #labelId = '';
   #descriptionId = '';
@@ -467,7 +469,7 @@ export class RgRadioGroupElement extends FormAssociatedElement {
     if (!slot) return [];
     return slot
       .assignedElements({ flatten: true })
-      .filter((element): element is RgRadioElement => element.localName === RgRadioElement.tagName);
+      .filter((element): element is RgRadioElement => element.localName === 'rg-radio');
   }
 
   #synchronizeRadios(radios: readonly RgRadioElement[]): RgRadioElement | undefined {
@@ -510,7 +512,7 @@ export class RgRadioGroupElement extends FormAssociatedElement {
       .composedPath()
       .find(
         (target): target is RgRadioElement =>
-          target instanceof Element && target.localName === RgRadioElement.tagName,
+          target instanceof Element && target.localName === 'rg-radio',
       );
   }
 
@@ -533,7 +535,7 @@ export class RgRadioGroupElement extends FormAssociatedElement {
       .map((record) => record.target)
       .filter(
         (target): target is RgRadioElement =>
-          target instanceof Element && target.localName === RgRadioElement.tagName,
+          target instanceof Element && target.localName === 'rg-radio',
       );
     const newlySelected = changedRadios.find((radio) => radio.checked && !radio.disabled);
     if (newlySelected) {

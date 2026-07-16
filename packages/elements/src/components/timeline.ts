@@ -14,7 +14,7 @@ export class RgTimelineItemElement extends ReglowElement {
     'timestamp',
     'tone',
   ] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <article class="item" part="base">
       <span class="rail" part="rail" aria-hidden="true">
         <span class="marker" part="marker"><slot name="icon"><span class="dot"></span></slot></span>
@@ -27,7 +27,7 @@ export class RgTimelineItemElement extends ReglowElement {
       </span>
     </article>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host {
       --_rg-timeline-color: var(--_rg-brand);
       display: block;
@@ -228,10 +228,10 @@ export class RgTimelineElement extends ReglowElement {
   static readonly tagName = 'rg-timeline' as const;
   static readonly delegatesFocus = false;
   static readonly observedAttributes = ['label'] as const;
-  static readonly template = String.raw`
+  static readonly template = `
     <ol part="base list" role="list"><slot></slot></ol>
   `;
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; min-width: 0; }
     ol { min-width: 0; margin: 0; padding: 0; list-style: none; }
   `;
@@ -254,7 +254,7 @@ export class RgTimelineElement extends ReglowElement {
     list.setAttribute('aria-label', this.label);
 
     const items = Array.from(this.children).filter(
-      (child): child is RgTimelineItemElement => child.localName === RgTimelineItemElement.tagName,
+      (child): child is RgTimelineItemElement => child.localName === 'rg-timeline-item',
     );
     items.forEach((item, index) => item.syncPresentation(index === items.length - 1));
   }

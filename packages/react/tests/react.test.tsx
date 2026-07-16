@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react';
 import { createRef } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { componentMetadata } from '@reglow/elements';
+import * as Reglow from '../src/index.js';
 import {
   Avatar,
   AvatarGroup,
@@ -50,6 +52,15 @@ afterEach(() => {
 });
 
 describe('@reglow/react', () => {
+  it('exports an adapter for every public Reglow element', () => {
+    const exports = Reglow as unknown as Record<string, unknown>;
+    const expectedNames = componentMetadata.map(({ className }) =>
+      className.replace(/^Rg/, '').replace(/Element$/, ''),
+    );
+
+    expect(expectedNames.filter((name) => exports[name] === undefined)).toEqual([]);
+  });
+
   it('forwards typed refs, attributes, and named slots', () => {
     const ref = createRef<RgButtonElement>();
     const { container } = render(

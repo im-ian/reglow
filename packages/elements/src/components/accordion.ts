@@ -14,7 +14,8 @@ export interface AccordionValueChangeDetail {
 export class RgAccordionItemElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-accordion-item';
   static readonly observedAttributes = ['value', 'open', 'disabled', 'heading-level'];
-  static readonly styles = String.raw`
+  static get styles(): string {
+    return `
     ${motionStyles}
 
     :host { display: block; border-block-end: 1px solid var(--_rg-border); }
@@ -123,9 +124,10 @@ export class RgAccordionItemElement extends ReglowElement {
       to { opacity: 0; transform: translateY(-0.2rem); }
     }
   `;
+  }
 
   #closing = false;
-  static readonly template = String.raw`
+  static readonly template = `
     <details part="base">
       <summary part="trigger">
         <span class="heading" part="heading"><slot name="heading"></slot></span>
@@ -286,7 +288,7 @@ export class RgAccordionItemElement extends ReglowElement {
 export class RgAccordionElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-accordion';
   static readonly observedAttributes = ['value', 'multiple', 'collapsible'];
-  static readonly styles = String.raw`
+  static readonly styles = `
     :host { display: block; }
     .accordion { display: grid; width: 100%; }
   `;
@@ -369,8 +371,7 @@ export class RgAccordionElement extends ReglowElement {
     return this.query<HTMLSlotElement>('slot')
       .assignedElements({ flatten: true })
       .filter(
-        (element): element is RgAccordionItemElement =>
-          element.localName === RgAccordionItemElement.tagName,
+        (element): element is RgAccordionItemElement => element.localName === 'rg-accordion-item',
       );
   }
 
@@ -390,7 +391,7 @@ export class RgAccordionElement extends ReglowElement {
       .composedPath()
       .find(
         (target): target is RgAccordionItemElement =>
-          target instanceof HTMLElement && target.localName === RgAccordionItemElement.tagName,
+          target instanceof HTMLElement && target.localName === 'rg-accordion-item',
       );
     if (!item || this.#syncing) return;
 
@@ -418,8 +419,7 @@ export class RgAccordionElement extends ReglowElement {
     if (this.#syncing) return;
     const itemRecords = records.filter(
       (record): record is MutationRecord & { target: RgAccordionItemElement } =>
-        record.target instanceof HTMLElement &&
-        record.target.localName === RgAccordionItemElement.tagName,
+        record.target instanceof HTMLElement && record.target.localName === 'rg-accordion-item',
     );
     if (itemRecords.length === 0) return;
 
@@ -443,7 +443,7 @@ export class RgAccordionElement extends ReglowElement {
       .composedPath()
       .find(
         (target): target is RgAccordionItemElement =>
-          target instanceof HTMLElement && target.localName === RgAccordionItemElement.tagName,
+          target instanceof HTMLElement && target.localName === 'rg-accordion-item',
       );
     if (!item) return;
     const enabled = this.items().filter((candidate) => !candidate.disabled);
