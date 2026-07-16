@@ -102,3 +102,21 @@ export const BreadcrumbsAndPagination: Story = {
     </div>
   `,
 };
+
+export const StepIndicators: Story = {
+  render: () => html`
+    <div class="rg-story-stack rg-wide-demo">
+      <rg-step-indicator value="delivery" label="Checkout progress">
+        <rg-step value="account">Account</rg-step>
+        <rg-step value="delivery" description="Choose a delivery window">Delivery</rg-step>
+        <rg-step value="review">Review</rg-step>
+        <rg-step value="payment" optional>Payment</rg-step>
+      </rg-step-indicator>
+      <rg-step-indicator value="security" label="Account setup" orientation="vertical">
+        <rg-step value="profile" description="Basic account information">Profile</rg-step>
+        <rg-step value="security" description="Passkey and recovery options">Security</rg-step>
+        <rg-step value="confirm" description="Review your choices">Confirm</rg-step>
+      </rg-step-indicator>
+    </div>
+  `,
+};

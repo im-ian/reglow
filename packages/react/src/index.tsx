@@ -4,6 +4,7 @@ import {
 } from '@reglow/elements/components/accordion';
 import { RgAlertElement as RgAlertElementConstructor } from '@reglow/elements/components/alert';
 import { RgAvatarElement as RgAvatarElementConstructor } from '@reglow/elements/components/avatar';
+import { RgAvatarGroupElement as RgAvatarGroupElementConstructor } from '@reglow/elements/components/avatar-group';
 import { RgBadgeElement as RgBadgeElementConstructor } from '@reglow/elements/components/badge';
 import {
   RgBreadcrumbElement as RgBreadcrumbElementConstructor,
@@ -30,6 +31,9 @@ import {
 import { RgDividerElement as RgDividerElementConstructor } from '@reglow/elements/components/divider';
 import { RgEmptyStateElement as RgEmptyStateElementConstructor } from '@reglow/elements/components/empty-state';
 import { RgFieldsetElement as RgFieldsetElementConstructor } from '@reglow/elements/components/fieldset';
+import { RgFormatBytesElement as RgFormatBytesElementConstructor } from '@reglow/elements/components/format-bytes';
+import { RgFormatDateElement as RgFormatDateElementConstructor } from '@reglow/elements/components/format-date';
+import { RgFormatNumberElement as RgFormatNumberElementConstructor } from '@reglow/elements/components/format-number';
 import { RgInputElement as RgInputElementConstructor } from '@reglow/elements/components/input';
 import { RgKbdElement as RgKbdElementConstructor } from '@reglow/elements/components/kbd';
 import { RgLinkElement as RgLinkElementConstructor } from '@reglow/elements/components/link';
@@ -37,6 +41,7 @@ import {
   RgMenuElement as RgMenuElementConstructor,
   RgMenuItemElement as RgMenuItemElementConstructor,
 } from '@reglow/elements/components/menu';
+import { RgMeterElement as RgMeterElementConstructor } from '@reglow/elements/components/meter';
 import { RgPaginationElement as RgPaginationElementConstructor } from '@reglow/elements/components/pagination';
 import { RgPopoverElement as RgPopoverElementConstructor } from '@reglow/elements/components/popover';
 import {
@@ -62,12 +67,20 @@ import { RgSkeletonElement as RgSkeletonElementConstructor } from '@reglow/eleme
 import { RgSliderElement as RgSliderElementConstructor } from '@reglow/elements/components/slider';
 import { RgSwitchElement as RgSwitchElementConstructor } from '@reglow/elements/components/switch';
 import {
+  RgStepElement as RgStepElementConstructor,
+  RgStepIndicatorElement as RgStepIndicatorElementConstructor,
+} from '@reglow/elements/components/step-indicator';
+import {
   RgTabElement as RgTabElementConstructor,
   RgTabPanelElement as RgTabPanelElementConstructor,
   RgTabsElement as RgTabsElementConstructor,
 } from '@reglow/elements/components/tabs';
 import { RgTextareaElement as RgTextareaElementConstructor } from '@reglow/elements/components/textarea';
 import { RgThemeElement as RgThemeElementConstructor } from '@reglow/elements/components/theme';
+import {
+  RgTimelineElement as RgTimelineElementConstructor,
+  RgTimelineItemElement as RgTimelineItemElementConstructor,
+} from '@reglow/elements/components/timeline';
 import {
   RgToastElement as RgToastElementConstructor,
   RgToastRegionElement as RgToastRegionElementConstructor,
@@ -91,6 +104,7 @@ import type {
   RgAlertElement,
   RgAvatarErrorDetail,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgAvatarLoadDetail,
   RgAvatarLoading,
   RgAvatarShape,
@@ -141,6 +155,17 @@ import type {
   RgEmptyStateSize,
   RgEmptyStateTone,
   RgFieldsetElement,
+  RgFormatBytesDisplay,
+  RgFormatBytesElement,
+  RgFormatBytesUnit,
+  RgFormatDateElement,
+  RgFormatDateHourFormat,
+  RgFormatDateMonth,
+  RgFormatDateNumeric,
+  RgFormatDateText,
+  RgFormatNumberCurrencyDisplay,
+  RgFormatNumberElement,
+  RgFormatNumberType,
   RgIconButtonElement,
   RgInputElement,
   RgInputSize,
@@ -154,6 +179,9 @@ import type {
   RgMenuItemElement,
   RgMenuOpenChangeDetail,
   RgMenuSelectDetail,
+  RgMeterElement,
+  RgMeterSize,
+  RgMeterTone,
   RgNavigateDetail,
   RgOptionElement,
   RgPaginationElement,
@@ -187,6 +215,9 @@ import type {
   RgSliderSize,
   RgSpinnerElement,
   RgSwitchElement,
+  RgStepElement,
+  RgStepIndicatorElement,
+  RgStepIndicatorOrientation,
   RgTabElement,
   RgTabPanelElement,
   RgTabsElement,
@@ -198,6 +229,9 @@ import type {
   RgThemeElement,
   RgThemeMode,
   RgThemeMotion,
+  RgTimelineElement,
+  RgTimelineItemElement,
+  RgTimelineTone,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,
@@ -414,6 +448,13 @@ export interface AvatarProps extends Omit<ReglowHostProps, 'onLoad' | 'onError'>
   onError?: (event: ReglowElementEvent<RgAvatarElement, RgAvatarErrorDetail>) => void;
 }
 
+export interface AvatarGroupProps extends ReglowHostProps {
+  label?: string;
+  max?: number;
+  moreLabel?: string;
+  size?: RgAvatarSize;
+}
+
 export interface CardProps extends ReglowHostProps {
   variant?: RgCardVariant;
   padding?: RgCardPadding;
@@ -447,6 +488,20 @@ export interface ProgressProps extends ReglowHostProps {
   value?: number;
   max?: number;
   label?: ReactNode;
+}
+
+export interface MeterProps extends ReglowHostProps {
+  value?: number;
+  min?: number;
+  max?: number;
+  low?: number;
+  high?: number;
+  optimum?: number;
+  label?: ReactNode;
+  valueText?: string;
+  showValue?: boolean;
+  tone?: RgMeterTone;
+  size?: RgMeterSize;
 }
 
 export interface SpinnerProps extends ReglowHostProps {
@@ -759,6 +814,74 @@ export interface RelativeTimeProps extends ReglowHostProps {
   sync?: boolean;
 }
 
+export interface TimelineProps extends ReglowHostProps {
+  label?: string;
+}
+
+export interface TimelineItemProps extends ReglowHostProps {
+  heading?: string;
+  description?: ReactNode;
+  timestamp?: string;
+  dateTime?: string;
+  tone?: RgTimelineTone;
+  icon?: ReactNode;
+  time?: ReactNode;
+}
+
+export interface FormatDateProps extends ReglowHostProps {
+  date?: string | Date;
+  locale?: string;
+  weekday?: RgFormatDateText;
+  era?: RgFormatDateText;
+  year?: RgFormatDateNumeric;
+  month?: RgFormatDateMonth;
+  day?: RgFormatDateNumeric;
+  hour?: RgFormatDateNumeric;
+  minute?: RgFormatDateNumeric;
+  second?: RgFormatDateNumeric;
+  timeZone?: string;
+  timeZoneName?: 'short' | 'long';
+  hourFormat?: RgFormatDateHourFormat;
+}
+
+export interface FormatNumberProps extends ReglowHostProps {
+  value?: number;
+  locale?: string;
+  type?: RgFormatNumberType;
+  currency?: string;
+  currencyDisplay?: RgFormatNumberCurrencyDisplay;
+  minimumIntegerDigits?: number;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  minimumSignificantDigits?: number;
+  maximumSignificantDigits?: number;
+  withoutGrouping?: boolean;
+}
+
+export interface FormatBytesProps extends ReglowHostProps {
+  value?: number;
+  locale?: string;
+  unit?: RgFormatBytesUnit;
+  display?: RgFormatBytesDisplay;
+}
+
+export interface StepIndicatorProps extends ReglowHostProps {
+  value?: string;
+  label?: string;
+  orientation?: RgStepIndicatorOrientation;
+  completeLabel?: string;
+  currentLabel?: string;
+  upcomingLabel?: string;
+}
+
+export interface StepProps extends ReglowHostProps {
+  value?: string;
+  label?: string;
+  description?: ReactNode;
+  optional?: boolean;
+  optionalLabel?: string;
+}
+
 const fieldSlots = { label: 'label', description: 'description', error: 'error' } as const;
 const valueEvents = { onValueChange: 'input', onValueCommit: 'change' } as const;
 
@@ -938,6 +1061,15 @@ export const Avatar = /* @__PURE__ */ (() =>
     },
     RgAvatarElementConstructor,
   ))();
+export const AvatarGroup = /* @__PURE__ */ (() =>
+  createReglowComponent<RgAvatarGroupElement, AvatarGroupProps>(
+    'rg-avatar-group',
+    {
+      displayName: 'AvatarGroup',
+      attributes: { moreLabel: 'more-label' },
+    },
+    RgAvatarGroupElementConstructor,
+  ))();
 export const Card = /* @__PURE__ */ (() =>
   createReglowComponent<RgCardElement, CardProps>(
     'rg-card',
@@ -974,6 +1106,16 @@ export const Progress = /* @__PURE__ */ (() =>
       slots: { label: 'label' },
     },
     RgProgressElementConstructor,
+  ))();
+export const Meter = /* @__PURE__ */ (() =>
+  createReglowComponent<RgMeterElement, MeterProps>(
+    'rg-meter',
+    {
+      displayName: 'Meter',
+      attributes: { valueText: 'value-text', showValue: 'show-value' },
+      slots: { label: 'label' },
+    },
+    RgMeterElementConstructor,
   ))();
 export const Spinner = /* @__PURE__ */ (() =>
   createReglowComponent<RgSpinnerElement, SpinnerProps>(
@@ -1199,6 +1341,45 @@ export const Pagination = /* @__PURE__ */ (() =>
     },
     RgPaginationElementConstructor,
   ))();
+export const StepIndicator = /* @__PURE__ */ (() =>
+  createReglowComponent<RgStepIndicatorElement, StepIndicatorProps>(
+    'rg-step-indicator',
+    {
+      displayName: 'StepIndicator',
+      attributes: {
+        completeLabel: 'complete-label',
+        currentLabel: 'current-label',
+        upcomingLabel: 'upcoming-label',
+      },
+    },
+    RgStepIndicatorElementConstructor,
+  ))();
+export const Step = /* @__PURE__ */ (() =>
+  createReglowComponent<RgStepElement, StepProps>(
+    'rg-step',
+    {
+      displayName: 'Step',
+      attributes: { optionalLabel: 'optional-label' },
+      slots: { description: 'description' },
+    },
+    RgStepElementConstructor,
+  ))();
+export const Timeline = /* @__PURE__ */ (() =>
+  createReglowComponent<RgTimelineElement, TimelineProps>(
+    'rg-timeline',
+    { displayName: 'Timeline' },
+    RgTimelineElementConstructor,
+  ))();
+export const TimelineItem = /* @__PURE__ */ (() =>
+  createReglowComponent<RgTimelineItemElement, TimelineItemProps>(
+    'rg-timeline-item',
+    {
+      displayName: 'TimelineItem',
+      attributes: { dateTime: 'datetime' },
+      slots: { icon: 'icon', time: 'time', description: 'description' },
+    },
+    RgTimelineItemElementConstructor,
+  ))();
 export const Popover = /* @__PURE__ */ (() =>
   createReglowComponent<RgPopoverElement, PopoverProps>(
     'rg-popover',
@@ -1319,12 +1500,51 @@ export const RelativeTime = /* @__PURE__ */ (() =>
     },
     RgRelativeTimeElementConstructor,
   ))();
+export const FormatDate = /* @__PURE__ */ (() =>
+  createReglowComponent<RgFormatDateElement, FormatDateProps>(
+    'rg-format-date',
+    {
+      displayName: 'FormatDate',
+      attributes: {
+        hourFormat: 'hour-format',
+        timeZone: 'time-zone',
+        timeZoneName: 'time-zone-name',
+      },
+      properties: ['date'],
+      propertyDefaults: { date: '' },
+    },
+    RgFormatDateElementConstructor,
+  ))();
+export const FormatNumber = /* @__PURE__ */ (() =>
+  createReglowComponent<RgFormatNumberElement, FormatNumberProps>(
+    'rg-format-number',
+    {
+      displayName: 'FormatNumber',
+      attributes: {
+        currencyDisplay: 'currency-display',
+        minimumIntegerDigits: 'minimum-integer-digits',
+        minimumFractionDigits: 'minimum-fraction-digits',
+        maximumFractionDigits: 'maximum-fraction-digits',
+        minimumSignificantDigits: 'minimum-significant-digits',
+        maximumSignificantDigits: 'maximum-significant-digits',
+        withoutGrouping: 'without-grouping',
+      },
+    },
+    RgFormatNumberElementConstructor,
+  ))();
+export const FormatBytes = /* @__PURE__ */ (() =>
+  createReglowComponent<RgFormatBytesElement, FormatBytesProps>(
+    'rg-format-bytes',
+    { displayName: 'FormatBytes' },
+    RgFormatBytesElementConstructor,
+  ))();
 
 export type {
   RgAccordionElement,
   RgAccordionItemElement,
   RgAlertElement,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgBadgeElement,
   RgBreadcrumbElement,
   RgBreadcrumbItemElement,
@@ -1342,12 +1562,16 @@ export type {
   RgDrawerElement,
   RgEmptyStateElement,
   RgFieldsetElement,
+  RgFormatBytesElement,
+  RgFormatDateElement,
+  RgFormatNumberElement,
   RgIconButtonElement,
   RgInputElement,
   RgKbdElement,
   RgLinkElement,
   RgMenuElement,
   RgMenuItemElement,
+  RgMeterElement,
   RgOptionElement,
   RgPaginationElement,
   RgPopoverElement,
@@ -1364,11 +1588,15 @@ export type {
   RgSliderElement,
   RgSpinnerElement,
   RgSwitchElement,
+  RgStepElement,
+  RgStepIndicatorElement,
   RgTabElement,
   RgTabPanelElement,
   RgTabsElement,
   RgTextareaElement,
   RgThemeElement,
+  RgTimelineElement,
+  RgTimelineItemElement,
   RgToastElement,
   RgToastRegionElement,
   RgTooltipElement,

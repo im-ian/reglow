@@ -1,6 +1,7 @@
 import { RgAccordionElement, RgAccordionItemElement } from './components/accordion.js';
 import { RgAlertElement } from './components/alert.js';
 import { RgAvatarElement } from './components/avatar.js';
+import { RgAvatarGroupElement } from './components/avatar-group.js';
 import { RgBadgeElement } from './components/badge.js';
 import { RgBreadcrumbElement, RgBreadcrumbItemElement } from './components/breadcrumb.js';
 import { RgButtonElement, RgIconButtonElement } from './components/button.js';
@@ -15,10 +16,14 @@ import { RgDialogElement, RgDrawerElement } from './components/dialog.js';
 import { RgDividerElement } from './components/divider.js';
 import { RgEmptyStateElement } from './components/empty-state.js';
 import { RgFieldsetElement } from './components/fieldset.js';
+import { RgFormatBytesElement } from './components/format-bytes.js';
+import { RgFormatDateElement } from './components/format-date.js';
+import { RgFormatNumberElement } from './components/format-number.js';
 import { RgInputElement } from './components/input.js';
 import { RgKbdElement } from './components/kbd.js';
 import { RgLinkElement } from './components/link.js';
 import { RgMenuElement, RgMenuItemElement } from './components/menu.js';
+import { RgMeterElement } from './components/meter.js';
 import { RgPaginationElement } from './components/pagination.js';
 import { RgPopoverElement } from './components/popover.js';
 import { RgProgressElement, RgSpinnerElement } from './components/progress.js';
@@ -31,9 +36,11 @@ import { RgOptionElement, RgSelectElement } from './components/select.js';
 import { RgSkeletonElement } from './components/skeleton.js';
 import { RgSliderElement } from './components/slider.js';
 import { RgSwitchElement } from './components/switch.js';
+import { RgStepElement, RgStepIndicatorElement } from './components/step-indicator.js';
 import { RgTabElement, RgTabPanelElement, RgTabsElement } from './components/tabs.js';
 import { RgTextareaElement } from './components/textarea.js';
 import { RgThemeElement } from './components/theme.js';
+import { RgTimelineElement, RgTimelineItemElement } from './components/timeline.js';
 import { RgToastElement, RgToastRegionElement } from './components/toast.js';
 import { RgTooltipElement } from './components/tooltip.js';
 import type { ReglowElementDefinition } from './core/define.js';
@@ -63,14 +70,19 @@ export const reglowElementDefinitions = [
   RgSegmentElement,
   RgBadgeElement,
   RgAvatarElement,
+  RgAvatarGroupElement,
   RgCardElement,
   RgDividerElement,
   RgKbdElement,
   RgRelativeTimeElement,
+  RgFormatDateElement,
+  RgFormatNumberElement,
+  RgFormatBytesElement,
   RgFieldsetElement,
   RgEmptyStateElement,
   RgAlertElement,
   RgProgressElement,
+  RgMeterElement,
   RgProgressRingElement,
   RgSpinnerElement,
   RgSkeletonElement,
@@ -84,6 +96,10 @@ export const reglowElementDefinitions = [
   RgBreadcrumbElement,
   RgBreadcrumbItemElement,
   RgPaginationElement,
+  RgStepIndicatorElement,
+  RgStepElement,
+  RgTimelineElement,
+  RgTimelineItemElement,
   RgDialogElement,
   RgDrawerElement,
   RgTooltipElement,
@@ -120,14 +136,19 @@ export interface ReglowHTMLElementTagNameMap {
   'rg-segment': RgSegmentElement;
   'rg-badge': RgBadgeElement;
   'rg-avatar': RgAvatarElement;
+  'rg-avatar-group': RgAvatarGroupElement;
   'rg-card': RgCardElement;
   'rg-divider': RgDividerElement;
   'rg-kbd': RgKbdElement;
   'rg-relative-time': RgRelativeTimeElement;
+  'rg-format-date': RgFormatDateElement;
+  'rg-format-number': RgFormatNumberElement;
+  'rg-format-bytes': RgFormatBytesElement;
   'rg-fieldset': RgFieldsetElement;
   'rg-empty-state': RgEmptyStateElement;
   'rg-alert': RgAlertElement;
   'rg-progress': RgProgressElement;
+  'rg-meter': RgMeterElement;
   'rg-progress-ring': RgProgressRingElement;
   'rg-spinner': RgSpinnerElement;
   'rg-skeleton': RgSkeletonElement;
@@ -141,6 +162,10 @@ export interface ReglowHTMLElementTagNameMap {
   'rg-breadcrumb': RgBreadcrumbElement;
   'rg-breadcrumb-item': RgBreadcrumbItemElement;
   'rg-pagination': RgPaginationElement;
+  'rg-step-indicator': RgStepIndicatorElement;
+  'rg-step': RgStepElement;
+  'rg-timeline': RgTimelineElement;
+  'rg-timeline-item': RgTimelineItemElement;
   'rg-dialog': RgDialogElement;
   'rg-drawer': RgDrawerElement;
   'rg-tooltip': RgTooltipElement;

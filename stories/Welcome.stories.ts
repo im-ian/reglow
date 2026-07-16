@@ -34,7 +34,7 @@ export const DesignSystem: Story = {
             >
           </div>
           <div class="rg-showcase-proof">
-            <span>${CheckIcon} 51 custom elements</span>
+            <span>${CheckIcon} 60 custom elements</span>
             <span>${CheckIcon} React 19</span>
             <span>${CheckIcon} Vue 3</span>
           </div>

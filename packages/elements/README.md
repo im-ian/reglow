@@ -29,7 +29,7 @@ import { RgButtonElement } from '@reglow/elements/components/button';
 defineElement({ tagName: RgButtonElement.tagName, constructor: RgButtonElement });
 ```
 
-`@reglow/elements/register` is an opt-in convenience entry that registers the complete 51-element
+`@reglow/elements/register` is an opt-in convenience entry that registers the complete 60-element
 catalog. Use it only when that browser entry intentionally needs the full catalog; it cannot remove
 unused elements because importing it makes every registration observable.
 

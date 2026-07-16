@@ -8,7 +8,7 @@ import SelectOptions from './fixtures/select-options.svelte';
 
 describe('@reglow/svelte', () => {
   it('exports one Svelte component for every public Reglow element', () => {
-    expect(Object.keys(Reglow).filter((name) => name.startsWith('Rg'))).toHaveLength(51);
+    expect(Object.keys(Reglow).filter((name) => name.startsWith('Rg'))).toHaveLength(60);
   });
 
   it('updates the binding before invoking the typed value callback', async () => {

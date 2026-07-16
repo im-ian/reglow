@@ -87,7 +87,7 @@ does not require that second constructor.
 
 ```astro
 <script>
-  // Explicit opt-in when this entry really needs the complete 51-element catalog:
+  // Explicit opt-in when this entry really needs the complete 60-element catalog:
   import '@reglow/elements/register';
 </script>
 ```

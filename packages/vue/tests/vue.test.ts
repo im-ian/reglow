@@ -3,6 +3,7 @@ import { Fragment, h } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   RgAvatar,
+  RgAvatarGroup,
   RgBreadcrumb,
   RgBreadcrumbItem,
   RgButton,
@@ -18,11 +19,15 @@ import {
   RgDivider,
   RgEmptyState,
   RgFieldset,
+  RgFormatBytes,
+  RgFormatDate,
+  RgFormatNumber,
   RgInput,
   RgKbd,
   RgLink,
   RgMenu,
   RgMenuItem,
+  RgMeter,
   RgPagination,
   RgPopover,
   RgProgressRing,
@@ -31,6 +36,10 @@ import {
   RgSegment,
   RgSegmentedControl,
   RgSlider,
+  RgStep,
+  RgStepIndicator,
+  RgTimeline,
+  RgTimelineItem,
   RgTextarea,
   RgTheme,
   RgToastRegion,
@@ -268,7 +277,7 @@ describe('@reglow/vue', () => {
     const component = vi.fn();
     ReglowPlugin.install({ component } as never);
     expect(component).toHaveBeenCalledWith('RgTheme', RgTheme);
-    expect(component.mock.calls.length).toBe(51);
+    expect(component.mock.calls.length).toBe(60);
     expect([
       RgBreadcrumb,
       RgBreadcrumbItem,
@@ -325,5 +334,83 @@ describe('@reglow/vue', () => {
       { value: 'seoul', label: 'Seoul', disabled: false, selected: false },
     ]);
     expect(combo.getAttribute('no-results-text')).toBe('No cities');
+  });
+
+  it('adapts locale helpers, meter labels, and step indicator composition', () => {
+    const formatted = mount(RgFormatNumber, {
+      attachTo: document.body,
+      props: { value: 2_000, locale: 'en-US', type: 'currency', currency: 'USD' },
+    }).element as HTMLElement;
+    const meter = mount(RgMeter, {
+      attachTo: document.body,
+      props: { value: 75, max: 100, showValue: true },
+      slots: { label: '<strong>Storage</strong>' },
+    }).element as HTMLElement;
+    const steps = mount(RgStepIndicator, {
+      attachTo: document.body,
+      props: { value: 'delivery', label: 'Checkout' },
+      slots: {
+        default: () => [
+          h(RgStep, { value: 'account' }, () => 'Account'),
+          h(RgStep, { value: 'delivery' }, () => 'Delivery'),
+        ],
+      },
+    }).element as HTMLElement;
+
+    expect(formatted.shadowRoot?.querySelector('[part~="base"]')?.textContent).toBe('$2,000.00');
+    expect(meter.querySelector('[slot="label"]')?.textContent).toBe('Storage');
+    expect(meter.hasAttribute('show-value')).toBe(true);
+    expect(Array.from(steps.querySelectorAll('rg-step')).map((step) => step.dataset.state)).toEqual(
+      ['complete', 'current'],
+    );
+    expect([
+      RgFormatDate,
+      RgFormatNumber,
+      RgFormatBytes,
+      RgMeter,
+      RgStepIndicator,
+      RgStep,
+    ]).toHaveLength(6);
+  });
+
+  it('adapts avatar groups and timeline item slots', () => {
+    const group = mount(RgAvatarGroup, {
+      attachTo: document.body,
+      props: { label: 'Reviewers', max: 2, moreLabel: 'more reviewers', size: 'sm' },
+      slots: {
+        default: () => [
+          h(RgAvatar, { name: 'Mina Park' }),
+          h(RgAvatar, { name: 'Alex Kim' }),
+          h(RgAvatar, { name: 'Noah Lee' }),
+        ],
+      },
+    }).element as HTMLElement;
+    const timeline = mount(RgTimeline, {
+      attachTo: document.body,
+      props: { label: 'Activity' },
+      slots: {
+        default: () =>
+          h(
+            RgTimelineItem,
+            {
+              heading: 'Review completed',
+              dateTime: '2026-07-16T12:00:00Z',
+              timestamp: '12:00',
+              tone: 'success',
+            },
+            {
+              icon: () => '✓',
+              description: () => 'Approved by Mina',
+            },
+          ),
+      },
+    }).element as HTMLElement;
+
+    expect(group.shadowRoot?.textContent).toContain('+1');
+    expect(group.querySelector('rg-avatar')?.getAttribute('size')).toBe('sm');
+    expect(timeline.querySelector('rg-timeline-item [slot="icon"]')?.textContent).toBe('✓');
+    expect(timeline.querySelector('rg-timeline-item [slot="description"]')?.textContent).toBe(
+      'Approved by Mina',
+    );
   });
 });

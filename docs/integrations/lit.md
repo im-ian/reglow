@@ -99,7 +99,7 @@ Register every related tag rendered in light DOM too. For example, a declarative
 needs `RgOptionElement`; assigning `RgSelectElement.options` does not.
 
 ```ts
-// Explicit opt-in when this entry really needs the complete 51-element catalog:
+// Explicit opt-in when this entry really needs the complete 60-element catalog:
 import '@reglow/elements/register';
 ```
 

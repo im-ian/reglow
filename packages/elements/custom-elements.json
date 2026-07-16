@@ -1322,6 +1322,43 @@
         },
         {
           "kind": "class",
+          "name": "RgAvatarGroupElement",
+          "summary": "Overlapping avatar collection with a deterministic overflow summary.",
+          "customElement": true,
+          "tagName": "rg-avatar-group",
+          "attributes": [
+            {
+              "name": "label"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "more-label"
+            },
+            {
+              "name": "size"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "list"
+            },
+            {
+              "name": "overflow"
+            }
+          ]
+        },
+        {
+          "kind": "class",
           "name": "RgCardElement",
           "summary": "Content surface with optional media, header, and footer regions.",
           "customElement": true,
@@ -1545,6 +1582,79 @@
             },
             {
               "name": "value"
+            },
+            {
+              "name": "track"
+            },
+            {
+              "name": "indicator"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgMeterElement",
+          "summary": "Displays a scalar measurement within a known range.",
+          "customElement": true,
+          "tagName": "rg-meter",
+          "attributes": [
+            {
+              "name": "aria-label"
+            },
+            {
+              "name": "high"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "max"
+            },
+            {
+              "name": "min"
+            },
+            {
+              "name": "optimum"
+            },
+            {
+              "name": "show-value"
+            },
+            {
+              "name": "size"
+            },
+            {
+              "name": "tone"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "value-text"
+            }
+          ],
+          "slots": [
+            {
+              "name": "label"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "meta"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "meter"
             },
             {
               "name": "track"
@@ -2709,6 +2819,107 @@
         },
         {
           "kind": "class",
+          "name": "RgStepIndicatorElement",
+          "summary": "Shows progress through a fixed, linear multi-step flow.",
+          "customElement": true,
+          "tagName": "rg-step-indicator",
+          "attributes": [
+            {
+              "name": "complete-label"
+            },
+            {
+              "name": "current-label"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "upcoming-label"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "nav"
+            },
+            {
+              "name": "list"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgStepElement",
+          "summary": "Names one stateful position inside a step indicator.",
+          "customElement": true,
+          "tagName": "rg-step",
+          "attributes": [
+            {
+              "name": "description"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "optional-label"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "rail"
+            },
+            {
+              "name": "line"
+            },
+            {
+              "name": "marker"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "optional"
+            }
+          ]
+        },
+        {
+          "kind": "class",
           "name": "RgPopoverElement",
           "summary": "Non-modal anchored content surface.",
           "customElement": true,
@@ -3331,6 +3542,242 @@
               "name": "time"
             }
           ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTimelineElement",
+          "summary": "Accessible vertical chronology for read-only events and activity.",
+          "customElement": true,
+          "tagName": "rg-timeline",
+          "attributes": [
+            {
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "name": ""
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "list"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgTimelineItemElement",
+          "summary": "Timestamped entry rendered within an rg-timeline.",
+          "customElement": true,
+          "tagName": "rg-timeline-item",
+          "attributes": [
+            {
+              "name": "datetime"
+            },
+            {
+              "name": "description"
+            },
+            {
+              "name": "heading"
+            },
+            {
+              "name": "timestamp"
+            },
+            {
+              "name": "tone"
+            }
+          ],
+          "slots": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": ""
+            },
+            {
+              "name": "description"
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "rail"
+            },
+            {
+              "name": "marker"
+            },
+            {
+              "name": "line"
+            },
+            {
+              "name": "content"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": "title"
+            },
+            {
+              "name": "description"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgFormatDateElement",
+          "summary": "Formats an absolute date and time with native Intl semantics.",
+          "customElement": true,
+          "tagName": "rg-format-date",
+          "attributes": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "day"
+            },
+            {
+              "name": "era"
+            },
+            {
+              "name": "hour"
+            },
+            {
+              "name": "hour-format"
+            },
+            {
+              "name": "lang"
+            },
+            {
+              "name": "locale"
+            },
+            {
+              "name": "minute"
+            },
+            {
+              "name": "month"
+            },
+            {
+              "name": "second"
+            },
+            {
+              "name": "time-zone"
+            },
+            {
+              "name": "time-zone-name"
+            },
+            {
+              "name": "weekday"
+            },
+            {
+              "name": "year"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "time"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgFormatNumberElement",
+          "summary": "Formats decimal, percentage, and currency values for a locale.",
+          "customElement": true,
+          "tagName": "rg-format-number",
+          "attributes": [
+            {
+              "name": "currency"
+            },
+            {
+              "name": "currency-display"
+            },
+            {
+              "name": "lang"
+            },
+            {
+              "name": "locale"
+            },
+            {
+              "name": "maximum-fraction-digits"
+            },
+            {
+              "name": "maximum-significant-digits"
+            },
+            {
+              "name": "minimum-fraction-digits"
+            },
+            {
+              "name": "minimum-integer-digits"
+            },
+            {
+              "name": "minimum-significant-digits"
+            },
+            {
+              "name": "type"
+            },
+            {
+              "name": "value"
+            },
+            {
+              "name": "without-grouping"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "number"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "RgFormatBytesElement",
+          "summary": "Formats byte and bit quantities with decimal SI units.",
+          "customElement": true,
+          "tagName": "rg-format-bytes",
+          "attributes": [
+            {
+              "name": "display"
+            },
+            {
+              "name": "lang"
+            },
+            {
+              "name": "locale"
+            },
+            {
+              "name": "unit"
+            },
+            {
+              "name": "value"
+            }
+          ],
+          "slots": [],
+          "cssParts": [
+            {
+              "name": "base"
+            },
+            {
+              "name": "value"
+            }
+          ]
         }
       ],
       "exports": [
@@ -3441,6 +3888,13 @@
         },
         {
           "kind": "js",
+          "name": "RgAvatarGroupElement",
+          "declaration": {
+            "name": "RgAvatarGroupElement"
+          }
+        },
+        {
+          "kind": "js",
           "name": "RgCardElement",
           "declaration": {
             "name": "RgCardElement"
@@ -3465,6 +3919,13 @@
           "name": "RgProgressElement",
           "declaration": {
             "name": "RgProgressElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgMeterElement",
+          "declaration": {
+            "name": "RgMeterElement"
           }
         },
         {
@@ -3616,6 +4077,20 @@
         },
         {
           "kind": "js",
+          "name": "RgStepIndicatorElement",
+          "declaration": {
+            "name": "RgStepIndicatorElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgStepElement",
+          "declaration": {
+            "name": "RgStepElement"
+          }
+        },
+        {
+          "kind": "js",
           "name": "RgPopoverElement",
           "declaration": {
             "name": "RgPopoverElement"
@@ -3689,6 +4164,41 @@
           "name": "RgRelativeTimeElement",
           "declaration": {
             "name": "RgRelativeTimeElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTimelineElement",
+          "declaration": {
+            "name": "RgTimelineElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgTimelineItemElement",
+          "declaration": {
+            "name": "RgTimelineItemElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgFormatDateElement",
+          "declaration": {
+            "name": "RgFormatDateElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgFormatNumberElement",
+          "declaration": {
+            "name": "RgFormatNumberElement"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RgFormatBytesElement",
+          "declaration": {
+            "name": "RgFormatBytesElement"
           }
         }
       ]
@@ -3819,6 +4329,14 @@
         },
         {
           "kind": "custom-element-definition",
+          "name": "rg-avatar-group",
+          "declaration": {
+            "name": "RgAvatarGroupElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
           "name": "rg-card",
           "declaration": {
             "name": "RgCardElement",
@@ -3846,6 +4364,14 @@
           "name": "rg-progress",
           "declaration": {
             "name": "RgProgressElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-meter",
+          "declaration": {
+            "name": "RgMeterElement",
             "module": "dist/index.js"
           }
         },
@@ -4019,6 +4545,22 @@
         },
         {
           "kind": "custom-element-definition",
+          "name": "rg-step-indicator",
+          "declaration": {
+            "name": "RgStepIndicatorElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-step",
+          "declaration": {
+            "name": "RgStepElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
           "name": "rg-popover",
           "declaration": {
             "name": "RgPopoverElement",
@@ -4102,6 +4644,46 @@
           "name": "rg-relative-time",
           "declaration": {
             "name": "RgRelativeTimeElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-timeline",
+          "declaration": {
+            "name": "RgTimelineElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-timeline-item",
+          "declaration": {
+            "name": "RgTimelineItemElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-format-date",
+          "declaration": {
+            "name": "RgFormatDateElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-format-number",
+          "declaration": {
+            "name": "RgFormatNumberElement",
+            "module": "dist/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "rg-format-bytes",
+          "declaration": {
+            "name": "RgFormatBytesElement",
             "module": "dist/index.js"
           }
         }
