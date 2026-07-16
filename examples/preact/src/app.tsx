@@ -1,10 +1,22 @@
 import { render } from 'preact';
 import { useState } from 'preact/hooks';
-import type { RgPressDetail, RgSelectOption } from '@reglow/elements';
-import '@reglow/elements/register';
+import { defineElements, type RgPressDetail, type RgSelectOption } from '@reglow/elements';
+import { RgButtonElement } from '@reglow/elements/components/button';
+import { RgInputElement } from '@reglow/elements/components/input';
+import { RgRatingElement } from '@reglow/elements/components/rating';
+import { RgSelectElement } from '@reglow/elements/components/select';
+import { RgSwitchElement } from '@reglow/elements/components/switch';
 import '@reglow/preact';
 import '@reglow/tokens/css';
 import '@reglow/example-theme/demo.css';
+
+defineElements([
+  { tagName: RgButtonElement.tagName, constructor: RgButtonElement },
+  { tagName: RgInputElement.tagName, constructor: RgInputElement },
+  { tagName: RgRatingElement.tagName, constructor: RgRatingElement },
+  { tagName: RgSelectElement.tagName, constructor: RgSelectElement },
+  { tagName: RgSwitchElement.tagName, constructor: RgSwitchElement },
+]);
 
 const REGIONS = [
   { value: 'icn', label: 'Seoul · ICN edge' },

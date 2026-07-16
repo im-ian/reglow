@@ -4,6 +4,5 @@
   "assets": ["README.md", "LICENSE"],
   "lib": {
     "entryFile": "src/public-api.ts"
-  },
-  "allowedNonPeerDependencies": ["@reglow/elements"]
+  }
 }
