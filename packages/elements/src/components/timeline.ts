@@ -27,9 +27,9 @@ export class RgTimelineItemElement extends ReglowElement {
         <span class="line" part="line"></span>
       </span>
       <span class="content" part="content">
-        <time part="time"><slot name="time"><span data-timestamp></span></slot></time>
-        <span class="title" part="title"><slot><span data-heading></span></slot></span>
-        <span class="description" part="description"><slot name="description"><span data-description></span></slot></span>
+        <time part="time"><slot name="time"></slot><span data-timestamp></span></time>
+        <span class="title" part="title"><slot></slot><span data-heading></span></span>
+        <span class="description" part="description"><slot name="description"></slot><span data-description></span></span>
       </span>
     </article>
   `;
@@ -218,6 +218,7 @@ export class RgTimelineItemElement extends ReglowElement {
     this.mount();
     this.setAttribute('role', 'listitem');
     this.toggleAttribute('data-last', isLast);
+    this.update();
   }
 
   #hasContent(slot: HTMLSlotElement): boolean {
