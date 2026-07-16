@@ -182,6 +182,7 @@ export class RgStepElement extends ReglowElement {
     isLast: boolean,
   ): void {
     this.mount();
+    this.update();
     this.setAttribute('role', 'listitem');
     this.setAttribute('data-state', state);
     this.setAttribute('data-orientation', orientation);

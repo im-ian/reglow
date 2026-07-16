@@ -159,17 +159,22 @@ describe('step indicator', () => {
     );
   });
 
-  it('can synchronize child steps before their connected callbacks run', () => {
+  it('can render child step attributes before their connected callbacks run', () => {
     const indicator = document.createElement('rg-step-indicator') as HTMLElement & {
       connectedCallback(): void;
     };
     indicator.innerHTML = `
-      <rg-step value="account">Account</rg-step>
-      <rg-step value="delivery">Delivery</rg-step>
+      <rg-step value="account" label="Account" description="Create credentials"></rg-step>
+      <rg-step value="delivery" label="Delivery"></rg-step>
     `;
 
     expect(() => indicator.connectedCallback()).not.toThrow();
-    expect(indicator.querySelector('rg-step')!.shadowRoot).not.toBeNull();
+    const firstStep = indicator.querySelector('rg-step')!;
+    expect(firstStep.shadowRoot).not.toBeNull();
+    expect(firstStep.shadowRoot!.querySelector('[part="label"]')!.textContent).toBe('Account');
+    expect(firstStep.shadowRoot!.querySelector('[part="description"]')!.textContent).toBe(
+      'Create credentials',
+    );
   });
 
   it('announces complete, current, and upcoming steps without becoming interactive', () => {
