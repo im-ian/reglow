@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { reglowElementTags } from '../src/definitions.js';
+import { RgAvatarGroupElement, RgTimelineItemElement } from '../src/index.js';
 import '../src/register.js';
 
 afterEach(() => {
@@ -113,5 +114,14 @@ describe('timeline', () => {
 it('registers the avatar group and timeline family', () => {
   expect(reglowElementTags).toEqual(
     expect.arrayContaining(['rg-avatar-group', 'rg-timeline', 'rg-timeline-item']),
+  );
+});
+
+it('does not paint surface-colored outer rings around grouped avatars or timeline markers', () => {
+  expect(RgAvatarGroupElement.styles).not.toContain(
+    'border: 2px solid var(--_rg-surface);',
+  );
+  expect(RgTimelineItemElement.styles).not.toContain(
+    'box-shadow: 0 0 0 2px var(--_rg-surface);',
   );
 });
