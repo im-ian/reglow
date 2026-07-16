@@ -44,7 +44,7 @@ describe('locale-aware formatting helpers', () => {
     formatter.value = 2_000;
     document.body.append(formatter);
 
-    const output = formatter.shadowRoot!.querySelector('[part="base"]')!;
+    const output = formatter.shadowRoot!.querySelector('[part~="base"]')!;
     expect(output.textContent).toBe(
       new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -72,7 +72,7 @@ describe('locale-aware formatting helpers', () => {
     formatter.value = 1_500_000;
     document.body.append(formatter);
 
-    const output = formatter.shadowRoot!.querySelector('[part="base"]')!;
+    const output = formatter.shadowRoot!.querySelector('[part~="base"]')!;
     expect(output.textContent).toBe(
       new Intl.NumberFormat('en-US', {
         style: 'unit',
@@ -115,9 +115,11 @@ describe('meter', () => {
     const indicator = meter.shadowRoot!.querySelector<HTMLElement>('[part="indicator"]')!;
     const visibleValue = meter.shadowRoot!.querySelector('[part="value"]')!;
 
-    expect([native.min, native.max, native.low, native.high, native.optimum, native.value]).toEqual(
-      [0, 100, 60, 85, 20, 75],
-    );
+    expect(
+      ['min', 'max', 'low', 'high', 'optimum', 'value'].map((name) =>
+        Number(native.getAttribute(name)),
+      ),
+    ).toEqual([0, 100, 60, 85, 20, 75]);
     expect(native.getAttribute('aria-label')).toBe('Storage used');
     expect(native.getAttribute('aria-valuetext')).toBe('75 GB of 100 GB');
     expect(indicator.style.transform).toBe('scaleX(0.75)');
@@ -136,9 +138,9 @@ describe('meter', () => {
     document.body.append(meter);
 
     const native = meter.shadowRoot!.querySelector('meter')!;
-    expect(native.min).toBe(10);
-    expect(native.max).toBe(11);
-    expect(native.value).toBe(11);
+    expect(native.getAttribute('min')).toBe('10');
+    expect(native.getAttribute('max')).toBe('11');
+    expect(native.getAttribute('value')).toBe('11');
     expect(native.getAttribute('aria-valuetext')).toBe('100%');
   });
 });
