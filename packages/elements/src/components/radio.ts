@@ -112,7 +112,6 @@ export class RgRadioElement extends ReglowElement {
       border-color: var(--_rg-brand);
       transform: scale(1.04);
     }
-    .native:focus-visible + .indicator { outline: none; border-color: var(--_rg-focus); box-shadow: var(--_rg-ring); }
     .native:active + .indicator {
       transform: scale(0.88);
       transition-duration: var(--_rg-fast);
@@ -120,6 +119,7 @@ export class RgRadioElement extends ReglowElement {
     }
     :host([checked]) .indicator { border-color: var(--_rg-brand); background: var(--_rg-brand); box-shadow: var(--_rg-shadow-glow); }
     :host([checked]) .dot { opacity: 1; transform: scale(1); }
+    .native:focus-visible + .indicator { outline: none; border-color: var(--_rg-focus); box-shadow: var(--_rg-ring); }
     .copy { display: grid; gap: 0.12rem; min-width: 0; }
     .label { color: var(--_rg-text); font-size: 0.9rem; font-weight: 650; line-height: 1.45; }
     .description { color: var(--_rg-text-muted); font-size: 0.78rem; line-height: 1.4; }
