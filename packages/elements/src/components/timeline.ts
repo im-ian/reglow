@@ -42,7 +42,7 @@ export class RgTimelineItemElement extends ReglowElement {
     .item {
       display: grid;
       min-width: 0;
-      grid-template-columns: 1rem minmax(0, 1fr);
+      grid-template-columns: 1.125rem minmax(0, 1fr);
       gap: 0.8rem;
     }
 
@@ -56,8 +56,8 @@ export class RgTimelineItemElement extends ReglowElement {
     .marker {
       position: relative;
       display: inline-grid;
-      width: 0.9rem;
-      height: 0.9rem;
+      width: 1.125rem;
+      height: 1.125rem;
       margin-block-start: 0.3rem;
       place-items: center;
       border: 2px solid var(--_rg-timeline-color);
@@ -76,9 +76,9 @@ export class RgTimelineItemElement extends ReglowElement {
 
     ::slotted([slot='icon']) {
       display: inline-flex;
-      width: 0.65rem;
-      height: 0.65rem;
-      font-size: 0.65rem;
+      width: 0.625rem;
+      height: 0.625rem;
+      font-size: 0.625rem;
       line-height: 0;
       align-items: center;
       justify-content: center;

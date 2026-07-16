@@ -136,8 +136,11 @@ it('does not paint surface-colored outer rings around grouped avatars or timelin
   expect(RgTimelineItemElement.styles).not.toContain('box-shadow: 0 0 0 2px var(--_rg-surface);');
 });
 
-it('constrains slotted timeline icons to the marker content box', () => {
+it('reserves visual inset around slotted timeline icons', () => {
   expect(RgTimelineItemElement.styles).toMatch(
-    /::slotted\(\[slot='icon'\]\)\s*\{[\s\S]*?width: 0\.65rem;[\s\S]*?height: 0\.65rem;[\s\S]*?font-size: 0\.65rem;[\s\S]*?line-height: 0;/,
+    /\.marker\s*\{[\s\S]*?width: 1\.125rem;[\s\S]*?height: 1\.125rem;/,
+  );
+  expect(RgTimelineItemElement.styles).toMatch(
+    /::slotted\(\[slot='icon'\]\)\s*\{[\s\S]*?width: 0\.625rem;[\s\S]*?height: 0\.625rem;[\s\S]*?font-size: 0\.625rem;[\s\S]*?line-height: 0;/,
   );
 });
