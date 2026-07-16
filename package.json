@@ -6,16 +6,16 @@
   "type": "module",
   "packageManager": "pnpm@11.0.0",
   "engines": {
-    "node": ">=22.12.0"
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/preact build && pnpm --filter @reglow/vue build && pnpm --filter @reglow/svelte build",
+    "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/preact build && pnpm --filter @reglow/vue build && pnpm --filter @reglow/svelte build && pnpm --filter @reglow/angular build",
     "build:storybook": "storybook build",
     "check": "pnpm typecheck && pnpm test && pnpm build && pnpm test:tree-shaking && pnpm build:storybook",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006 --no-open",
-    "test": "vitest run",
+    "test": "vitest run && pnpm --filter @reglow/angular test",
     "test:tree-shaking": "node scripts/verify-tree-shaking.mjs",
     "test:watch": "vitest",
     "typecheck": "pnpm -r typecheck"

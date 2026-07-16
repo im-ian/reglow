@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type {
   RgCheckboxElement,
@@ -13,11 +13,13 @@ import { REGLOW_FORM_DIRECTIVES } from '../src/public-api.js';
 
 @Component({
   standalone: true,
-  imports: [ReactiveFormsModule, REGLOW_FORM_DIRECTIVES],
+  imports: [FormsModule, ReactiveFormsModule, REGLOW_FORM_DIRECTIVES],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <rg-input [formControl]="controls.input" />
-    <rg-textarea [formControl]="controls.textarea" />
+    <form [formGroup]="form">
+      <rg-input formControlName="input" />
+    </form>
+    <rg-textarea [ngModel]="modelText" [ngModelOptions]="{ standalone: true }" />
     <rg-select [formControl]="controls.select" />
     <rg-radio-group [formControl]="controls.radioGroup" />
     <rg-slider [formControl]="controls.slider" />
@@ -27,13 +29,14 @@ import { REGLOW_FORM_DIRECTIVES } from '../src/public-api.js';
     <rg-segmented-control [formControl]="controls.segmentedControl" />
     <rg-rating [formControl]="controls.rating" />
     <rg-checkbox [formControl]="controls.checkbox" />
-    <rg-switch [formControl]="controls.switch" />
+    <rg-switch [ngModel]="modelSwitch" [ngModelOptions]="{ standalone: true }" />
   `,
 })
 class SelectorHost {
+  readonly form = new FormGroup({ input: new FormControl('') });
+  readonly modelText = '';
+  readonly modelSwitch = false;
   readonly controls = {
-    input: new FormControl(''),
-    textarea: new FormControl(''),
     select: new FormControl(''),
     radioGroup: new FormControl(''),
     slider: new FormControl(0),
@@ -43,7 +46,6 @@ class SelectorHost {
     segmentedControl: new FormControl(''),
     rating: new FormControl(0),
     checkbox: new FormControl(false),
-    switch: new FormControl(false),
   };
 }
 
@@ -54,7 +56,7 @@ class SelectorHost {
   template: `
     <rg-input data-control="input" [formControl]="text" />
     <rg-slider data-control="slider" [formControl]="amount" />
-    <rg-chip-group data-control="chips" [formControl]="chips" />
+    <rg-chip-group data-control="chips" selection="multiple" [formControl]="chips" />
     <rg-checkbox data-control="checkbox" [formControl]="checked" />
   `,
 })

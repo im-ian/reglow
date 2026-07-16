@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Angular Forms bridge for Reglow Custom Elements.",
   "license": "MIT",
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "sideEffects": false,
   "scripts": {
     "build": "ng-packagr -p ng-package.json",

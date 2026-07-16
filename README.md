@@ -1,7 +1,7 @@
 # Reglow
 
 Reglow is a soft-kinetic design system built on the web platform. Use it directly from HTML or
-through the official React 19, Preact, Vue 3, and Svelte 5 integrations.
+through the official Angular 22, React 19, Preact, Vue 3, and Svelte 5 integrations.
 
 Explore the components, themes, and interaction states in the
 [live Storybook](https://im-ian.github.io/reglow/).
@@ -19,14 +19,15 @@ Explore the components, themes, and interaction states in the
 
 ## Packages
 
-| Package            | Purpose                                  | Runtime dependencies   |
-| ------------------ | ---------------------------------------- | ---------------------- |
-| `@reglow/elements` | 51 standards-based Custom Elements       | None                   |
-| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                   |
-| `@reglow/react`    | Typed React components and event aliases | React peer + elements  |
-| `@reglow/preact`   | Typed native Custom Element JSX          | Preact peer + elements |
-| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements    |
-| `@reglow/svelte`   | Svelte components and bindable state     | Svelte peer + elements |
+| Package            | Purpose                                  | Runtime dependencies     |
+| ------------------ | ---------------------------------------- | ------------------------ |
+| `@reglow/elements` | 51 standards-based Custom Elements       | None                     |
+| `@reglow/tokens`   | Semantic tokens and global theme CSS     | None                     |
+| `@reglow/react`    | Typed React components and event aliases | React peer + elements    |
+| `@reglow/preact`   | Typed native Custom Element JSX          | Preact peer + elements   |
+| `@reglow/vue`      | Vue components, `v-model`, and plugin    | Vue peer + elements      |
+| `@reglow/svelte`   | Svelte components and bindable state     | Svelte peer + elements   |
+| `@reglow/angular`  | Angular Forms value accessors            | Angular peers + elements |
 
 The core can be imported safely during SSR; v1 upgrades shadow content on the client.
 
@@ -138,6 +139,29 @@ bindable control state.
 
 <RgInput bind:value={name} label="Workspace name" />
 <RgButton onPress={(event) => console.log(event.detail.pressed)}>Create workspace</RgButton>
+```
+
+### Angular 22
+
+Angular uses the native elements directly. The optional forms bridge connects their typed
+properties and events to `formControl`, `formControlName`, and `ngModel`.
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { REGLOW_FORM_DIRECTIVES } from '@reglow/angular';
+import '@reglow/elements/register';
+import '@reglow/tokens/css';
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, ...REGLOW_FORM_DIRECTIVES],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `<rg-input label="Workspace name" [formControl]="name" />`,
+})
+export class WorkspaceForm {
+  readonly name = new FormControl('', { nonNullable: true });
+}
 ```
 
 ## Component families
