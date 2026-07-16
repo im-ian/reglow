@@ -12,6 +12,7 @@ import { RgChipElement, RgChipGroupElement } from './components/chip.js';
 import { RgComboboxElement } from './components/combobox.js';
 import { RgCopyButtonElement } from './components/copy-button.js';
 import { RgDatePickerElement } from './components/date-picker.js';
+import { RgDateTimePickerElement } from './components/date-time-picker.js';
 import { RgDialogElement, RgDrawerElement } from './components/dialog.js';
 import { RgDividerElement } from './components/divider.js';
 import { RgEmptyStateElement } from './components/empty-state.js';
@@ -40,6 +41,7 @@ import { RgStepElement, RgStepIndicatorElement } from './components/step-indicat
 import { RgTabElement, RgTabPanelElement, RgTabsElement } from './components/tabs.js';
 import { RgTextareaElement } from './components/textarea.js';
 import { RgThemeElement } from './components/theme.js';
+import { RgTimePickerElement } from './components/time-picker.js';
 import { RgTimelineElement, RgTimelineItemElement } from './components/timeline.js';
 import { RgToastElement, RgToastRegionElement } from './components/toast.js';
 import { RgTooltipElement } from './components/tooltip.js';
@@ -58,6 +60,8 @@ export const reglowElementDefinitions = [
   RgOptionElement,
   RgComboboxElement,
   RgDatePickerElement,
+  RgTimePickerElement,
+  RgDateTimePickerElement,
   RgCheckboxElement,
   RgSwitchElement,
   RgRadioGroupElement,
@@ -124,6 +128,8 @@ export interface ReglowHTMLElementTagNameMap {
   'rg-option': RgOptionElement;
   'rg-combobox': RgComboboxElement;
   'rg-date-picker': RgDatePickerElement;
+  'rg-time-picker': RgTimePickerElement;
+  'rg-date-time-picker': RgDateTimePickerElement;
   'rg-checkbox': RgCheckboxElement;
   'rg-switch': RgSwitchElement;
   'rg-radio-group': RgRadioGroupElement;

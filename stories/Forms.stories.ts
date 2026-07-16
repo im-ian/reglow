@@ -104,7 +104,7 @@ export const DisabledAndReadonly: Story = {
   `,
 };
 
-export const ComboboxAndDate: Story = {
+export const Combobox: Story = {
   render: () => html`
     <div class="rg-form-demo">
       <rg-combobox
@@ -118,13 +118,6 @@ export const ComboboxAndDate: Story = {
         <rg-option value="new-york">New York</rg-option>
         <rg-option value="tokyo">Tokyo</rg-option>
       </rg-combobox>
-      <rg-date-picker
-        name="launch"
-        label="Launch date"
-        min="2026-01-01"
-        value="2026-07-15"
-        required
-      ></rg-date-picker>
     </div>
   `,
 };

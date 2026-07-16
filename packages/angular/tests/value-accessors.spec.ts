@@ -25,6 +25,8 @@ import { REGLOW_FORM_DIRECTIVES } from '../src/public-api.js';
     <rg-slider [formControl]="controls.slider" />
     <rg-combobox [formControl]="controls.combobox" />
     <rg-date-picker [formControl]="controls.datePicker" />
+    <rg-time-picker [formControl]="controls.timePicker" />
+    <rg-date-time-picker [formControl]="controls.dateTimePicker" />
     <rg-chip-group [formControl]="controls.chipGroup" />
     <rg-segmented-control [formControl]="controls.segmentedControl" />
     <rg-rating [formControl]="controls.rating" />
@@ -42,6 +44,8 @@ class SelectorHost {
     slider: new FormControl(0),
     combobox: new FormControl(''),
     datePicker: new FormControl(''),
+    timePicker: new FormControl(''),
+    dateTimePicker: new FormControl(''),
     chipGroup: new FormControl<readonly string[]>([]),
     segmentedControl: new FormControl(''),
     rating: new FormControl(0),

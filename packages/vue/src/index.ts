@@ -24,6 +24,7 @@ import {
 import { RgComboboxElement as RgComboboxElementConstructor } from '@reglow/elements/components/combobox';
 import { RgCopyButtonElement as RgCopyButtonElementConstructor } from '@reglow/elements/components/copy-button';
 import { RgDatePickerElement as RgDatePickerElementConstructor } from '@reglow/elements/components/date-picker';
+import { RgDateTimePickerElement as RgDateTimePickerElementConstructor } from '@reglow/elements/components/date-time-picker';
 import {
   RgDialogElement as RgDialogElementConstructor,
   RgDrawerElement as RgDrawerElementConstructor,
@@ -77,6 +78,7 @@ import {
 } from '@reglow/elements/components/tabs';
 import { RgTextareaElement as RgTextareaElementConstructor } from '@reglow/elements/components/textarea';
 import { RgThemeElement as RgThemeElementConstructor } from '@reglow/elements/components/theme';
+import { RgTimePickerElement as RgTimePickerElementConstructor } from '@reglow/elements/components/time-picker';
 import {
   RgTimelineElement as RgTimelineElementConstructor,
   RgTimelineItemElement as RgTimelineItemElementConstructor,
@@ -143,8 +145,19 @@ import type {
   RgCopyButtonElement,
   RgCopyDetail,
   RgCopyErrorDetail,
+  RgDatePickerDateFormat,
   RgDatePickerElement,
+  RgDatePickerOpenChangeDetail,
+  RgDatePickerOverlayAlign,
+  RgDatePickerOverlayWidth,
   RgDatePickerSize,
+  RgDatePickerType,
+  RgDateTimePickerDateFormat,
+  RgDateTimePickerElement,
+  RgDateTimePickerOpenChangeDetail,
+  RgDateTimePickerOverlayAlign,
+  RgDateTimePickerOverlayWidth,
+  RgDateTimePickerSize,
   RgDialogElement,
   RgDividerElement,
   RgDividerOrientation,
@@ -230,6 +243,11 @@ import type {
   RgThemeElement,
   RgThemeMode,
   RgThemeMotion,
+  RgTimePickerElement,
+  RgTimePickerOpenChangeDetail,
+  RgTimePickerOverlayAlign,
+  RgTimePickerOverlayWidth,
+  RgTimePickerSize,
   RgTimelineElement,
   RgTimelineItemElement,
   RgTimelineTone,
@@ -620,9 +638,52 @@ export interface RgDatePickerProps extends Omit<
   'placeholder' | 'size'
 > {
   size?: RgDatePickerSize;
+  picker?: RgDatePickerType;
+  dateFormat?: RgDatePickerDateFormat;
+  overlayWidth?: RgDatePickerOverlayWidth;
+  overlayAlign?: RgDatePickerOverlayAlign;
+  locale?: string;
+  open?: boolean;
   min?: string;
   max?: string;
   step?: number;
+  onOpenChange?: (
+    event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
+  ) => void;
+}
+
+export interface RgTimePickerProps extends Omit<
+  RgFieldProps<RgTimePickerElement>,
+  'placeholder' | 'size'
+> {
+  size?: RgTimePickerSize;
+  overlayWidth?: RgTimePickerOverlayWidth;
+  overlayAlign?: RgTimePickerOverlayAlign;
+  open?: boolean;
+  min?: string;
+  max?: string;
+  step?: number;
+  onOpenChange?: (
+    event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
+  ) => void;
+}
+
+export interface RgDateTimePickerProps extends Omit<
+  RgFieldProps<RgDateTimePickerElement>,
+  'placeholder' | 'size'
+> {
+  size?: RgDateTimePickerSize;
+  dateFormat?: RgDateTimePickerDateFormat;
+  overlayWidth?: RgDateTimePickerOverlayWidth;
+  overlayAlign?: RgDateTimePickerOverlayAlign;
+  locale?: string;
+  open?: boolean;
+  min?: string;
+  max?: string;
+  step?: number;
+  onOpenChange?: (
+    event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
+  ) => void;
 }
 
 export interface RgKbdProps extends ReglowHostProps {
@@ -1504,15 +1565,88 @@ export const RgDatePicker = /* @__PURE__ */ (() =>
     'rg-date-picker',
     {
       displayName: 'RgDatePicker',
-      props: [...fieldProps.filter((prop) => prop !== 'placeholder'), 'min', 'max', 'step'],
-      events: fieldEvents,
-      booleanProps: fieldBooleanProps,
+      props: [
+        ...fieldProps.filter((prop) => prop !== 'placeholder'),
+        'locale',
+        'min',
+        'max',
+        'open',
+        'overlayAlign',
+        'overlayWidth',
+        'picker',
+        'dateFormat',
+        'step',
+      ],
+      events: { ...fieldEvents, 'rg-open-change': 'open-change' },
+      booleanProps: [...fieldBooleanProps, 'open'],
       numberProps: ['step'],
-      attributes: fieldAttributes,
+      attributes: {
+        ...fieldAttributes,
+        dateFormat: 'date-format',
+        overlayAlign: 'overlay-align',
+        overlayWidth: 'overlay-width',
+      },
       slots: fieldSlots,
       model: { property: 'value', event: 'input' },
     },
     RgDatePickerElementConstructor,
+  ))();
+export const RgTimePicker = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgTimePickerElement, RgTimePickerProps>(
+    'rg-time-picker',
+    {
+      displayName: 'RgTimePicker',
+      props: [
+        ...fieldProps.filter((prop) => prop !== 'placeholder'),
+        'min',
+        'max',
+        'open',
+        'overlayAlign',
+        'overlayWidth',
+        'step',
+      ],
+      events: { ...fieldEvents, 'rg-open-change': 'open-change' },
+      booleanProps: [...fieldBooleanProps, 'open'],
+      numberProps: ['step'],
+      attributes: {
+        ...fieldAttributes,
+        overlayAlign: 'overlay-align',
+        overlayWidth: 'overlay-width',
+      },
+      slots: fieldSlots,
+      model: { property: 'value', event: 'input' },
+    },
+    RgTimePickerElementConstructor,
+  ))();
+export const RgDateTimePicker = /* @__PURE__ */ (() =>
+  createReglowVueComponent<RgDateTimePickerElement, RgDateTimePickerProps>(
+    'rg-date-time-picker',
+    {
+      displayName: 'RgDateTimePicker',
+      props: [
+        ...fieldProps.filter((prop) => prop !== 'placeholder'),
+        'locale',
+        'min',
+        'max',
+        'open',
+        'overlayAlign',
+        'overlayWidth',
+        'dateFormat',
+        'step',
+      ],
+      events: { ...fieldEvents, 'rg-open-change': 'open-change' },
+      booleanProps: [...fieldBooleanProps, 'open'],
+      numberProps: ['step'],
+      attributes: {
+        ...fieldAttributes,
+        dateFormat: 'date-format',
+        overlayAlign: 'overlay-align',
+        overlayWidth: 'overlay-width',
+      },
+      slots: fieldSlots,
+      model: { property: 'value', event: 'input' },
+    },
+    RgDateTimePickerElementConstructor,
   ))();
 export const RgKbd = /* @__PURE__ */ (() =>
   createReglowVueComponent<RgKbdElement, RgKbdProps>(
@@ -1926,6 +2060,8 @@ export const ReglowPlugin = /* @__PURE__ */ (() =>
     RgButtonGroup,
     RgCombobox,
     RgDatePicker,
+    RgTimePicker,
+    RgDateTimePicker,
     RgKbd,
     RgFieldset,
     RgEmptyState,
@@ -1990,6 +2126,8 @@ declare module 'vue' {
     RgButtonGroup: typeof RgButtonGroup;
     RgCombobox: typeof RgCombobox;
     RgDatePicker: typeof RgDatePicker;
+    RgTimePicker: typeof RgTimePicker;
+    RgDateTimePicker: typeof RgDateTimePicker;
     RgKbd: typeof RgKbd;
     RgFieldset: typeof RgFieldset;
     RgEmptyState: typeof RgEmptyState;
@@ -2035,6 +2173,7 @@ export type {
   RgComboboxElement,
   RgCopyButtonElement,
   RgDatePickerElement,
+  RgDateTimePickerElement,
   RgDialogElement,
   RgDividerElement,
   RgDrawerElement,
@@ -2073,6 +2212,7 @@ export type {
   RgTabsElement,
   RgTextareaElement,
   RgThemeElement,
+  RgTimePickerElement,
   RgTimelineElement,
   RgTimelineItemElement,
   RgToastElement,

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { defineElement } from '@reglow/elements';
-  import { RgDatePickerElement } from '@reglow/elements/components/date-picker';
-  import type { RgDatePickerProps } from '../component-types.js';
+  import { RgTimePickerElement } from '@reglow/elements/components/time-picker';
+  import type { RgTimePickerProps } from '../component-types.js';
   import ReglowHost from '../internal/ReglowHost.svelte';
 
   let {
@@ -16,18 +16,18 @@
     value = $bindable(''),
     open = $bindable(false),
     ...props
-  }: RgDatePickerProps = $props();
+  }: RgTimePickerProps = $props();
 
-  defineElement({ tagName: RgDatePickerElement.tagName, constructor: RgDatePickerElement });
+  defineElement({ tagName: RgTimePickerElement.tagName, constructor: RgTimePickerElement });
 
   function handleInput(event: Event): void {
-    value = (event.currentTarget as RgDatePickerElement).value;
-    onValueChange?.(event as Parameters<NonNullable<RgDatePickerProps['onValueChange']>>[0]);
+    value = (event.currentTarget as RgTimePickerElement).value;
+    onValueChange?.(event as Parameters<NonNullable<RgTimePickerProps['onValueChange']>>[0]);
   }
 
   function handleRgOpenChange(event: Event): void {
-    open = (event.currentTarget as RgDatePickerElement).open;
-    onOpenChange?.(event as Parameters<NonNullable<RgDatePickerProps['onOpenChange']>>[0]);
+    open = (event.currentTarget as RgTimePickerElement).open;
+    onOpenChange?.(event as Parameters<NonNullable<RgTimePickerProps['onOpenChange']>>[0]);
   }
 
   const events = $derived({
@@ -41,7 +41,6 @@
     error: error,
   });
   const attributeMap = {
-    dateFormat: 'date-format',
     overlayAlign: 'overlay-align',
     overlayWidth: 'overlay-width',
     readOnly: 'readonly',
@@ -49,7 +48,7 @@
 </script>
 
 <ReglowHost
-  tag="rg-date-picker"
+  tag="rg-time-picker"
   bind:element
   {events}
   {namedSlots}

@@ -37,7 +37,8 @@ export class WorkspaceForm {
 The standalone accessors support `[formControl]`, `formControlName`, and `ngModel` on these
 elements:
 
-- Value controls: input, textarea, select, radio group, slider, combobox, date picker, chip group,
+- Value controls: input, textarea, select, radio group, slider, combobox, date picker, time picker,
+  date time picker, chip group,
   segmented control, and rating.
 - Checked controls: checkbox and switch.
 

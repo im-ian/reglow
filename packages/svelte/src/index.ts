@@ -15,6 +15,7 @@ export { default as RgChipGroup } from './components/RgChipGroup.svelte';
 export { default as RgCombobox } from './components/RgCombobox.svelte';
 export { default as RgCopyButton } from './components/RgCopyButton.svelte';
 export { default as RgDatePicker } from './components/RgDatePicker.svelte';
+export { default as RgDateTimePicker } from './components/RgDateTimePicker.svelte';
 export { default as RgDialog } from './components/RgDialog.svelte';
 export { default as RgDivider } from './components/RgDivider.svelte';
 export { default as RgDrawer } from './components/RgDrawer.svelte';
@@ -53,6 +54,7 @@ export { default as RgTabPanel } from './components/RgTabPanel.svelte';
 export { default as RgTabs } from './components/RgTabs.svelte';
 export { default as RgTextarea } from './components/RgTextarea.svelte';
 export { default as RgTheme } from './components/RgTheme.svelte';
+export { default as RgTimePicker } from './components/RgTimePicker.svelte';
 export { default as RgTimeline } from './components/RgTimeline.svelte';
 export { default as RgTimelineItem } from './components/RgTimelineItem.svelte';
 export { default as RgToast } from './components/RgToast.svelte';
@@ -77,6 +79,7 @@ export type {
   RgComboboxProps,
   RgCopyButtonProps,
   RgDatePickerProps,
+  RgDateTimePickerProps,
   RgDialogProps,
   RgDividerProps,
   RgDrawerProps,
@@ -115,6 +118,7 @@ export type {
   RgTabsProps,
   RgTextareaProps,
   RgThemeProps,
+  RgTimePickerProps,
   RgTimelineProps,
   RgTimelineItemProps,
   RgToastProps,
