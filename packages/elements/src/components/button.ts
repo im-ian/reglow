@@ -65,7 +65,7 @@ abstract class RgButtonBaseElement extends FormAssociatedElement {
       --_rg-button-tone-active: var(--_rg-brand-active);
       --_rg-button-tone-soft: var(--_rg-brand-soft);
       --_rg-button-on-tone: var(--_rg-on-brand);
-      --_rg-button-radius: var(--rg-button-border-radius, var(--rg-radius-pill, 999px));
+      --_rg-button-radius: var(--rg-button-border-radius, var(--rg-radius-lg, 1.25rem));
       position: relative;
       display: inline-flex;
       width: 100%;
