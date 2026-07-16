@@ -6,6 +6,9 @@ through the official Angular 22, React 19, Preact, Vue 3, and Svelte 5 integrati
 Explore the components, themes, and interaction states in the
 [live Storybook](https://im-ian.github.io/reglow/).
 
+Runnable applications for Preact, Svelte, Lit, Astro, and Angular live in the
+[framework examples](./examples/README.md).
+
 ## Highlights
 
 - **Zero runtime dependencies in the core.** `@reglow/elements` and `@reglow/tokens` ship without

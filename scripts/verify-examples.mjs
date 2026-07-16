@@ -35,7 +35,7 @@ const examples = [
   {
     directory: 'angular',
     packageName: '@reglow/example-angular',
-    source: 'src/app/app.ts',
+    source: ['src/app/app.ts', 'src/app/app.html'],
     dependencies: [
       '@angular/core',
       '@angular/forms',
@@ -54,14 +54,16 @@ if (!workspace.includes('examples/*')) failures.push('pnpm workspace does not in
 for (const example of examples) {
   const directory = resolve(root, 'examples', example.directory);
   const manifestPath = resolve(directory, 'package.json');
-  const sourcePath = resolve(directory, example.source);
+  const sourceFiles = Array.isArray(example.source) ? example.source : [example.source];
+  const sourcePaths = sourceFiles.map((source) => resolve(directory, source));
 
   if (!existsSync(manifestPath)) {
     failures.push(`${example.directory}: missing package.json`);
     continue;
   }
-  if (!existsSync(sourcePath)) {
-    failures.push(`${example.directory}: missing ${example.source}`);
+  const missingSource = sourceFiles.find((_, index) => !existsSync(sourcePaths[index]));
+  if (missingSource) {
+    failures.push(`${example.directory}: missing ${missingSource}`);
     continue;
   }
 
@@ -79,7 +81,7 @@ for (const example of examples) {
     if (!dependencies[dependency]) failures.push(`${example.directory}: missing ${dependency}`);
   }
 
-  const source = readFileSync(sourcePath, 'utf8');
+  const source = sourcePaths.map((sourcePath) => readFileSync(sourcePath, 'utf8')).join('\n');
   for (const marker of example.markers) {
     if (!source.includes(marker)) failures.push(`${example.directory}: source must use ${marker}`);
   }

@@ -1,0 +1,206 @@
+---
+import '@reglow/tokens/css';
+import '@reglow/example-theme/demo.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="A runnable Astro launch-settings demo built with Reglow custom elements."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%2316221e'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='32' fill='%23a8dfc7'%3ER%3C/text%3E%3C/svg%3E"
+    />
+    <title>Northstar Launch Room · Astro</title>
+  </head>
+  <body>
+    <div class="demo-shell">
+      <header class="demo-topbar">
+        <a class="brand-lockup" href="/" aria-label="Northstar Launch Room home">
+          <span class="brand-mark" aria-hidden="true">N</span>
+          <span>Northstar Launch Room</span>
+        </a>
+        <span class="framework-pill">Astro 7 · Reglow</span>
+      </header>
+
+      <main class="demo-main">
+        <header class="intro-copy">
+          <p class="eyebrow">Launch protocol · 08</p>
+          <h1>Give the next release<br />a <em>clean trajectory.</em></h1>
+          <p>
+            Tune the rollout signal, choose a launch region, and stage a release brief without
+            leaving the room.
+          </p>
+        </header>
+
+        <div class="demo-grid">
+          <section class="control-panel" aria-labelledby="settings-heading">
+            <div class="panel-heading">
+              <div>
+                <span>Release settings</span>
+                <h2 id="settings-heading">Flight brief</h2>
+              </div>
+              <span data-draft-number>Draft 04</span>
+            </div>
+
+            <div class="form-stack">
+              <rg-input
+                data-project-name
+                value="Northstar Mobile"
+                label="Project name"
+                description="Shown on the launch card and status feed."
+                placeholder="Name this release"
+                clearable></rg-input>
+
+              <rg-select
+                data-region
+                value="seoul"
+                label="Primary region"
+                description="Complex option data is assigned as a live element property."
+              ></rg-select>
+
+              <div class="field-pair">
+                <rg-switch
+                  data-private
+                  checked
+                  label="Private rollout"
+                  description="Invite-only until the signal clears."></rg-switch>
+                <rg-rating
+                  data-readiness
+                  value="4"
+                  max="5"
+                  label="Signal confidence"
+                  description="Rate operational readiness."></rg-rating>
+              </div>
+
+              <div class="action-row">
+                <rg-button data-queue-launch variant="solid" tone="brand" size="lg">
+                  Queue launch
+                </rg-button>
+                <span>↗ Brief updates on press</span>
+              </div>
+
+              <p class="status-note" data-status role="status" aria-live="polite">
+                Draft 04 is ready for a final signal check.
+              </p>
+            </div>
+          </section>
+
+          <section class="preview-panel" aria-labelledby="preview-heading">
+            <div class="preview-orbit" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <article class="preview-card">
+              <p class="preview-label">Live output · <span data-launch-id>NL–04</span></p>
+              <h2 class="preview-value" id="preview-heading" data-preview-name>Northstar Mobile</h2>
+              <p class="preview-meta">
+                <span data-preview-region>Seoul · ICN</span>
+                <span data-preview-privacy>Private channel</span>
+              </p>
+
+              <div class="metric-strip" aria-label="Launch metrics">
+                <div><span>Window</span><strong>09:40 KST</strong></div>
+                <div><span>Audience</span><strong data-audience>Invited</strong></div>
+                <div><span>Readiness</span><strong data-readiness-meter>●●●●○</strong></div>
+              </div>
+
+              <p class="code-note">
+                <code>element.options · addEventListener('rg-press')</code>&nbsp; keeps
+                <span data-preview-readiness>4/5 signal confidence</span> in sync.
+              </p>
+            </article>
+          </section>
+        </div>
+        <footer class="footer-note">
+          <span>Reglow integration specimen</span>
+          <span>Astro markup · native properties · DOM events</span>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      import '@reglow/elements/register';
+      import type {
+        RgButtonElement,
+        RgInputElement,
+        RgRatingElement,
+        RgSelectElement,
+        RgSelectOption,
+        RgSwitchElement,
+      } from '@reglow/elements';
+
+      const regionOptions = [
+        { value: 'seoul', label: 'Seoul · ICN' },
+        { value: 'london', label: 'London · LHR' },
+        { value: 'new-york', label: 'New York · JFK' },
+        { value: 'singapore', label: 'Singapore · SIN' },
+      ] satisfies readonly RgSelectOption[];
+
+      const projectInput = document.querySelector<RgInputElement>('[data-project-name]');
+      const regionSelect = document.querySelector<RgSelectElement>('[data-region]');
+      const privateSwitch = document.querySelector<RgSwitchElement>('[data-private]');
+      const readinessRating = document.querySelector<RgRatingElement>('[data-readiness]');
+      const queueButton = document.querySelector<RgButtonElement>('[data-queue-launch]');
+      const status = document.querySelector<HTMLElement>('[data-status]');
+
+      if (
+        projectInput &&
+        regionSelect &&
+        privateSwitch &&
+        readinessRating &&
+        queueButton &&
+        status
+      ) {
+        let revision = 4;
+        regionSelect.options = regionOptions;
+
+        const markDraftChanged = (): void => {
+          status.textContent = 'Settings changed. Queue the launch to update the live signal.';
+        };
+
+        projectInput.addEventListener('input', markDraftChanged);
+        regionSelect.addEventListener('change', markDraftChanged);
+        privateSwitch.addEventListener('change', markDraftChanged);
+        readinessRating.addEventListener('input', markDraftChanged);
+
+        queueButton.addEventListener('rg-press', () => {
+          revision += 1;
+          const name = projectInput.value.trim() || 'Untitled launch';
+          const selectedRegion =
+            regionOptions.find((option) => option.value === regionSelect.value)?.label ??
+            'Unassigned region';
+          const readiness = readinessRating.value;
+          const isPrivate = privateSwitch.checked;
+
+          projectInput.value = name;
+          document.querySelector<HTMLElement>('[data-preview-name]')!.textContent = name;
+          document.querySelector<HTMLElement>('[data-preview-region]')!.textContent =
+            selectedRegion;
+          document.querySelector<HTMLElement>('[data-preview-privacy]')!.textContent = isPrivate
+            ? 'Private channel'
+            : 'Public channel';
+          document.querySelector<HTMLElement>('[data-preview-readiness]')!.textContent =
+            `${readiness}/5 signal confidence`;
+          document.querySelector<HTMLElement>('[data-audience]')!.textContent = isPrivate
+            ? 'Invited'
+            : 'Everyone';
+          document.querySelector<HTMLElement>('[data-readiness-meter]')!.textContent =
+            '●'.repeat(readiness) + '○'.repeat(5 - readiness);
+          document.querySelector<HTMLElement>('[data-draft-number]')!.textContent =
+            `Draft ${String(revision).padStart(2, '0')}`;
+          document.querySelector<HTMLElement>('[data-launch-id]')!.textContent =
+            `NL–${String(revision).padStart(2, '0')}`;
+          status.textContent = `${name} is queued for ${selectedRegion}.`;
+        });
+      }
+    </script>
+  </body>
+</html>

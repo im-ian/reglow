@@ -10,8 +10,9 @@
   },
   "scripts": {
     "build": "pnpm --filter @reglow/tokens build && pnpm --filter @reglow/elements build && pnpm --filter @reglow/react build && pnpm --filter @reglow/preact build && pnpm --filter @reglow/vue build && pnpm --filter @reglow/svelte build && pnpm --filter @reglow/angular build",
+    "build:examples": "pnpm --filter './examples/**' --if-present build",
     "build:storybook": "storybook build",
-    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm test:tree-shaking && pnpm build:storybook",
+    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm build:examples && pnpm test:tree-shaking && pnpm build:storybook",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006 --no-open",
@@ -41,6 +42,7 @@
     "lit": "^3.3.3",
     "lucide-static": "^1.24.0",
     "prettier": "^3.9.5",
+    "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-svelte": "^3.5.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

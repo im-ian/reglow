@@ -1,0 +1,120 @@
+<div class="demo-shell">
+  <header class="demo-topbar">
+    <a class="brand-lockup" href="/" aria-label="Northstar Launch Room home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span>Northstar Launch Room</span>
+    </a>
+    <span class="framework-pill">Angular 22 · Reactive Forms</span>
+  </header>
+
+  <main class="demo-main">
+    <section class="intro-copy" aria-labelledby="page-title">
+      <p class="eyebrow">Launch settings / live prototype</p>
+      <h1 id="page-title">Shape the signal before it leaves the room.</h1>
+      <p>
+        A working launch console where Reglow Custom Elements participate directly in an Angular
+        Reactive Form—complex properties, typed values, and custom events included.
+      </p>
+    </section>
+
+    <div class="demo-grid">
+      <section class="control-panel" aria-labelledby="settings-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">01 · Settings</p>
+            <h2 id="settings-title">Tune the release</h2>
+          </div>
+          <rg-badge tone="success" variant="soft">Live draft</rg-badge>
+        </div>
+
+        <form class="form-stack" [formGroup]="launchForm" (ngSubmit)="submitLaunch()">
+          <rg-input
+            formControlName="projectName"
+            label="Project name"
+            description="This becomes the public launch title."
+            placeholder="Name the next signal"
+            [invalid]="launchForm.controls.projectName.invalid && launchForm.controls.projectName.touched"
+            [error]="
+              launchForm.controls.projectName.invalid && launchForm.controls.projectName.touched
+                ? 'Use at least three characters.'
+                : ''
+            "
+          ></rg-input>
+
+          <div class="field-pair">
+            <rg-select
+              formControlName="region"
+              label="Launch region"
+              description="A complex options array bound as a DOM property."
+              [options]="regions"
+            ></rg-select>
+
+            <rg-rating
+              formControlName="confidence"
+              label="Readiness"
+              description="How ready is this release?"
+              [max]="5"
+            ></rg-rating>
+          </div>
+
+          <rg-switch
+            formControlName="isPrivate"
+            label="Private launch room"
+            description="Only invited collaborators can see the draft."
+          ></rg-switch>
+
+          <div class="action-row">
+            <rg-button type="submit" tone="brand" size="lg" (rg-press)="handleLaunchPress($event)">
+              Queue for launch
+            </rg-button>
+            <rg-button type="button" variant="ghost" size="lg" (rg-press)="resetDraft($event)">
+              Reset draft
+            </rg-button>
+          </div>
+
+          <p class="status-note" role="status" aria-live="polite">{{ status() }}</p>
+        </form>
+      </section>
+
+      <aside class="preview-panel" aria-labelledby="preview-title">
+        <div class="preview-orbit" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <article class="preview-card">
+          <p class="preview-label">Live launch card</p>
+          <h2 class="preview-value" id="preview-title">
+            {{ draft().projectName || 'Untitled signal' }}
+          </h2>
+          <p class="preview-meta">{{ regionLabel() }} · {{ visibility() }}</p>
+
+          <div class="metric-strip" aria-label="Launch metrics">
+            <div>
+              <span>Readiness</span>
+              <strong>{{ readiness() }}%</strong>
+            </div>
+            <div>
+              <span>Access</span>
+              <strong>{{ draft().isPrivate ? 'Private' : 'Public' }}</strong>
+            </div>
+            <div>
+              <span>Events</span>
+              <strong>{{ pressCount() }}</strong>
+            </div>
+          </div>
+
+          <p class="code-note">
+            <code>REGLOW_FORM_DIRECTIVES</code> keeps every preview value in sync with the same
+            Angular form state.
+          </p>
+        </article>
+      </aside>
+    </div>
+
+    <p class="footer-note">
+      Native Custom Elements outside · typed Angular form state inside · no component wrappers.
+    </p>
+  </main>
+</div>
