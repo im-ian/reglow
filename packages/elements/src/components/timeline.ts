@@ -2,13 +2,7 @@ import { ReglowElement } from '../core/reglow-element.js';
 
 export type RgTimelineTone = 'neutral' | 'brand' | 'success' | 'warning' | 'danger';
 
-const timelineTones = new Set<RgTimelineTone>([
-  'neutral',
-  'brand',
-  'success',
-  'warning',
-  'danger',
-]);
+const timelineTones = new Set<RgTimelineTone>(['neutral', 'brand', 'success', 'warning', 'danger']);
 
 export class RgTimelineItemElement extends ReglowElement {
   static readonly tagName = 'rg-timeline-item' as const;
@@ -258,8 +252,7 @@ export class RgTimelineElement extends ReglowElement {
     list.setAttribute('aria-label', this.label);
 
     const items = Array.from(this.children).filter(
-      (child): child is RgTimelineItemElement =>
-        child.localName === RgTimelineItemElement.tagName,
+      (child): child is RgTimelineItemElement => child.localName === RgTimelineItemElement.tagName,
     );
     items.forEach((item, index) => item.syncPresentation(index === items.length - 1));
   }
