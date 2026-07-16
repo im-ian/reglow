@@ -3,6 +3,14 @@ import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 
+function componentClassName(component) {
+  const pascalCase = component
+    .split('-')
+    .map((segment) => `${segment[0].toUpperCase()}${segment.slice(1)}`)
+    .join('');
+  return `Rg${pascalCase}Element`;
+}
+
 const examples = [
   {
     directory: 'preact',
@@ -94,6 +102,9 @@ for (const example of examples) {
     if (source.includes('@reglow/elements/register')) {
       failures.push(`${example.directory}: full element registration defeats tree-shaking`);
     }
+    if (!source.includes('defineElements([')) {
+      failures.push(`${example.directory}: selective registrations must use defineElements`);
+    }
 
     const registeredComponents = [
       ...source.matchAll(/@reglow\/elements\/components\/([a-z-]+)/g),
@@ -104,6 +115,21 @@ for (const example of examples) {
       failures.push(
         `${example.directory}: expected selective registrations ${expectedComponents.join(', ')}, received ${actualComponents.join(', ') || 'none'}`,
       );
+    }
+
+    for (const component of expectedComponents) {
+      const constructorName = componentClassName(component);
+      for (const marker of [
+        `tagName: ${constructorName}.tagName`,
+        `constructor: ${constructorName}`,
+      ]) {
+        const occurrences = source.split(marker).length - 1;
+        if (occurrences !== 1) {
+          failures.push(
+            `${example.directory}: expected one ${component} registration marker ${marker}, received ${occurrences}`,
+          );
+        }
+      }
     }
   }
 }
