@@ -219,13 +219,20 @@ Storybook toolbar.
 
 ## Development
 
+The default development runtime is Node 24.15.0 (see `.nvmrc`). The supported Node ranges remain
+documented in `package.json`. Enable the repository-pinned pnpm version through Corepack after
+switching runtimes:
+
 ```bash
+nvm use
+corepack enable pnpm
 pnpm install
 pnpm storybook
 pnpm test
 pnpm test:tree-shaking
 pnpm typecheck
 pnpm build
+pnpm build:examples
 pnpm build:storybook
 pnpm check
 ```
