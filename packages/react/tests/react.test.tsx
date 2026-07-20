@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { createRef } from 'react';
+import { act, createRef, useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { componentMetadata } from '@reglow/elements';
 import * as Reglow from '../src/index.js';
@@ -44,6 +44,7 @@ import {
   createReglowComponent,
   type InputProps,
   type RgButtonElement,
+  type RgCheckboxElement,
   type RgInputElement,
 } from '../src/index.js';
 
@@ -75,16 +76,110 @@ describe('@reglow/react', () => {
     expect(host.querySelector('[slot="start"]')).not.toBeNull();
   });
 
-  it('maps value events without owning component state', () => {
+  it('maps uncontrolled value events without owning component state', () => {
     const onValueChange = vi.fn();
     const ref = createRef<RgInputElement>();
-    render(<Input ref={ref} label="Name" value="Reglow" onValueChange={onValueChange} />);
+    render(<Input ref={ref} label="Name" onValueChange={onValueChange} />);
     const control = ref.current!.shadowRoot!.querySelector('input')!;
 
     control.value = 'Reglow UI';
     fireEvent.input(control);
     expect(ref.current!.value).toBe('Reglow UI');
     expect(onValueChange).toHaveBeenCalledOnce();
+  });
+
+  it('restores a controlled value when the parent rejects a user edit', async () => {
+    const observedValues: string[] = [];
+    const ref = createRef<RgInputElement>();
+    render(
+      <Input
+        ref={ref}
+        value="Reglow"
+        onValueChange={(event) => observedValues.push(event.currentTarget.value)}
+      />,
+    );
+    const control = ref.current!.shadowRoot!.querySelector('input')!;
+
+    await act(async () => {
+      control.value = 'Reglow UI';
+      fireEvent.input(control);
+      await Promise.resolve();
+    });
+
+    expect(observedValues).toEqual(['Reglow UI']);
+    expect(ref.current!.value).toBe('Reglow');
+    expect(control.value).toBe('Reglow');
+  });
+
+  it('reasserts controlled properties on an unrelated parent rerender', () => {
+    const ref = createRef<RgInputElement>();
+    const { rerender } = render(<Input ref={ref} value="Reglow" label="Before" />);
+
+    ref.current!.value = 'External mutation';
+    rerender(<Input ref={ref} value="Reglow" label="After" />);
+
+    expect(ref.current!.value).toBe('Reglow');
+    expect(ref.current!.shadowRoot!.querySelector('input')!.value).toBe('Reglow');
+  });
+
+  it('keeps the next controlled value when the parent accepts a user edit', async () => {
+    function ControlledInput() {
+      const [value, setValue] = useState('Reglow');
+      return <Input value={value} onValueChange={(event) => setValue(event.currentTarget.value)} />;
+    }
+
+    const { container } = render(<ControlledInput />);
+    const host = container.querySelector('rg-input')!;
+    const control = host.shadowRoot!.querySelector('input')!;
+
+    await act(async () => {
+      control.value = 'Reglow UI';
+      fireEvent.input(control);
+      await Promise.resolve();
+    });
+
+    expect(host.value).toBe('Reglow UI');
+    expect(control.value).toBe('Reglow UI');
+  });
+
+  it('does not restore an uncontrolled value on a parent rerender', () => {
+    const ref = createRef<RgInputElement>();
+    const { rerender } = render(<Input ref={ref} label="Before" />);
+    const control = ref.current!.shadowRoot!.querySelector('input')!;
+
+    control.value = 'Reglow UI';
+    fireEvent.input(control);
+    rerender(<Input ref={ref} label="After" />);
+
+    expect(ref.current!.value).toBe('Reglow UI');
+    expect(control.value).toBe('Reglow UI');
+  });
+
+  it('restores rejected controlled checked and open states', async () => {
+    const checkboxRef = createRef<RgCheckboxElement>();
+    const { container } = render(
+      <>
+        <Checkbox ref={checkboxRef} checked={false} />
+        <Dialog open={false} trigger={<button>Open</button>}>
+          Content
+        </Dialog>
+      </>,
+    );
+    const checkboxControl = checkboxRef.current!.shadowRoot!.querySelector<HTMLInputElement>(
+      'input',
+    )!;
+    const dialog = container.querySelector('rg-dialog')!;
+
+    await act(async () => {
+      checkboxControl.checked = true;
+      fireEvent.change(checkboxControl);
+      (dialog.querySelector('[slot="trigger"]') as HTMLElement).click();
+      await Promise.resolve();
+    });
+
+    expect(checkboxRef.current!.checked).toBe(false);
+    expect(checkboxControl.checked).toBe(false);
+    expect(dialog.open).toBe(false);
   });
 
   it('maps picker display and overlay options to custom-element attributes', () => {
