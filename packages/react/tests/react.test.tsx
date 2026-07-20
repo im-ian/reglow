@@ -306,6 +306,34 @@ describe('@reglow/react', () => {
     });
   });
 
+  it('restores explicit empty values after rejected group selections', async () => {
+    const { container } = render(
+      <>
+        <Accordion data-case="empty-accordion" collapsible value="">
+          <AccordionItem value="one">One</AccordionItem>
+        </Accordion>
+        <ChipGroup data-case="empty-chip-group" selection="single" value="">
+          <Chip value="one">One</Chip>
+        </ChipGroup>
+      </>,
+    );
+    const accordion = container.querySelector('rg-accordion[data-case="empty-accordion"]')!;
+    const accordionItem = accordion.querySelector('rg-accordion-item')!;
+    const chipGroup = container.querySelector('rg-chip-group[data-case="empty-chip-group"]')!;
+    const chip = chipGroup.querySelector('rg-chip')!;
+
+    await act(async () => {
+      fireEvent.click(accordionItem.shadowRoot!.querySelector('summary')!);
+      fireEvent.click(chip.shadowRoot!.querySelector('button')!);
+      await Promise.resolve();
+    });
+
+    expect(accordion.value).toBe('');
+    expect(accordionItem.open).toBe(false);
+    expect(chipGroup.value).toBe('');
+    expect(chip.selected).toBe(false);
+  });
+
   it('maps picker display and overlay options to custom-element attributes', () => {
     const { container } = render(
       <>
