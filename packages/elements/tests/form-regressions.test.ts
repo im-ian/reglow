@@ -1,5 +1,11 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { RgInputElement, RgRadioGroupElement, RgSelectElement } from '../src/index.js';
+import {
+  RgAccordionElement,
+  RgChipGroupElement,
+  RgInputElement,
+  RgRadioGroupElement,
+  RgSelectElement,
+} from '../src/index.js';
 import { FormAssociatedElement } from '../src/core/form-associated.js';
 import '../src/register.js';
 
@@ -87,6 +93,34 @@ describe('form control regressions', () => {
       false,
     );
     expect(new FormData(form).has('plan')).toBe(false);
+  });
+
+  it('preserves explicit empty group values instead of adopting leaf state', () => {
+    const accordion = document.createElement('rg-accordion') as RgAccordionElement;
+    accordion.collapsible = true;
+    accordion.value = '';
+    accordion.innerHTML = '<rg-accordion-item value="one" open>One</rg-accordion-item>';
+    const chips = document.createElement('rg-chip-group') as RgChipGroupElement;
+    chips.selection = 'single';
+    chips.value = '';
+    chips.innerHTML = '<rg-chip value="one" selected>One</rg-chip>';
+    document.body.append(accordion, chips);
+
+    expect(accordion.getAttribute('value')).toBe('');
+    expect(accordion.querySelector('rg-accordion-item')!.open).toBe(false);
+    expect(chips.getAttribute('value')).toBe('');
+    expect(chips.querySelector('rg-chip')!.selected).toBe(false);
+  });
+
+  it('treats an explicit empty radio-group value as a no-selection sentinel', () => {
+    const group = document.createElement('rg-radio-group') as RgRadioGroupElement;
+    group.value = '';
+    group.innerHTML = '<rg-radio value="one" checked>One</rg-radio>';
+    document.body.append(group);
+
+    expect(group.getAttribute('value')).toBe('');
+    expect(group.value).toBe('');
+    expect(group.querySelector('rg-radio')!.checked).toBe(false);
   });
 
   it('refreshes validity when assigned error text changes without slotchange', async () => {

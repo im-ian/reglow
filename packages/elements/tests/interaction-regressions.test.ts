@@ -108,7 +108,7 @@ describe('dynamic interaction regressions', () => {
     expect(panels.map((panel) => panel.active)).toEqual([false, true]);
   });
 
-  it('renormalizes a single accordion after a programmatic open', async () => {
+  it('reasserts the group value after a programmatic accordion-item drift', async () => {
     const accordion = document.createElement('rg-accordion') as RgAccordionElement;
     accordion.innerHTML = `
       <rg-accordion-item value="one" open><span slot="heading">One</span>First</rg-accordion-item>
@@ -122,8 +122,53 @@ describe('dynamic interaction regressions', () => {
     items[1]!.open = true;
     await settleMutations();
 
-    expect(accordion.value).toBe('two');
-    expect(items.map((item) => item.open)).toEqual([false, true]);
+    expect(accordion.value).toBe('one');
+    expect(items.map((item) => item.open)).toEqual([true, false]);
+  });
+
+  it('separates cancelable popover requests from committed open notifications', () => {
+    const popover = document.createElement('rg-popover') as HTMLElement & { open: boolean };
+    popover.innerHTML = '<button slot="trigger">Open</button><p>Content</p>';
+    document.body.append(popover);
+    const trigger = popover.querySelector<HTMLButtonElement>('button')!;
+    const order: string[] = [];
+    const preventOpen = (event: Event) => {
+      order.push(`before:${String(popover.open)}`);
+      event.preventDefault();
+    };
+    const onOpenChange = (event: Event) => {
+      const detail = (event as CustomEvent<{ open: boolean }>).detail;
+      order.push(`change:${String(popover.open)}:${String(detail.open)}`);
+      expect(event.cancelable).toBe(false);
+    };
+    popover.addEventListener('rg-before-open', preventOpen);
+    popover.addEventListener('rg-open-change', onOpenChange);
+
+    trigger.click();
+    expect(popover.open).toBe(false);
+    expect(order).toEqual(['before:false']);
+
+    popover.removeEventListener('rg-before-open', preventOpen);
+    trigger.click();
+    expect(popover.open).toBe(true);
+    expect(order).toEqual(['before:false', 'change:true:true']);
+  });
+
+  it('cancels a dialog open request before touching the native dialog', () => {
+    const dialog = document.createElement('rg-dialog') as RgDialogElement;
+    dialog.innerHTML = '<button slot="trigger">Open</button><p>Content</p>';
+    document.body.append(dialog);
+    const beforeOpen = vi.fn((event: Event) => event.preventDefault());
+    const openChange = vi.fn();
+    dialog.addEventListener('rg-before-open', beforeOpen);
+    dialog.addEventListener('rg-open-change', openChange);
+
+    dialog.querySelector<HTMLButtonElement>('button')!.click();
+
+    expect(beforeOpen).toHaveBeenCalledOnce();
+    expect(openChange).not.toHaveBeenCalled();
+    expect(dialog.open).toBe(false);
+    expect(dialog.shadowRoot!.querySelector('dialog')!.open).toBe(false);
   });
 
   it('restarts the accordion entrance animation every time an item opens', () => {

@@ -133,6 +133,24 @@ describe('@reglow/react', () => {
     expect(ref.current!.shadowRoot!.querySelector('input')!.value).toBe('Reglow');
   });
 
+  it('reasserts every supplied custom-element property without a component catalog entry', () => {
+    const ref = createRef<RgButtonElement>();
+    const { rerender } = render(
+      <Button ref={ref} pressed={false} label="Before">
+        Toggle
+      </Button>,
+    );
+
+    ref.current!.pressed = true;
+    rerender(
+      <Button ref={ref} pressed={false} label="After">
+        Toggle
+      </Button>,
+    );
+
+    expect(ref.current!.pressed).toBe(false);
+  });
+
   it('keeps the next controlled value when the parent accepts a user edit', async () => {
     function ControlledInput() {
       const [value, setValue] = useState('Reglow');
@@ -166,12 +184,19 @@ describe('@reglow/react', () => {
     expect(control.value).toBe('Reglow UI');
   });
 
-  it('restores rejected controlled checked and open states', async () => {
+  it('restores form state and prevents controlled overlay requests before mutation', async () => {
     const checkboxRef = createRef<RgCheckboxElement>();
+    const onBeforeOpen = vi.fn();
+    const onOpenChange = vi.fn();
     const { container } = render(
       <>
         <Checkbox ref={checkboxRef} checked={false} />
-        <Dialog open={false} trigger={<button>Open</button>}>
+        <Dialog
+          open={false}
+          trigger={<button>Open</button>}
+          onBeforeOpen={onBeforeOpen}
+          onOpenChange={onOpenChange}
+        >
           Content
         </Dialog>
       </>,
@@ -190,10 +215,13 @@ describe('@reglow/react', () => {
 
     expect(checkboxRef.current!.checked).toBe(false);
     expect(checkboxControl.checked).toBe(false);
+    expect(onBeforeOpen).toHaveBeenCalledOnce();
+    expect(onOpenChange).not.toHaveBeenCalled();
     expect(dialog.open).toBe(false);
+    expect(dialog.shadowRoot!.querySelector('dialog')!.open).toBe(false);
   });
 
-  it('covers every interaction-owned property with controlled synchronization', async () => {
+  it('restores only form-associated interaction state after rejected edits', async () => {
     const options = [
       { value: 'one', label: 'One' },
       { value: 'two', label: 'Two' },
@@ -205,27 +233,11 @@ describe('@reglow/react', () => {
         <Select data-case="select" value="one" options={options} />
         <Checkbox data-case="checkbox" checked={false} indeterminate />
         <Switch data-case="switch" checked={false} />
-        <Radio data-case="radio" value="one" checked={false} />
         <RadioGroup data-case="radio-group" value="one">
           <Radio value="one" />
           <Radio value="two" />
         </RadioGroup>
         <Slider data-case="slider" value={1} />
-        <Toast data-case="toast" open duration={0} />
-        <Tabs data-case="tabs" value="one">
-          <Reglow.Tab value="one">One</Reglow.Tab>
-          <Reglow.Tab value="two">Two</Reglow.Tab>
-        </Tabs>
-        <Accordion data-case="accordion" value="one">
-          <AccordionItem value="one">One</AccordionItem>
-          <AccordionItem value="two">Two</AccordionItem>
-        </Accordion>
-        <AccordionItem data-case="accordion-item" value="one" open={false}>
-          One
-        </AccordionItem>
-        <Dialog data-case="dialog" open={false} />
-        <Drawer data-case="drawer" open={false} />
-        <Tooltip data-case="tooltip" content="Help" open={false} />
         <Combobox data-case="combobox" value="one" open={false} options={options} />
         <DatePicker data-case="date-picker" value="2026-07-20" open={false} picker="custom" />
         <TimePicker data-case="time-picker" value="09:30" open={false} />
@@ -234,23 +246,14 @@ describe('@reglow/react', () => {
           value="2026-07-20T09:30"
           open={false}
         />
-        <Pagination data-case="pagination" page={1} pageCount={3} />
-        <Popover data-case="popover" open={false} />
-        <Menu data-case="menu" open={false} />
         <ChipGroup data-case="chip-group" value="one">
           <Chip value="one">One</Chip>
           <Chip value="two">Two</Chip>
         </ChipGroup>
-        <Chip data-case="chip" value="one" selected={false}>
-          One
-        </Chip>
         <SegmentedControl data-case="segmented-control" value="one">
           <Segment value="one">One</Segment>
           <Segment value="two">Two</Segment>
         </SegmentedControl>
-        <Segment data-case="segment" value="one" selected={false}>
-          One
-        </Segment>
         <Rating data-case="rating" value={1} />
       </>,
     );
@@ -261,31 +264,14 @@ describe('@reglow/react', () => {
       ['checkbox', 'checked', true, false, 'change'],
       ['checkbox', 'indeterminate', false, true, 'change'],
       ['switch', 'checked', true, false, 'change'],
-      ['radio', 'checked', true, false, 'change'],
       ['radio-group', 'value', 'two', 'one', 'change'],
       ['slider', 'value', 2, 1, 'input'],
-      ['toast', 'open', false, true, 'rg-open-change'],
-      ['tabs', 'value', 'two', 'one', 'rg-value-change'],
-      ['accordion', 'value', 'two', 'one', 'rg-value-change'],
-      ['accordion-item', 'open', true, false, 'rg-open-change'],
-      ['dialog', 'open', true, false, 'rg-open-change'],
-      ['drawer', 'open', true, false, 'rg-open-change'],
-      ['tooltip', 'open', true, false, 'rg-open-change'],
       ['combobox', 'value', 'two', 'one', 'input'],
-      ['combobox', 'open', true, false, 'rg-open-change'],
       ['date-picker', 'value', '2026-07-21', '2026-07-20', 'input'],
-      ['date-picker', 'open', true, false, 'rg-open-change'],
       ['time-picker', 'value', '10:30', '09:30', 'input'],
-      ['time-picker', 'open', true, false, 'rg-open-change'],
       ['date-time-picker', 'value', '2026-07-21T10:30', '2026-07-20T09:30', 'input'],
-      ['date-time-picker', 'open', true, false, 'rg-open-change'],
-      ['pagination', 'page', 2, 1, 'rg-page-change'],
-      ['popover', 'open', true, false, 'rg-open-change'],
-      ['menu', 'open', true, false, 'rg-open-change'],
       ['chip-group', 'value', 'two', 'one', 'input'],
-      ['chip', 'selected', true, false, 'click'],
       ['segmented-control', 'value', 'two', 'one', 'input'],
-      ['segment', 'selected', true, false, 'click'],
       ['rating', 'value', 2, 1, 'input'],
     ] as const;
 
@@ -306,32 +292,55 @@ describe('@reglow/react', () => {
     });
   });
 
-  it('restores explicit empty values after rejected group selections', async () => {
+  it('restores an explicit empty accordion value when its change event is canceled', async () => {
     const { container } = render(
-      <>
-        <Accordion data-case="empty-accordion" collapsible value="">
-          <AccordionItem value="one">One</AccordionItem>
-        </Accordion>
-        <ChipGroup data-case="empty-chip-group" selection="single" value="">
-          <Chip value="one">One</Chip>
-        </ChipGroup>
-      </>,
+      <Accordion
+        data-case="empty-accordion"
+        collapsible
+        value=""
+        onValueChange={(event) => event.preventDefault()}
+      >
+        <AccordionItem value="one">One</AccordionItem>
+      </Accordion>,
     );
     const accordion = container.querySelector('rg-accordion[data-case="empty-accordion"]')!;
     const accordionItem = accordion.querySelector('rg-accordion-item')!;
-    const chipGroup = container.querySelector('rg-chip-group[data-case="empty-chip-group"]')!;
-    const chip = chipGroup.querySelector('rg-chip')!;
 
     await act(async () => {
       fireEvent.click(accordionItem.shadowRoot!.querySelector('summary')!);
-      fireEvent.click(chip.shadowRoot!.querySelector('button')!);
       await Promise.resolve();
     });
 
     expect(accordion.value).toBe('');
     expect(accordionItem.open).toBe(false);
+  });
+
+  it('restores an explicit empty controlled chip-group value after a rejected selection', async () => {
+    const { container } = render(
+      <ChipGroup data-case="empty-chip-group" selection="single" value="">
+        <Chip value="one">One</Chip>
+      </ChipGroup>,
+    );
+    const chipGroup = container.querySelector('rg-chip-group[data-case="empty-chip-group"]')!;
+    const chip = chipGroup.querySelector('rg-chip')!;
+
+    await act(async () => {
+      fireEvent.click(chip.shadowRoot!.querySelector('button')!);
+      await Promise.resolve();
+    });
+
     expect(chipGroup.value).toBe('');
     expect(chip.selected).toBe(false);
+  });
+
+  it('never stringifies nullish values when a controlled form prop is removed', () => {
+    const { container, rerender } = render(<Input value="Reglow" />);
+    const input = container.querySelector('rg-input')!;
+
+    rerender(<Input />);
+
+    expect(input.value).not.toBe('undefined');
+    expect(input.value).not.toBe('null');
   });
 
   it('maps picker display and overlay options to custom-element attributes', () => {
