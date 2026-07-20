@@ -5,6 +5,7 @@ import {
   isValidElement,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   type ForwardRefExoticComponent,
   type ReactElement,
@@ -20,9 +21,22 @@ interface AdapterConfig {
   displayName: string;
   events?: Readonly<Record<string, string>>;
   attributes?: Readonly<Record<string, string>>;
+  controlled?: Readonly<Record<string, readonly string[]>>;
   properties?: readonly string[];
   propertyDefaults?: Readonly<Record<string, unknown>>;
   slots?: Readonly<Record<string, string>>;
+}
+
+const useClientLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+function syncControlledProperties(
+  element: HTMLElement,
+  values: Readonly<Record<string, unknown>>,
+): void {
+  const propertyTarget = element as unknown as Record<string, unknown>;
+  Object.entries(values).forEach(([property, value]) => {
+    if (!Object.is(propertyTarget[property], value)) propertyTarget[property] = value;
+  });
 }
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
@@ -45,9 +59,13 @@ export function createReglowComponent<TElement extends HTMLElement, TProps exten
 ): ForwardRefExoticComponent<TProps & RefAttributes<TElement>> {
   if (elementConstructor) defineElement({ tagName, constructor: elementConstructor });
 
+  const controlledProperties = Object.keys(config.controlled ?? {});
+  const controlledEvents = new Set(Object.values(config.controlled ?? {}).flat());
+
   const Component = forwardRef<TElement, TProps>((typedProps, forwardedRef) => {
     const props = typedProps as UnknownProps;
     const localRef = useRef<TElement | null>(null);
+    const committedControlledValues = useRef<Readonly<Record<string, unknown>>>({});
     const eventHandlers = Object.entries(config.events ?? {}).map(([propName]) => props[propName]);
     const propertyValues = (config.properties ?? []).map(
       (property) => props[property] ?? config.propertyDefaults?.[property],
@@ -60,6 +78,38 @@ export function createReglowComponent<TElement extends HTMLElement, TProps exten
       },
       [forwardedRef],
     );
+
+    useClientLayoutEffect(() => {
+      const element = localRef.current;
+      if (!element) return;
+
+      const values = Object.fromEntries(
+        controlledProperties.flatMap((property) =>
+          Object.prototype.hasOwnProperty.call(props, property) && props[property] !== undefined
+            ? [[property, props[property]]]
+            : [],
+        ),
+      );
+      committedControlledValues.current = values;
+      syncControlledProperties(element, values);
+    });
+
+    useClientLayoutEffect(() => {
+      const element = localRef.current;
+      if (!element) return;
+
+      const restore = () => {
+        queueMicrotask(() => {
+          if (localRef.current !== element) return;
+          syncControlledProperties(element, committedControlledValues.current);
+        });
+      };
+      controlledEvents.forEach((eventName) => element.addEventListener(eventName, restore));
+
+      return () => {
+        controlledEvents.forEach((eventName) => element.removeEventListener(eventName, restore));
+      };
+    }, []);
 
     useEffect(() => {
       const element = localRef.current;

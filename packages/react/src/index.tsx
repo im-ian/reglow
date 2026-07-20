@@ -997,6 +997,7 @@ export const Input = /* @__PURE__ */ (() =>
     {
       displayName: 'Input',
       events: { ...valueEvents, onClear: 'rg-clear' },
+      controlled: { value: ['input'] },
       attributes: {
         autoComplete: 'autocomplete',
         inputMode: 'inputmode',
@@ -1050,6 +1051,7 @@ export const Checkbox = /* @__PURE__ */ (() =>
     {
       displayName: 'Checkbox',
       events: valueEvents,
+      controlled: { checked: ['change'] },
       properties: ['indeterminate'],
       slots: fieldSlots,
       propertyDefaults: { indeterminate: false },
@@ -1270,6 +1272,7 @@ export const Dialog = /* @__PURE__ */ (() =>
         onOpenChange: 'rg-open-change',
         onClose: 'rg-close',
       },
+      controlled: { open: ['rg-open-change'] },
       attributes: {
         escapeKeyAction: 'escape-key-action',
         backdropAction: 'backdrop-action',
