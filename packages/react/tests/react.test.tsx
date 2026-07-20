@@ -6,6 +6,8 @@ import * as Reglow from '../src/index.js';
 import {
   Avatar,
   AvatarGroup,
+  Accordion,
+  AccordionItem,
   Breadcrumb,
   BreadcrumbItem,
   Button,
@@ -18,6 +20,7 @@ import {
   DatePicker,
   DateTimePicker,
   Dialog,
+  Drawer,
   EmptyState,
   Fieldset,
   FormatBytes,
@@ -31,16 +34,24 @@ import {
   Pagination,
   Popover,
   ProgressRing,
+  Radio,
+  RadioGroup,
   Rating,
   RelativeTime,
   Segment,
   SegmentedControl,
   Select,
+  Slider,
   Step,
   StepIndicator,
+  Switch,
+  Tabs,
+  Textarea,
   Timeline,
   TimelineItem,
   TimePicker,
+  Toast,
+  Tooltip,
   createReglowComponent,
   type InputProps,
   type RgButtonElement,
@@ -180,6 +191,119 @@ describe('@reglow/react', () => {
     expect(checkboxRef.current!.checked).toBe(false);
     expect(checkboxControl.checked).toBe(false);
     expect(dialog.open).toBe(false);
+  });
+
+  it('covers every interaction-owned property with controlled synchronization', async () => {
+    const options = [
+      { value: 'one', label: 'One' },
+      { value: 'two', label: 'Two' },
+    ];
+    const { container } = render(
+      <>
+        <Input data-case="input" value="one" />
+        <Textarea data-case="textarea" value="one" />
+        <Select data-case="select" value="one" options={options} />
+        <Checkbox data-case="checkbox" checked={false} indeterminate />
+        <Switch data-case="switch" checked={false} />
+        <Radio data-case="radio" value="one" checked={false} />
+        <RadioGroup data-case="radio-group" value="one">
+          <Radio value="one" />
+          <Radio value="two" />
+        </RadioGroup>
+        <Slider data-case="slider" value={1} />
+        <Toast data-case="toast" open duration={0} />
+        <Tabs data-case="tabs" value="one">
+          <Reglow.Tab value="one">One</Reglow.Tab>
+          <Reglow.Tab value="two">Two</Reglow.Tab>
+        </Tabs>
+        <Accordion data-case="accordion" value="one">
+          <AccordionItem value="one">One</AccordionItem>
+          <AccordionItem value="two">Two</AccordionItem>
+        </Accordion>
+        <AccordionItem data-case="accordion-item" value="one" open={false}>
+          One
+        </AccordionItem>
+        <Dialog data-case="dialog" open={false} />
+        <Drawer data-case="drawer" open={false} />
+        <Tooltip data-case="tooltip" content="Help" open={false} />
+        <Combobox data-case="combobox" value="one" open={false} options={options} />
+        <DatePicker data-case="date-picker" value="2026-07-20" open={false} picker="custom" />
+        <TimePicker data-case="time-picker" value="09:30" open={false} />
+        <DateTimePicker
+          data-case="date-time-picker"
+          value="2026-07-20T09:30"
+          open={false}
+        />
+        <Pagination data-case="pagination" page={1} pageCount={3} />
+        <Popover data-case="popover" open={false} />
+        <Menu data-case="menu" open={false} />
+        <ChipGroup data-case="chip-group" value="one">
+          <Chip value="one">One</Chip>
+          <Chip value="two">Two</Chip>
+        </ChipGroup>
+        <Chip data-case="chip" value="one" selected={false}>
+          One
+        </Chip>
+        <SegmentedControl data-case="segmented-control" value="one">
+          <Segment value="one">One</Segment>
+          <Segment value="two">Two</Segment>
+        </SegmentedControl>
+        <Segment data-case="segment" value="one" selected={false}>
+          One
+        </Segment>
+        <Rating data-case="rating" value={1} />
+      </>,
+    );
+    const cases = [
+      ['input', 'value', 'two', 'one', 'input'],
+      ['textarea', 'value', 'two', 'one', 'input'],
+      ['select', 'value', 'two', 'one', 'change'],
+      ['checkbox', 'checked', true, false, 'change'],
+      ['checkbox', 'indeterminate', false, true, 'change'],
+      ['switch', 'checked', true, false, 'change'],
+      ['radio', 'checked', true, false, 'change'],
+      ['radio-group', 'value', 'two', 'one', 'change'],
+      ['slider', 'value', 2, 1, 'input'],
+      ['toast', 'open', false, true, 'rg-open-change'],
+      ['tabs', 'value', 'two', 'one', 'rg-value-change'],
+      ['accordion', 'value', 'two', 'one', 'rg-value-change'],
+      ['accordion-item', 'open', true, false, 'rg-open-change'],
+      ['dialog', 'open', true, false, 'rg-open-change'],
+      ['drawer', 'open', true, false, 'rg-open-change'],
+      ['tooltip', 'open', true, false, 'rg-open-change'],
+      ['combobox', 'value', 'two', 'one', 'input'],
+      ['combobox', 'open', true, false, 'rg-open-change'],
+      ['date-picker', 'value', '2026-07-21', '2026-07-20', 'input'],
+      ['date-picker', 'open', true, false, 'rg-open-change'],
+      ['time-picker', 'value', '10:30', '09:30', 'input'],
+      ['time-picker', 'open', true, false, 'rg-open-change'],
+      ['date-time-picker', 'value', '2026-07-21T10:30', '2026-07-20T09:30', 'input'],
+      ['date-time-picker', 'open', true, false, 'rg-open-change'],
+      ['pagination', 'page', 2, 1, 'rg-page-change'],
+      ['popover', 'open', true, false, 'rg-open-change'],
+      ['menu', 'open', true, false, 'rg-open-change'],
+      ['chip-group', 'value', 'two', 'one', 'input'],
+      ['chip', 'selected', true, false, 'click'],
+      ['segmented-control', 'value', 'two', 'one', 'input'],
+      ['segment', 'selected', true, false, 'click'],
+      ['rating', 'value', 2, 1, 'input'],
+    ] as const;
+
+    await act(async () => {
+      cases.forEach(([id, property, mutation, , eventName]) => {
+        const target = container.querySelector<HTMLElement>(`[data-case="${id}"]`)! as HTMLElement &
+          Record<string, unknown>;
+        target[property] = mutation;
+        target.dispatchEvent(new Event(eventName, { bubbles: true, composed: true }));
+      });
+      await Promise.resolve();
+    });
+
+    cases.forEach(([id, property, , expected]) => {
+      const target = container.querySelector<HTMLElement>(`[data-case="${id}"]`)! as HTMLElement &
+        Record<string, unknown>;
+      expect(target[property], `${id}.${property}`).toEqual(expected);
+    });
   });
 
   it('maps picker display and overlay options to custom-element attributes', () => {
