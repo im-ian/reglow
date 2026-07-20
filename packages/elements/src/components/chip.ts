@@ -1,5 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
-import { ReglowElement } from '../core/reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export type RgChipSelection = 'none' | 'single' | 'multiple';
@@ -21,6 +21,9 @@ function isChip(value: unknown): value is RgChipElement {
 
 export class RgChipElement extends ReglowElement {
   static readonly tagName = 'rg-chip' as const;
+  static readonly interactionState = {
+    selected: { events: ['click'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly delegatesFocus = false;
   static readonly observedAttributes = [
     'aria-label',
@@ -119,8 +122,8 @@ export class RgChipElement extends ReglowElement {
     return this.getString('value');
   }
 
-  set value(value: string) {
-    this.setString('value', value);
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get selected(): boolean {
@@ -302,7 +305,14 @@ export class RgChipGroupElement extends FormAssociatedElement {
     return this.getAttribute('value') ?? this.#selectedChips()[0]?.value ?? '';
   }
 
-  set value(value: string | string[]) {
+  set value(value: string | string[] | null | undefined) {
+    if (value === null || value === undefined) {
+      this.#normalizing = true;
+      this.removeAttribute('value');
+      this.#normalizing = false;
+      if (this.shadowRoot) this.update('value');
+      return;
+    }
     this.#writeValue(value);
   }
 
@@ -358,6 +368,10 @@ export class RgChipGroupElement extends FormAssociatedElement {
       });
     } else {
       chips.forEach((chip) => (chip.selected = false));
+    }
+    if (this.selection !== 'none' && !this.hasAttribute('value')) {
+      const serialized = Array.isArray(requested) ? JSON.stringify(requested) : requested;
+      this.setAttribute('value', serialized);
     }
     this.#normalizing = false;
 
@@ -459,8 +473,7 @@ export class RgChipGroupElement extends FormAssociatedElement {
   #writeValue(value: string | string[]): void {
     const serialized = Array.isArray(value) ? JSON.stringify(value) : value;
     this.#normalizing = true;
-    if (serialized) this.setAttribute('value', serialized);
-    else this.removeAttribute('value');
+    this.setAttribute('value', serialized);
     this.#normalizing = false;
     if (this.shadowRoot) this.update('value');
   }

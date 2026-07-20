@@ -1,4 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
+import type { InteractionStateDescriptor } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export type RgButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
@@ -17,6 +18,7 @@ const buttonSizes = new Set<RgButtonSize>(['sm', 'md', 'lg']);
 const buttonTypes = new Set<RgButtonType>(['button', 'submit', 'reset']);
 
 abstract class RgButtonBaseElement extends FormAssociatedElement {
+  static readonly interactionState = {} as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'aria-describedby',
     'aria-label',

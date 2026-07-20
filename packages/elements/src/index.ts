@@ -1,4 +1,9 @@
-export { ReglowElement } from './core/reglow-element.js';
+export {
+  ReglowElement,
+  type InteractionStateDescriptor,
+  type InteractionStateProperty,
+  type InteractionStateStrategy,
+} from './core/reglow-element.js';
 export { FormAssociatedElement } from './core/form-associated.js';
 export * from './core/define.js';
 export * from './definitions.js';

@@ -4,6 +4,7 @@ import type {
   AccordionValueChangeDetail,
   AlertDismissDetail,
   DialogBeforeCloseDetail,
+  DialogBeforeOpenDetail,
   DialogCloseDetail,
   DialogOpenChangeDetail,
   PaginationPageChangeDetail,
@@ -129,6 +130,14 @@ type CustomEventProp<TName extends `rg-${string}`, TElement extends HTMLElement,
   [TKey in `on${TName}`]?: ReglowPreactEventHandler<TElement, TDetail>;
 };
 
+type OpenLifecycleEvents<TElement extends HTMLElement, TDetail> = CustomEventProp<
+  'rg-before-open',
+  TElement,
+  TDetail
+> &
+  CustomEventProp<'rg-before-close', TElement, TDetail> &
+  CustomEventProp<'rg-open-change', TElement, TDetail>;
+
 export type ReglowPreactProps<
   TElement extends HTMLElement,
   TEvents extends object = object,
@@ -187,7 +196,8 @@ type ToastRegionEvents = CustomEventProp<
   { id: string; toast: RgToastElement }
 >;
 type ToastEvents = CustomEventProp<'rg-open-change', RgToastElement, ToastOpenChangeDetail> &
-  CustomEventProp<'rg-dismiss', RgToastElement, ToastDismissDetail>;
+  CustomEventProp<'rg-dismiss', RgToastElement, ToastDismissDetail> &
+  CustomEventProp<'rg-before-close', RgToastElement, ToastOpenChangeDetail>;
 type TabsEvents = CustomEventProp<'rg-value-change', RgTabsElement, TabsValueChangeDetail>;
 type AccordionEvents = CustomEventProp<
   'rg-value-change',
@@ -200,26 +210,23 @@ type AccordionItemEvents = CustomEventProp<
   AccordionItemOpenChangeDetail
 >;
 type DialogEvents<TElement extends RgDialogElement | RgDrawerElement> = CustomEventProp<
-  'rg-before-close',
+  'rg-before-open',
   TElement,
-  DialogBeforeCloseDetail
+  DialogBeforeOpenDetail
 > &
+  CustomEventProp<'rg-before-close', TElement, DialogBeforeCloseDetail> &
   CustomEventProp<'rg-open-change', TElement, DialogOpenChangeDetail> &
   CustomEventProp<'rg-close', TElement, DialogCloseDetail>;
-type TooltipEvents = CustomEventProp<'rg-open-change', RgTooltipElement, TooltipOpenChangeDetail>;
-type ComboboxEvents = CustomEventProp<
-  'rg-open-change',
-  RgComboboxElement,
-  RgComboboxOpenChangeDetail
-> &
+type TooltipEvents = OpenLifecycleEvents<RgTooltipElement, TooltipOpenChangeDetail>;
+type ComboboxEvents = OpenLifecycleEvents<RgComboboxElement, RgComboboxOpenChangeDetail> &
   CustomEventProp<'rg-value-change', RgComboboxElement, RgComboboxValueChangeDetail>;
 type PaginationEvents = CustomEventProp<
   'rg-page-change',
   RgPaginationElement,
   PaginationPageChangeDetail
 >;
-type PopoverEvents = CustomEventProp<'rg-open-change', RgPopoverElement, RgPopoverOpenChangeDetail>;
-type MenuEvents = CustomEventProp<'rg-open-change', RgMenuElement, RgMenuOpenChangeDetail> &
+type PopoverEvents = OpenLifecycleEvents<RgPopoverElement, RgPopoverOpenChangeDetail>;
+type MenuEvents = OpenLifecycleEvents<RgMenuElement, RgMenuOpenChangeDetail> &
   CustomEventProp<'rg-select', RgMenuElement, RgMenuSelectDetail>;
 type CopyButtonEvents = CustomEventProp<'rg-copy', RgCopyButtonElement, RgCopyDetail> &
   CustomEventProp<'rg-error', RgCopyButtonElement, RgCopyErrorDetail>;
@@ -235,18 +242,9 @@ type SegmentedControlEvents = CustomEventProp<
   RgSegmentedValueChangeDetail
 >;
 type RatingEvents = CustomEventProp<'rg-value-change', RgRatingElement, RgRatingValueChangeDetail>;
-type DatePickerEvents = CustomEventProp<
-  'rg-open-change',
-  RgDatePickerElement,
-  RgDatePickerOpenChangeDetail
->;
-type TimePickerEvents = CustomEventProp<
-  'rg-open-change',
-  RgTimePickerElement,
-  RgTimePickerOpenChangeDetail
->;
-type DateTimePickerEvents = CustomEventProp<
-  'rg-open-change',
+type DatePickerEvents = OpenLifecycleEvents<RgDatePickerElement, RgDatePickerOpenChangeDetail>;
+type TimePickerEvents = OpenLifecycleEvents<RgTimePickerElement, RgTimePickerOpenChangeDetail>;
+type DateTimePickerEvents = OpenLifecycleEvents<
   RgDateTimePickerElement,
   RgDateTimePickerOpenChangeDetail
 >;

@@ -1,4 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
+import { openInteractionState, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { fieldStyles, motionStyles } from '../styles/base.js';
 import {
   addDays,
@@ -57,6 +58,10 @@ export type RgDateTimePickerOpenReason = RgPickerOpenReason;
 
 export class RgDateTimePickerElement extends FormAssociatedElement {
   static readonly tagName = 'rg-date-time-picker' as const;
+  static readonly interactionState = {
+    ...FormAssociatedElement.interactionState,
+    ...openInteractionState,
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'date-format',
     'description',
@@ -181,13 +186,15 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
   #view = { ...today(), day: 1 };
   #focusedDate: RgDateParts | null = null;
   #lastValue = '';
+  #overlayOpen = false;
+  #restoreFocusOnClose = false;
 
   get value(): string {
     return this.getString('value');
   }
 
-  set value(value: string) {
-    this.setString('value', value);
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get label(): string {
@@ -322,6 +329,7 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
   }
 
   protected onConnect(signal: AbortSignal): void {
+    this.#overlayOpen = false;
     this.listen(
       this.query<HTMLButtonElement>('.picker-control'),
       'click',
@@ -349,7 +357,6 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
         { capture: true },
       );
     }
-    if (this.open) queueMicrotask(() => focusSelectedTimeOptions(this.shadowRoot!));
   }
 
   protected update(): void {
@@ -380,6 +387,43 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
         this.#focusedDate = selected.date;
         this.#view = { ...selected.date, day: 1 };
       }
+    }
+
+    const opening = this.open && !this.#overlayOpen;
+    const closing = !this.open && this.#overlayOpen;
+    this.#overlayOpen = this.open;
+    if (closing && this.#restoreFocusOnClose) {
+      this.#restoreFocusOnClose = false;
+      queueMicrotask(() => {
+        if (!this.open && this.isConnected) control.focus();
+      });
+    }
+    if (opening) {
+      this.#draftDate = constrainDateToRange(
+        selected?.date ?? today(),
+        min?.date ?? null,
+        max?.date ?? null,
+      );
+      this.#draftTime = constrainTimeToDateRange(
+        this.#draftDate,
+        selected?.time ?? { hour: 0, minute: 0 },
+        min,
+        max,
+      );
+      this.#focusedDate = this.#draftDate;
+      this.#view = { ...this.#draftDate, day: 1 };
+      queueMicrotask(() => {
+        if (
+          !this.#overlayOpen ||
+          !this.isConnected ||
+          this.disabled ||
+          this.readOnly ||
+          this.hasAttribute('data-form-disabled')
+        )
+          return;
+        focusSelectedTimeOptions(this.shadowRoot!);
+        this.shadowRoot?.querySelector<HTMLButtonElement>('.calendar-day[tabindex="0"]')?.focus();
+      });
     }
     if (this.open) {
       this.#draftDate = constrainDateToRange(this.#draftDate, min?.date ?? null, max?.date ?? null);
@@ -480,8 +524,9 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
     }
     if (action === 'done') {
       this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-      this.#setOpen(false, 'selection');
-      this.query<HTMLButtonElement>('.picker-control').focus();
+      if (this.#setOpen(false, 'selection')) {
+        this.query<HTMLButtonElement>('.picker-control').focus();
+      }
       return;
     }
     const date = parseDate(target.dataset['date'] ?? '');
@@ -527,15 +572,17 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
       return;
     }
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-    this.#setOpen(false, 'selection');
-    this.query<HTMLButtonElement>('.picker-control').focus();
+    if (this.#setOpen(false, 'selection')) {
+      this.query<HTMLButtonElement>('.picker-control').focus();
+    }
   }
 
   #handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Escape' && this.open) {
       event.preventDefault();
-      this.#setOpen(false, 'escape');
-      this.query<HTMLButtonElement>('.picker-control').focus();
+      if (this.#setOpen(false, 'escape')) {
+        this.query<HTMLButtonElement>('.picker-control').focus();
+      }
       return;
     }
     const target = event.composedPath()[0];
@@ -569,37 +616,21 @@ export class RgDateTimePickerElement extends FormAssociatedElement {
     );
   }
 
-  #setOpen(open: boolean, reason: RgPickerOpenReason): void {
-    if (this.disabled || this.readOnly || open === this.open) return;
-    const accepted = this.emit<RgPickerOpenChangeDetail>(
-      'rg-open-change',
-      { open, reason },
-      { cancelable: true },
-    );
-    if (!accepted) return;
-    this.open = open;
-    if (open) {
-      const selected = parseDateTime(this.value);
-      const min = parseDateTime(this.min);
-      const max = parseDateTime(this.max);
-      this.#draftDate = constrainDateToRange(
-        selected?.date ?? today(),
-        min?.date ?? null,
-        max?.date ?? null,
-      );
-      this.#draftTime = constrainTimeToDateRange(
-        this.#draftDate,
-        selected?.time ?? { hour: 0, minute: 0 },
-        min,
-        max,
-      );
-      this.#focusedDate = this.#draftDate;
-      this.#view = { ...this.#draftDate, day: 1 };
-      this.update();
-      queueMicrotask(() => {
-        focusSelectedTimeOptions(this.shadowRoot!);
-        this.shadowRoot?.querySelector<HTMLButtonElement>('.calendar-day[tabindex="0"]')?.focus();
+  #setOpen(open: boolean, reason: RgPickerOpenReason): boolean {
+    if (this.disabled || this.readOnly || open === this.open) return false;
+    if (!open && (reason === 'escape' || reason === 'selection')) {
+      this.#restoreFocusOnClose = true;
+      window.setTimeout(() => {
+        if (this.open) this.#restoreFocusOnClose = false;
       });
     }
+    const accepted = this.requestOpenChange<RgPickerOpenChangeDetail, RgPickerOpenChangeDetail>(
+      { open, reason },
+      { open, reason },
+      () => {
+        this.open = open;
+      },
+    );
+    return accepted && this.open === open;
   }
 }

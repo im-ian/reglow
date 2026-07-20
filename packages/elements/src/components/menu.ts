@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { openInteractionState, ReglowElement } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 import type { RgPopoverPlacement } from './popover.js';
 
@@ -81,6 +81,7 @@ export class RgMenuItemElement extends ReglowElement {
 
 export class RgMenuElement extends ReglowElement {
   static readonly tagName = 'rg-menu' as const;
+  static readonly interactionState = openInteractionState;
   static readonly observedAttributes = ['disabled', 'label', 'open', 'placement'] as const;
   static readonly template = `
     <span class="trigger" part="trigger"><slot name="trigger"></slot></span>
@@ -113,6 +114,9 @@ export class RgMenuElement extends ReglowElement {
   #triggerElement: HTMLElement | null = null;
   #menuId = '';
   #activeIndex = -1;
+  #wasOpen = false;
+  #focusOnOpen: 'first' | 'last' | null = null;
+  #restoreFocusOnClose = false;
 
   get open(): boolean {
     return this.getBoolean('open');
@@ -174,13 +178,36 @@ export class RgMenuElement extends ReglowElement {
   }
 
   protected update(): void {
-    if (this.disabled && this.open) this.open = false;
+    if (this.disabled && this.open) {
+      this.open = false;
+      return;
+    }
+    const opened = this.open && !this.#wasOpen;
+    const closed = !this.open && this.#wasOpen;
+    const focusOnOpen = this.#focusOnOpen ?? 'first';
+    this.#wasOpen = this.open;
     const menu = this.query<HTMLElement>('.menu');
     menu.hidden = !this.open;
     menu.setAttribute('aria-label', this.label);
     this.#applyTriggerAria();
     this.#items().forEach((item) => (item.tabIndex = -1));
     if (this.open) this.#position();
+    if (closed) {
+      this.#activeIndex = -1;
+      if (this.#restoreFocusOnClose) {
+        this.#restoreFocusOnClose = false;
+        queueMicrotask(() => {
+          if (!this.open) this.#triggerElement?.focus();
+        });
+      }
+    }
+    if (opened) {
+      this.#focusOnOpen = null;
+      queueMicrotask(() => {
+        if (!this.open) return;
+        this.#focus(focusOnOpen === 'last' ? this.#items().length - 1 : 0);
+      });
+    }
   }
 
   show(): void {
@@ -216,7 +243,6 @@ export class RgMenuElement extends ReglowElement {
     const path = event.composedPath();
     if (this.#triggerElement && path.includes(this.#triggerElement)) {
       this.#setOpen(!this.open, 'trigger');
-      if (this.open) this.#focus(0);
       return;
     }
     const item = path.find(isMenuItem);
@@ -231,15 +257,13 @@ export class RgMenuElement extends ReglowElement {
     );
     if (!this.open && fromTrigger && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
       event.preventDefault();
-      this.#setOpen(true, 'trigger');
-      this.#focus(event.key === 'ArrowUp' ? items.length - 1 : 0);
+      this.#setOpen(true, 'trigger', event.key === 'ArrowUp' ? 'last' : 'first');
       return;
     }
     if (!this.open) return;
     if (event.key === 'Escape') {
       event.preventDefault();
       this.#setOpen(false, 'escape');
-      this.#triggerElement?.focus();
     } else if (event.key === 'ArrowDown') {
       event.preventDefault();
       this.#focus((this.#activeIndex + 1) % items.length);
@@ -272,23 +296,36 @@ export class RgMenuElement extends ReglowElement {
       { value: item.value, item, originalEvent },
       { cancelable: true },
     );
-    if (accepted) {
-      this.#setOpen(false, 'selection');
-      this.#triggerElement?.focus();
-    }
+    if (accepted) this.#setOpen(false, 'selection');
   }
 
-  #setOpen(open: boolean, reason: RgMenuOpenChangeDetail['reason']): void {
-    if (this.disabled || open === this.open) return;
-    const accepted = this.emit<RgMenuOpenChangeDetail>(
-      'rg-open-change',
-      { open, reason },
-      { cancelable: true },
-    );
-    if (accepted) {
-      this.open = open;
-      if (!open) this.#activeIndex = -1;
+  #setOpen(
+    open: boolean,
+    reason: RgMenuOpenChangeDetail['reason'],
+    focusOnOpen: 'first' | 'last' = 'first',
+  ): boolean {
+    if (this.disabled || open === this.open) return false;
+    if (open) {
+      this.#focusOnOpen = focusOnOpen;
+      window.setTimeout(() => {
+        if (!this.open) this.#focusOnOpen = null;
+      });
+    } else if (reason === 'escape' || reason === 'selection') {
+      this.#restoreFocusOnClose = true;
+      window.setTimeout(() => {
+        if (this.open) this.#restoreFocusOnClose = false;
+      });
     }
+    const accepted = this.requestOpenChange({ open, reason }, { open, reason }, () => {
+      this.open = open;
+    });
+    const committed = accepted && this.open === open;
+    if (committed && open) {
+      this.#focus(focusOnOpen === 'last' ? this.#items().length - 1 : 0);
+    } else if (committed && (reason === 'escape' || reason === 'selection')) {
+      this.#triggerElement?.focus();
+    }
+    return committed;
   }
 
   #position(): void {

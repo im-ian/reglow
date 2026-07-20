@@ -95,6 +95,7 @@ import type {
   AlertTone,
   AlertVariant,
   DialogBeforeCloseDetail,
+  DialogBeforeOpenDetail,
   DialogCloseDetail,
   DialogDismissAction,
   DialogOpenChangeDetail,
@@ -556,6 +557,7 @@ export interface ToastProps extends ReglowHostProps {
   icon?: ReactNode;
   title?: ReactNode;
   action?: ReactNode;
+  onBeforeClose?: (event: ReglowElementEvent<RgToastElement, ToastOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgToastElement, ToastOpenChangeDetail>) => void;
   onDismiss?: (event: ReglowElementEvent<RgToastElement, ToastDismissDetail>) => void;
 }
@@ -612,6 +614,7 @@ export interface DialogProps<
   title?: ReactNode;
   footer?: ReactNode;
   close?: ReactNode;
+  onBeforeOpen?: (event: ReglowElementEvent<TElement, DialogBeforeOpenDetail>) => void;
   onBeforeClose?: (event: ReglowElementEvent<TElement, DialogBeforeCloseDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<TElement, DialogOpenChangeDetail>) => void;
   onClose?: (event: ReglowElementEvent<TElement, DialogCloseDetail>) => void;
@@ -629,6 +632,8 @@ export interface TooltipProps extends ReglowHostProps {
   disabled?: boolean;
   trigger?: ReactNode;
   richContent?: ReactNode;
+  onBeforeOpen?: (event: ReglowElementEvent<RgTooltipElement, TooltipOpenChangeDetail>) => void;
+  onBeforeClose?: (event: ReglowElementEvent<RgTooltipElement, TooltipOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgTooltipElement, TooltipOpenChangeDetail>) => void;
 }
 
@@ -644,6 +649,10 @@ export interface ComboboxProps extends Omit<FieldProps<RgComboboxElement>, 'size
   noResultsText?: string;
   open?: boolean;
   options?: readonly SelectOption[];
+  onBeforeOpen?: (event: ReglowElementEvent<RgComboboxElement, RgComboboxOpenChangeDetail>) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgComboboxElement, RgComboboxOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (event: ReglowElementEvent<RgComboboxElement, RgComboboxOpenChangeDetail>) => void;
   onSelectionChange?: (
     event: ReglowElementEvent<RgComboboxElement, RgComboboxValueChangeDetail>,
@@ -664,6 +673,12 @@ export interface DatePickerProps extends Omit<
   min?: string;
   max?: string;
   step?: number;
+  onBeforeOpen?: (
+    event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
+  ) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (
     event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
   ) => void;
@@ -680,6 +695,12 @@ export interface TimePickerProps extends Omit<
   min?: string;
   max?: string;
   step?: number;
+  onBeforeOpen?: (
+    event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
+  ) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (
     event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
   ) => void;
@@ -698,6 +719,12 @@ export interface DateTimePickerProps extends Omit<
   min?: string;
   max?: string;
   step?: number;
+  onBeforeOpen?: (
+    event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
+  ) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (
     event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
   ) => void;
@@ -759,6 +786,8 @@ export interface PopoverProps extends ReglowHostProps {
   label?: string;
   matchTriggerWidth?: boolean;
   trigger?: ReactNode;
+  onBeforeOpen?: (event: ReglowElementEvent<RgPopoverElement, RgPopoverOpenChangeDetail>) => void;
+  onBeforeClose?: (event: ReglowElementEvent<RgPopoverElement, RgPopoverOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgPopoverElement, RgPopoverOpenChangeDetail>) => void;
 }
 
@@ -768,6 +797,8 @@ export interface MenuProps extends Omit<ReglowHostProps, 'onSelect'> {
   disabled?: boolean;
   label?: string;
   trigger?: ReactNode;
+  onBeforeOpen?: (event: ReglowElementEvent<RgMenuElement, RgMenuOpenChangeDetail>) => void;
+  onBeforeClose?: (event: ReglowElementEvent<RgMenuElement, RgMenuOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgMenuElement, RgMenuOpenChangeDetail>) => void;
   onSelect?: (event: ReglowElementEvent<RgMenuElement, RgMenuSelectDetail>) => void;
 }
@@ -945,10 +976,6 @@ export interface StepProps extends ReglowHostProps {
 
 const fieldSlots = { label: 'label', description: 'description', error: 'error' } as const;
 const valueEvents = { onValueChange: 'input', onValueCommit: 'change' } as const;
-const inputChangeEvents = ['input', 'change'] as const;
-const openChangeEvents = ['rg-open-change'] as const;
-const customValueChangeEvents = ['rg-value-change'] as const;
-const clickEvents = ['click'] as const;
 
 export const Theme = /* @__PURE__ */ (() =>
   createReglowComponent<RgThemeElement, ThemeProps>(
@@ -1001,7 +1028,6 @@ export const Input = /* @__PURE__ */ (() =>
     {
       displayName: 'Input',
       events: { ...valueEvents, onClear: 'rg-clear' },
-      controlled: { value: inputChangeEvents },
       attributes: {
         autoComplete: 'autocomplete',
         inputMode: 'inputmode',
@@ -1019,7 +1045,6 @@ export const Textarea = /* @__PURE__ */ (() =>
     {
       displayName: 'Textarea',
       events: valueEvents,
-      controlled: { value: inputChangeEvents },
       attributes: {
         autoGrow: 'auto-grow',
         minLength: 'minlength',
@@ -1036,7 +1061,6 @@ export const Select = /* @__PURE__ */ (() =>
     {
       displayName: 'Select',
       events: valueEvents,
-      controlled: { value: inputChangeEvents },
       properties: ['options'],
       propertyDefaults: { options: null },
       slots: fieldSlots,
@@ -1057,7 +1081,6 @@ export const Checkbox = /* @__PURE__ */ (() =>
     {
       displayName: 'Checkbox',
       events: valueEvents,
-      controlled: { checked: inputChangeEvents, indeterminate: inputChangeEvents },
       properties: ['indeterminate'],
       slots: fieldSlots,
       propertyDefaults: { indeterminate: false },
@@ -1070,7 +1093,6 @@ export const Switch = /* @__PURE__ */ (() =>
     {
       displayName: 'Switch',
       events: valueEvents,
-      controlled: { checked: inputChangeEvents },
       slots: fieldSlots,
     },
     RgSwitchElementConstructor,
@@ -1081,7 +1103,6 @@ export const RadioGroup = /* @__PURE__ */ (() =>
     {
       displayName: 'RadioGroup',
       events: valueEvents,
-      controlled: { value: inputChangeEvents },
       slots: fieldSlots,
     },
     RgRadioGroupElementConstructor,
@@ -1091,7 +1112,6 @@ export const Radio = /* @__PURE__ */ (() =>
     'rg-radio',
     {
       displayName: 'Radio',
-      controlled: { checked: inputChangeEvents },
       slots: { description: 'description' },
     },
     RgRadioElementConstructor,
@@ -1102,7 +1122,6 @@ export const Slider = /* @__PURE__ */ (() =>
     {
       displayName: 'Slider',
       events: valueEvents,
-      controlled: { value: inputChangeEvents },
       attributes: { showValue: 'show-value' },
       slots: fieldSlots,
     },
@@ -1221,8 +1240,11 @@ export const Toast = /* @__PURE__ */ (() =>
     'rg-toast',
     {
       displayName: 'Toast',
-      events: { onOpenChange: 'rg-open-change', onDismiss: 'rg-dismiss' },
-      controlled: { open: openChangeEvents },
+      events: {
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+        onDismiss: 'rg-dismiss',
+      },
       attributes: { dismissLabel: 'dismiss-label' },
       slots: { icon: 'icon', title: 'title', action: 'action' },
     },
@@ -1234,7 +1256,6 @@ export const Tabs = /* @__PURE__ */ (() =>
     {
       displayName: 'Tabs',
       events: { onValueChange: 'rg-value-change' },
-      controlled: { value: customValueChangeEvents },
     },
     RgTabsElementConstructor,
   ))();
@@ -1258,9 +1279,8 @@ export const Accordion = /* @__PURE__ */ (() =>
     {
       displayName: 'Accordion',
       events: { onValueChange: 'rg-value-change' },
-      controlled: { value: customValueChangeEvents },
       properties: ['value'],
-      propertyDefaults: { value: '' },
+      propertyDefaults: { value: null },
     },
     RgAccordionElementConstructor,
   ))();
@@ -1270,7 +1290,6 @@ export const AccordionItem = /* @__PURE__ */ (() =>
     {
       displayName: 'AccordionItem',
       events: { onOpenChange: 'rg-open-change' },
-      controlled: { open: openChangeEvents },
       attributes: { headingLevel: 'heading-level' },
       slots: { heading: 'heading' },
     },
@@ -1282,11 +1301,11 @@ export const Dialog = /* @__PURE__ */ (() =>
     {
       displayName: 'Dialog',
       events: {
+        onBeforeOpen: 'rg-before-open',
         onBeforeClose: 'rg-before-close',
         onOpenChange: 'rg-open-change',
         onClose: 'rg-close',
       },
-      controlled: { open: openChangeEvents },
       attributes: {
         escapeKeyAction: 'escape-key-action',
         backdropAction: 'backdrop-action',
@@ -1305,11 +1324,11 @@ export const Drawer = /* @__PURE__ */ (() =>
     {
       displayName: 'Drawer',
       events: {
+        onBeforeOpen: 'rg-before-open',
         onBeforeClose: 'rg-before-close',
         onOpenChange: 'rg-open-change',
         onClose: 'rg-close',
       },
-      controlled: { open: openChangeEvents },
       attributes: {
         escapeKeyAction: 'escape-key-action',
         backdropAction: 'backdrop-action',
@@ -1327,8 +1346,11 @@ export const Tooltip = /* @__PURE__ */ (() =>
     'rg-tooltip',
     {
       displayName: 'Tooltip',
-      events: { onOpenChange: 'rg-open-change' },
-      controlled: { open: openChangeEvents },
+      events: {
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+      },
       slots: { trigger: 'trigger', richContent: 'content' },
     },
     RgTooltipElementConstructor,
@@ -1346,10 +1368,11 @@ export const Combobox = /* @__PURE__ */ (() =>
       displayName: 'Combobox',
       events: {
         ...valueEvents,
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
         onOpenChange: 'rg-open-change',
         onSelectionChange: 'rg-value-change',
       },
-      controlled: { value: inputChangeEvents, open: openChangeEvents },
       attributes: { noResultsText: 'no-results-text', readOnly: 'readonly' },
       properties: ['options'],
       propertyDefaults: { options: null },
@@ -1362,8 +1385,12 @@ export const DatePicker = /* @__PURE__ */ (() =>
     'rg-date-picker',
     {
       displayName: 'DatePicker',
-      events: { ...valueEvents, onOpenChange: 'rg-open-change' },
-      controlled: { value: inputChangeEvents, open: openChangeEvents },
+      events: {
+        ...valueEvents,
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+      },
       attributes: {
         dateFormat: 'date-format',
         overlayAlign: 'overlay-align',
@@ -1379,8 +1406,12 @@ export const TimePicker = /* @__PURE__ */ (() =>
     'rg-time-picker',
     {
       displayName: 'TimePicker',
-      events: { ...valueEvents, onOpenChange: 'rg-open-change' },
-      controlled: { value: inputChangeEvents, open: openChangeEvents },
+      events: {
+        ...valueEvents,
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+      },
       attributes: {
         overlayAlign: 'overlay-align',
         overlayWidth: 'overlay-width',
@@ -1395,8 +1426,12 @@ export const DateTimePicker = /* @__PURE__ */ (() =>
     'rg-date-time-picker',
     {
       displayName: 'DateTimePicker',
-      events: { ...valueEvents, onOpenChange: 'rg-open-change' },
-      controlled: { value: inputChangeEvents, open: openChangeEvents },
+      events: {
+        ...valueEvents,
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+      },
       attributes: {
         dateFormat: 'date-format',
         overlayAlign: 'overlay-align',
@@ -1451,7 +1486,6 @@ export const Pagination = /* @__PURE__ */ (() =>
     {
       displayName: 'Pagination',
       events: { onPageChange: 'rg-page-change' },
-      controlled: { page: ['rg-page-change'] },
       attributes: {
         pageCount: 'page-count',
         siblingCount: 'sibling-count',
@@ -1506,8 +1540,11 @@ export const Popover = /* @__PURE__ */ (() =>
     'rg-popover',
     {
       displayName: 'Popover',
-      events: { onOpenChange: 'rg-open-change' },
-      controlled: { open: openChangeEvents },
+      events: {
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+      },
       attributes: { triggerMode: 'trigger', matchTriggerWidth: 'match-trigger-width' },
       slots: { trigger: 'trigger' },
     },
@@ -1518,8 +1555,12 @@ export const Menu = /* @__PURE__ */ (() =>
     'rg-menu',
     {
       displayName: 'Menu',
-      events: { onOpenChange: 'rg-open-change', onSelect: 'rg-select' },
-      controlled: { open: openChangeEvents },
+      events: {
+        onBeforeOpen: 'rg-before-open',
+        onBeforeClose: 'rg-before-close',
+        onOpenChange: 'rg-open-change',
+        onSelect: 'rg-select',
+      },
       slots: { trigger: 'trigger' },
     },
     RgMenuElementConstructor,
@@ -1558,9 +1599,8 @@ export const ChipGroup = /* @__PURE__ */ (() =>
         ...valueEvents,
         onSelectionChange: 'rg-value-change',
       },
-      controlled: { value: inputChangeEvents },
       properties: ['value'],
-      propertyDefaults: { value: '' },
+      propertyDefaults: { value: null },
     },
     RgChipGroupElementConstructor,
   ))();
@@ -1570,7 +1610,6 @@ export const Chip = /* @__PURE__ */ (() =>
     {
       displayName: 'Chip',
       events: { onRemove: 'rg-remove' },
-      controlled: { selected: clickEvents },
       attributes: { removeLabel: 'remove-label' },
       slots: { start: 'start', end: 'end' },
     },
@@ -1582,7 +1621,6 @@ export const SegmentedControl = /* @__PURE__ */ (() =>
     {
       displayName: 'SegmentedControl',
       events: { ...valueEvents, onSelectionChange: 'rg-value-change' },
-      controlled: { value: inputChangeEvents },
       attributes: { fullWidth: 'full-width' },
     },
     RgSegmentedControlElementConstructor,
@@ -1592,7 +1630,6 @@ export const Segment = /* @__PURE__ */ (() =>
     'rg-segment',
     {
       displayName: 'Segment',
-      controlled: { selected: clickEvents },
     },
     RgSegmentElementConstructor,
   ))();
@@ -1613,7 +1650,6 @@ export const Rating = /* @__PURE__ */ (() =>
     {
       displayName: 'Rating',
       events: { ...valueEvents, onRatingChange: 'rg-value-change' },
-      controlled: { value: inputChangeEvents },
       attributes: { readOnly: 'readonly' },
     },
     RgRatingElementConstructor,

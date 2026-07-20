@@ -11,6 +11,7 @@
     title,
     close,
     footer,
+    onBeforeOpen,
     onBeforeClose,
     onOpenChange,
     onClose,
@@ -26,6 +27,7 @@
   }
 
   const events = $derived({
+    'rg-before-open': onBeforeOpen,
     'rg-before-close': onBeforeClose,
     'rg-open-change': handleRgOpenChange,
     'rg-close': onClose,

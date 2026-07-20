@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { openInteractionState, ReglowElement } from '../core/reglow-element.js';
 
 export type ToastTone = 'neutral' | 'brand' | 'success' | 'warning' | 'danger';
 export type ToastCloseReason = 'timeout' | 'close-button' | 'api';
@@ -26,6 +26,7 @@ let toastId = 0;
 
 export class RgToastElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-toast';
+  static readonly interactionState = openInteractionState;
   static readonly observedAttributes = ['open', 'tone', 'duration', 'dismissible', 'dismiss-label'];
   static readonly styles = `
     :host { display: block; pointer-events: auto; }
@@ -303,10 +304,9 @@ export class RgToastElement extends ReglowElement {
     if (!this.open) return false;
     const accepted = this.emit<ToastDismissDetail>('rg-dismiss', { reason }, { cancelable: true });
     if (!accepted) return false;
-
-    this.open = false;
-    this.emit<ToastOpenChangeDetail>('rg-open-change', { open: false, reason });
-    return true;
+    return this.requestOpenChange({ open: false, reason }, { open: false, reason }, () => {
+      this.open = false;
+    });
   }
 
   private clearTimer(resetRemaining = true): void {

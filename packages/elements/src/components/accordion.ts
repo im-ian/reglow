@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export interface AccordionItemOpenChangeDetail {
@@ -13,6 +13,9 @@ export interface AccordionValueChangeDetail {
 
 export class RgAccordionItemElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-accordion-item';
+  static readonly interactionState = {
+    open: { events: ['rg-open-change'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = ['value', 'open', 'disabled', 'heading-level'];
   static get styles(): string {
     return `
@@ -287,6 +290,9 @@ export class RgAccordionItemElement extends ReglowElement {
 
 export class RgAccordionElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-accordion';
+  static readonly interactionState = {
+    value: { events: ['rg-value-change'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = ['value', 'multiple', 'collapsible'];
   static readonly styles = `
     :host { display: block; }
@@ -317,7 +323,11 @@ export class RgAccordionElement extends ReglowElement {
     return this.multiple ? values : (values[0] ?? '');
   }
 
-  set value(value: string | string[]) {
+  set value(value: string | string[] | null | undefined) {
+    if (value === null || value === undefined) {
+      this.removeAttribute('value');
+      return;
+    }
     const values = Array.isArray(value) ? value : value ? [value] : [];
     this.writeValues(this.multiple ? values : values.slice(0, 1));
   }
@@ -383,7 +393,7 @@ export class RgAccordionElement extends ReglowElement {
   }
 
   private writeValues(values: readonly string[]): void {
-    this.setString('value', values.length > 0 ? values.join(',') : null);
+    this.setAttribute('value', values.join(','));
   }
 
   private onItemOpenChange(event: CustomEvent<AccordionItemOpenChangeDetail>): void {
@@ -409,10 +419,18 @@ export class RgAccordionElement extends ReglowElement {
 
     this.writeValues(nextValues);
     this.update();
-    this.emit<AccordionValueChangeDetail>('rg-value-change', {
-      value: this.multiple ? nextValues : (nextValues[0] ?? ''),
-      previousValue: this.multiple ? previousValues : (previousValues[0] ?? ''),
-    });
+    const accepted = this.emit<AccordionValueChangeDetail>(
+      'rg-value-change',
+      {
+        value: this.multiple ? nextValues : (nextValues[0] ?? ''),
+        previousValue: this.multiple ? previousValues : (previousValues[0] ?? ''),
+      },
+      { cancelable: true },
+    );
+    if (!accepted) {
+      this.writeValues(previousValues);
+      this.update();
+    }
   }
 
   private onItemMutations(records: readonly MutationRecord[]): void {
@@ -423,17 +441,6 @@ export class RgAccordionElement extends ReglowElement {
     );
     if (itemRecords.length === 0) return;
 
-    const items = this.items();
-    const current = this.readValues();
-    const newlyOpened = [...itemRecords]
-      .reverse()
-      .find((record) => record.attributeName === 'open' && record.target.open)?.target;
-    let next = items.filter((item) => item.open).map((item) => item.value);
-    if (!this.multiple) next = newlyOpened ? [newlyOpened.value] : next.slice(0, 1);
-    if (!this.collapsible && next.length === 0 && items[0]) next = [items[0].value];
-    if (current.join(',') === next.join(',')) return;
-
-    this.writeValues(next);
     this.update();
   }
 

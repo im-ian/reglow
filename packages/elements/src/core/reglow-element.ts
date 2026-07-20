@@ -1,5 +1,21 @@
 import { baseStyles } from '../styles/base.js';
 
+export type InteractionStateStrategy = 'prevent' | 'restore';
+
+export interface InteractionStateProperty {
+  readonly events: readonly string[];
+  readonly strategy: InteractionStateStrategy;
+}
+
+export type InteractionStateDescriptor = Readonly<Record<string, InteractionStateProperty>>;
+
+export const openInteractionState = {
+  open: {
+    events: ['rg-before-open', 'rg-before-close'],
+    strategy: 'prevent',
+  },
+} as const satisfies InteractionStateDescriptor;
+
 const HTMLElementBase = (
   typeof HTMLElement === 'undefined' ? class {} : HTMLElement
 ) as typeof HTMLElement;
@@ -81,6 +97,18 @@ export abstract class ReglowElement extends HTMLElementBase {
     );
   }
 
+  protected requestOpenChange<
+    TBefore extends { readonly open: boolean },
+    TChange extends { readonly open: boolean },
+  >(beforeDetail: TBefore, changeDetail: TChange, commit: () => void): boolean {
+    const requestEvent = beforeDetail.open ? 'rg-before-open' : 'rg-before-close';
+    if (!this.emit(requestEvent, beforeDetail, { cancelable: true })) return false;
+
+    commit();
+    this.emit('rg-open-change', changeDetail);
+    return true;
+  }
+
   protected getString(name: string, fallback = ''): string {
     return this.getAttribute(name) ?? fallback;
   }
@@ -88,6 +116,11 @@ export abstract class ReglowElement extends HTMLElementBase {
   protected setString(name: string, value: string | null | undefined): void {
     if (value === null || value === undefined || value === '') this.removeAttribute(name);
     else this.setAttribute(name, value);
+  }
+
+  protected setLiveString(name: string, value: string | number | null | undefined): void {
+    if (value === null || value === undefined) this.removeAttribute(name);
+    else this.setAttribute(name, String(value));
   }
 
   protected getBoolean(name: string): boolean {

@@ -8,6 +8,8 @@
     element = $bindable(null),
     children,
     trigger,
+    onBeforeOpen,
+    onBeforeClose,
     onOpenChange,
     onSelect,
     open = $bindable(false),
@@ -22,6 +24,8 @@
   }
 
   const events = $derived({
+    'rg-before-open': onBeforeOpen,
+    'rg-before-close': onBeforeClose,
     'rg-open-change': handleRgOpenChange,
     'rg-select': onSelect,
   });

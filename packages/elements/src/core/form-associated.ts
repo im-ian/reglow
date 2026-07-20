@@ -1,7 +1,13 @@
-import { ReglowElement } from './reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from './reglow-element.js';
 
 export abstract class FormAssociatedElement extends ReglowElement {
   static readonly formAssociated = true;
+  static readonly interactionState: InteractionStateDescriptor = {
+    value: {
+      events: ['input', 'change'],
+      strategy: 'restore',
+    },
+  };
 
   protected readonly internals: ElementInternals | null;
   protected initialValue = '';

@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { openInteractionState, ReglowElement } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export type TooltipPlacement = 'top' | 'bottom' | 'start' | 'end';
@@ -16,6 +16,7 @@ type PopoverElement = HTMLElement & {
 
 export class RgTooltipElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-tooltip';
+  static readonly interactionState = openInteractionState;
   static readonly observedAttributes = ['content', 'open', 'placement', 'delay', 'disabled'];
   static readonly styles = String.raw`
     ${motionStyles}
@@ -269,10 +270,11 @@ export class RgTooltipElement extends ReglowElement {
     }, 80);
   }
 
-  private setOpen(open: boolean, reason: TooltipOpenReason): void {
-    if (this.open === open || (open && this.disabled)) return;
-    this.open = open;
-    this.emit<TooltipOpenChangeDetail>('rg-open-change', { open, reason });
+  private setOpen(open: boolean, reason: TooltipOpenReason): boolean {
+    if (this.open === open || (open && this.disabled)) return false;
+    return this.requestOpenChange({ open, reason }, { open, reason }, () => {
+      this.open = open;
+    });
   }
 
   private showBubble(bubble: PopoverElement): void {

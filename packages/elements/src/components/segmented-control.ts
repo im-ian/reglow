@@ -1,5 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
-import { ReglowElement } from '../core/reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from '../core/reglow-element.js';
 
 export type RgSegmentedControlOrientation = 'horizontal' | 'vertical';
 export type RgSegmentedControlSize = 'sm' | 'md' | 'lg';
@@ -15,6 +15,9 @@ function isSegment(value: unknown): value is RgSegmentElement {
 
 export class RgSegmentElement extends ReglowElement {
   static readonly tagName = 'rg-segment' as const;
+  static readonly interactionState = {
+    selected: { events: ['click'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly delegatesFocus = false;
   static readonly observedAttributes = ['disabled', 'selected', 'value'] as const;
   static readonly template = '<span class="segment" part="base segment"><slot></slot></span>';

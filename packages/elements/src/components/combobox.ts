@@ -1,4 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
+import { openInteractionState, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { fieldStyles, motionStyles } from '../styles/base.js';
 import type { RgOptionElement, RgSelectOption } from './select.js';
 
@@ -32,6 +33,10 @@ export interface RgComboboxValueChangeDetail {
 
 export class RgComboboxElement extends FormAssociatedElement {
   static readonly tagName = 'rg-combobox' as const;
+  static readonly interactionState = {
+    ...FormAssociatedElement.interactionState,
+    ...openInteractionState,
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'description',
     'disabled',
@@ -132,13 +137,16 @@ export class RgComboboxElement extends FormAssociatedElement {
   #query = '';
   #activeIndex = -1;
   #providedOptions: readonly RgSelectOption[] | null = null;
+  #capturedInitialValue = false;
+  #wasOpen = false;
+  #navigateOnOpen: -1 | 0 | 1 = 0;
 
   get value(): string {
     return this.getString('value');
   }
 
-  set value(value: string | number) {
-    this.setString('value', String(value));
+  set value(value: string | number | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get options(): readonly RgSelectOption[] {
@@ -246,7 +254,6 @@ export class RgComboboxElement extends FormAssociatedElement {
     this.#listboxId = `${this.#controlId}-listbox`;
     this.#descriptionId = `${this.#controlId}-description`;
     this.#errorId = `${this.#controlId}-error`;
-    this.initialValue = this.value;
     const control = this.query<HTMLInputElement>('.control');
     control.id = this.#controlId;
     control.setAttribute('aria-controls', this.#listboxId);
@@ -310,7 +317,18 @@ export class RgComboboxElement extends FormAssociatedElement {
     const hasDescription = Boolean(this.description) || hasAssignedContent(descriptionSlot);
     const hasError = Boolean(this.error) || hasAssignedContent(errorSlot);
     const disabled = this.disabled || this.hasAttribute('data-form-disabled');
-    const selected = this.options.find((option) => option.value === this.value);
+    const options = this.options;
+    const opened = this.open && !this.#wasOpen;
+    this.#wasOpen = this.open;
+    const explicitValue = this.getAttribute('value');
+    const initialSelection =
+      explicitValue === null ? options.find((option) => option.selected) : undefined;
+    if (initialSelection) {
+      this.setAttribute('value', initialSelection.value);
+      return;
+    }
+    const selected =
+      explicitValue === null ? undefined : options.find((option) => option.value === explicitValue);
     if (!this.#query) control.value = selected?.label ?? '';
     control.placeholder = this.placeholder;
     control.disabled = disabled;
@@ -326,6 +344,17 @@ export class RgComboboxElement extends FormAssociatedElement {
     this.query<HTMLElement>('.hint').hidden = !hasDescription;
     this.query<HTMLElement>('.error').hidden = !hasError;
     this.#renderOptions();
+    if (opened && this.#navigateOnOpen !== 0) {
+      const enabledIndices = this.#filteredOptions().flatMap((option, index) =>
+        option.disabled ? [] : [index],
+      );
+      this.#activeIndex =
+        this.#navigateOnOpen === 1
+          ? (enabledIndices[0] ?? -1)
+          : (enabledIndices[enabledIndices.length - 1] ?? -1);
+      this.#navigateOnOpen = 0;
+      this.#renderOptions();
+    }
 
     const errorMessage = assignedText(errorSlot) || this.error;
     control.setCustomValidity(
@@ -342,6 +371,10 @@ export class RgComboboxElement extends FormAssociatedElement {
     if (describedBy) control.setAttribute('aria-describedby', describedBy);
     else control.removeAttribute('aria-describedby');
     this.setFormValue(disabled || !selected ? null : this.value, this.value);
+    if (!this.#capturedInitialValue) {
+      this.initialValue = this.value;
+      this.#capturedInitialValue = true;
+    }
   }
 
   protected restoreFormValue(value: string): void {
@@ -371,6 +404,7 @@ export class RgComboboxElement extends FormAssociatedElement {
 
   #renderOptions(): void {
     const records = this.#filteredOptions();
+    const selectedValue = this.getAttribute('value');
     const fragment = document.createDocumentFragment();
     records.forEach((record, index) => {
       const option = document.createElement('div');
@@ -379,7 +413,10 @@ export class RgComboboxElement extends FormAssociatedElement {
       option.dataset['index'] = String(index);
       option.setAttribute('role', 'option');
       option.setAttribute('part', 'option');
-      option.setAttribute('aria-selected', String(record.value === this.value));
+      option.setAttribute(
+        'aria-selected',
+        String(selectedValue !== null && record.value === selectedValue),
+      );
       if (record.disabled) option.setAttribute('aria-disabled', 'true');
       if (index === this.#activeIndex) option.toggleAttribute('data-active', true);
       option.textContent = record.label;
@@ -409,7 +446,10 @@ export class RgComboboxElement extends FormAssociatedElement {
     const enabledIndices = records.flatMap((option, index) => (option.disabled ? [] : [index]));
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
-      if (!this.open) this.#setOpen(true, 'api');
+      if (!this.open) {
+        this.#setOpen(true, 'api', event.key === 'ArrowDown' ? 1 : -1);
+        return;
+      }
       if (enabledIndices.length > 0) {
         const offset = event.key === 'ArrowDown' ? 1 : -1;
         const currentEnabledIndex = enabledIndices.indexOf(this.#activeIndex);
@@ -456,16 +496,27 @@ export class RgComboboxElement extends FormAssociatedElement {
     });
   }
 
-  #setOpen(open: boolean, reason: RgComboboxOpenChangeDetail['reason']): void {
+  #setOpen(
+    open: boolean,
+    reason: RgComboboxOpenChangeDetail['reason'],
+    navigateOnOpen: -1 | 0 | 1 = 0,
+  ): boolean {
     if (open === this.open || this.disabled || this.readOnly) {
       this.update();
-      return;
+      return false;
     }
-    const accepted = this.emit<RgComboboxOpenChangeDetail>(
-      'rg-open-change',
+    if (open && navigateOnOpen !== 0) {
+      this.#navigateOnOpen = navigateOnOpen;
+      window.setTimeout(() => {
+        if (!this.open) this.#navigateOnOpen = 0;
+      });
+    }
+    return this.requestOpenChange<RgComboboxOpenChangeDetail, RgComboboxOpenChangeDetail>(
       { open, reason },
-      { cancelable: true },
+      { open, reason },
+      () => {
+        this.open = open;
+      },
     );
-    if (accepted) this.open = open;
   }
 }

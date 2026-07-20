@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import {
   RgAccordionElement,
   RgChipGroupElement,
+  RgComboboxElement,
   RgInputElement,
   RgRadioGroupElement,
   RgSelectElement,
@@ -115,12 +116,49 @@ describe('form control regressions', () => {
   it('treats an explicit empty radio-group value as a no-selection sentinel', () => {
     const group = document.createElement('rg-radio-group') as RgRadioGroupElement;
     group.value = '';
-    group.innerHTML = '<rg-radio value="one" checked>One</rg-radio>';
+    group.innerHTML = `
+      <rg-radio value="one" checked>One</rg-radio>
+      <rg-radio value="" checked>Empty</rg-radio>
+    `;
     document.body.append(group);
 
     expect(group.getAttribute('value')).toBe('');
     expect(group.value).toBe('');
-    expect(group.querySelector('rg-radio')!.checked).toBe(false);
+    expect(Array.from(group.querySelectorAll('rg-radio')).every((radio) => !radio.checked)).toBe(
+      true,
+    );
+  });
+
+  it('distinguishes an absent combobox value from an explicit empty option', () => {
+    const combobox = document.createElement('rg-combobox') as RgComboboxElement;
+    combobox.options = [{ value: '', label: 'Empty option' }];
+    document.body.append(combobox);
+    const control = combobox.shadowRoot!.querySelector<HTMLInputElement>('.control')!;
+
+    expect(combobox.hasAttribute('value')).toBe(false);
+    expect(control.value).toBe('');
+
+    combobox.value = '';
+
+    expect(combobox.getAttribute('value')).toBe('');
+    expect(control.value).toBe('Empty option');
+  });
+
+  it('captures an initially selected combobox option for form reset', () => {
+    const form = document.createElement('form');
+    const combobox = document.createElement('rg-combobox') as RgComboboxElement;
+    combobox.options = [
+      { value: 'one', label: 'One', selected: true },
+      { value: 'two', label: 'Two' },
+    ];
+    form.append(combobox);
+    document.body.append(form);
+
+    expect(combobox.value).toBe('one');
+    combobox.value = 'two';
+    combobox.formResetCallback();
+
+    expect(combobox.value).toBe('one');
   });
 
   it('refreshes validity when assigned error text changes without slotchange', async () => {

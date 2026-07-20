@@ -1779,6 +1779,12 @@
           ],
           "events": [
             {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<ToastOpenChangeDetail>"
+              }
+            },
+            {
               "name": "rg-open-change",
               "type": {
                 "text": "CustomEvent<ToastOpenChangeDetail>"
@@ -2075,6 +2081,12 @@
           ],
           "events": [
             {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<DialogBeforeOpenDetail>"
+              }
+            },
+            {
               "name": "rg-before-close",
               "type": {
                 "text": "CustomEvent<DialogBeforeCloseDetail>"
@@ -2174,6 +2186,12 @@
           ],
           "events": [
             {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<DialogBeforeOpenDetail>"
+              }
+            },
+            {
               "name": "rg-before-close",
               "type": {
                 "text": "CustomEvent<DialogBeforeCloseDetail>"
@@ -2263,6 +2281,18 @@
             }
           ],
           "events": [
+            {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<TooltipOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<TooltipOpenChangeDetail>"
+              }
+            },
             {
               "name": "rg-open-change",
               "type": {
@@ -2382,6 +2412,18 @@
               "name": "change",
               "type": {
                 "text": "Event"
+              }
+            },
+            {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<RgComboboxOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<RgComboboxOpenChangeDetail>"
               }
             },
             {
@@ -2526,6 +2568,18 @@
               }
             },
             {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<RgDatePickerOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<RgDatePickerOpenChangeDetail>"
+              }
+            },
+            {
               "name": "rg-open-change",
               "type": {
                 "text": "CustomEvent<RgDatePickerOpenChangeDetail>"
@@ -2652,6 +2706,18 @@
               "name": "change",
               "type": {
                 "text": "Event"
+              }
+            },
+            {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<RgTimePickerOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<RgTimePickerOpenChangeDetail>"
               }
             },
             {
@@ -2796,6 +2862,18 @@
               "name": "change",
               "type": {
                 "text": "Event"
+              }
+            },
+            {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<RgDateTimePickerOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<RgDateTimePickerOpenChangeDetail>"
               }
             },
             {
@@ -3270,6 +3348,18 @@
           ],
           "events": [
             {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<RgPopoverOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<RgPopoverOpenChangeDetail>"
+              }
+            },
+            {
               "name": "rg-open-change",
               "type": {
                 "text": "CustomEvent<RgPopoverOpenChangeDetail>"
@@ -3317,6 +3407,18 @@
             }
           ],
           "events": [
+            {
+              "name": "rg-before-open",
+              "type": {
+                "text": "CustomEvent<RgMenuOpenChangeDetail>"
+              }
+            },
+            {
+              "name": "rg-before-close",
+              "type": {
+                "text": "CustomEvent<RgMenuOpenChangeDetail>"
+              }
+            },
             {
               "name": "rg-open-change",
               "type": {

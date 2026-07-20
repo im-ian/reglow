@@ -1,5 +1,8 @@
+import type { InteractionStateDescriptor } from './reglow-element.js';
+
 export type ReglowElementConstructor = CustomElementConstructor & {
   readonly tagName: `rg-${string}`;
+  readonly interactionState?: InteractionStateDescriptor;
 };
 
 export interface ReglowElementDefinition {

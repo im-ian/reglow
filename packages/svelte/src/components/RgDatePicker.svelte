@@ -12,6 +12,8 @@
     error,
     onValueChange,
     onValueCommit,
+    onBeforeOpen,
+    onBeforeClose,
     onOpenChange,
     value = $bindable(''),
     open = $bindable(false),
@@ -33,6 +35,8 @@
   const events = $derived({
     input: handleInput,
     change: onValueCommit,
+    'rg-before-open': onBeforeOpen,
+    'rg-before-close': onBeforeClose,
     'rg-open-change': handleRgOpenChange,
   });
   const namedSlots = $derived({

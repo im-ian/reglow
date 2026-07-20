@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from '../core/reglow-element.js';
 
 export type PaginationChangeReason = 'page' | 'previous' | 'next' | 'api';
 
@@ -60,6 +60,9 @@ function pageLayout(
 
 export class RgPaginationElement extends ReglowElement {
   static readonly tagName = 'rg-pagination' as const;
+  static readonly interactionState = {
+    page: { events: ['rg-page-change'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'boundary-count',
     'disabled',

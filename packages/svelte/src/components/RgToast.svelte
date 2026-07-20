@@ -10,6 +10,7 @@
     icon,
     title,
     action,
+    onBeforeClose,
     onOpenChange,
     onDismiss,
     open = $bindable(false),
@@ -24,6 +25,7 @@
   }
 
   const events = $derived({
+    'rg-before-close': onBeforeClose,
     'rg-open-change': handleRgOpenChange,
     'rg-dismiss': onDismiss,
   });

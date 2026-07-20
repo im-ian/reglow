@@ -8,6 +8,8 @@
     element = $bindable(null),
     children,
     trigger,
+    onBeforeOpen,
+    onBeforeClose,
     onOpenChange,
     open = $bindable(false),
     ...props
@@ -21,6 +23,8 @@
   }
 
   const events = $derived({
+    'rg-before-open': onBeforeOpen,
+    'rg-before-close': onBeforeClose,
     'rg-open-change': handleRgOpenChange,
   });
   const namedSlots = $derived({

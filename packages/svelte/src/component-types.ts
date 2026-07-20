@@ -342,6 +342,14 @@ export type RgComboboxProps = ReglowSvelteProps<
   {
     onValueChange?: ReglowSvelteEventHandler<ComboboxTypes.RgComboboxElement, Event>;
     onValueCommit?: ReglowSvelteEventHandler<ComboboxTypes.RgComboboxElement, Event>;
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      ComboboxTypes.RgComboboxElement,
+      CustomEvent<ComboboxTypes.RgComboboxOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      ComboboxTypes.RgComboboxElement,
+      CustomEvent<ComboboxTypes.RgComboboxOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       ComboboxTypes.RgComboboxElement,
       CustomEvent<ComboboxTypes.RgComboboxOpenChangeDetail>
@@ -402,6 +410,14 @@ export type RgDatePickerProps = ReglowSvelteProps<
   {
     onValueChange?: ReglowSvelteEventHandler<DatePickerTypes.RgDatePickerElement, Event>;
     onValueCommit?: ReglowSvelteEventHandler<DatePickerTypes.RgDatePickerElement, Event>;
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      DatePickerTypes.RgDatePickerElement,
+      CustomEvent<DatePickerTypes.RgDatePickerOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      DatePickerTypes.RgDatePickerElement,
+      CustomEvent<DatePickerTypes.RgDatePickerOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       DatePickerTypes.RgDatePickerElement,
       CustomEvent<DatePickerTypes.RgDatePickerOpenChangeDetail>
@@ -435,6 +451,14 @@ export type RgDateTimePickerProps = ReglowSvelteProps<
   {
     onValueChange?: ReglowSvelteEventHandler<DateTimePickerTypes.RgDateTimePickerElement, Event>;
     onValueCommit?: ReglowSvelteEventHandler<DateTimePickerTypes.RgDateTimePickerElement, Event>;
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      DateTimePickerTypes.RgDateTimePickerElement,
+      CustomEvent<DateTimePickerTypes.RgDateTimePickerOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      DateTimePickerTypes.RgDateTimePickerElement,
+      CustomEvent<DateTimePickerTypes.RgDateTimePickerOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       DateTimePickerTypes.RgDateTimePickerElement,
       CustomEvent<DateTimePickerTypes.RgDateTimePickerOpenChangeDetail>
@@ -465,6 +489,10 @@ export type RgDateTimePickerProps = ReglowSvelteProps<
 export type RgDialogProps = ReglowSvelteProps<
   DialogTypes.RgDialogElement,
   {
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      DialogTypes.RgDialogElement,
+      CustomEvent<DialogTypes.DialogBeforeOpenDetail>
+    >;
     onBeforeClose?: ReglowSvelteEventHandler<
       DialogTypes.RgDialogElement,
       CustomEvent<DialogTypes.DialogBeforeCloseDetail>
@@ -512,6 +540,10 @@ export type RgDividerProps = ReglowSvelteProps<
 export type RgDrawerProps = ReglowSvelteProps<
   DrawerTypes.RgDrawerElement,
   {
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      DrawerTypes.RgDrawerElement,
+      CustomEvent<DrawerTypes.DialogBeforeOpenDetail>
+    >;
     onBeforeClose?: ReglowSvelteEventHandler<
       DrawerTypes.RgDrawerElement,
       CustomEvent<DrawerTypes.DialogBeforeCloseDetail>
@@ -743,6 +775,14 @@ export type RgLinkProps = ReglowSvelteProps<
 export type RgMenuProps = ReglowSvelteProps<
   MenuTypes.RgMenuElement,
   {
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      MenuTypes.RgMenuElement,
+      CustomEvent<MenuTypes.RgMenuOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      MenuTypes.RgMenuElement,
+      CustomEvent<MenuTypes.RgMenuOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       MenuTypes.RgMenuElement,
       CustomEvent<MenuTypes.RgMenuOpenChangeDetail>
@@ -831,6 +871,14 @@ export type RgPaginationProps = ReglowSvelteProps<
 export type RgPopoverProps = ReglowSvelteProps<
   PopoverTypes.RgPopoverElement,
   {
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      PopoverTypes.RgPopoverElement,
+      CustomEvent<PopoverTypes.RgPopoverOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      PopoverTypes.RgPopoverElement,
+      CustomEvent<PopoverTypes.RgPopoverOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       PopoverTypes.RgPopoverElement,
       CustomEvent<PopoverTypes.RgPopoverOpenChangeDetail>
@@ -1195,6 +1243,14 @@ export type RgTimePickerProps = ReglowSvelteProps<
   {
     onValueChange?: ReglowSvelteEventHandler<TimePickerTypes.RgTimePickerElement, Event>;
     onValueCommit?: ReglowSvelteEventHandler<TimePickerTypes.RgTimePickerElement, Event>;
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      TimePickerTypes.RgTimePickerElement,
+      CustomEvent<TimePickerTypes.RgTimePickerOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      TimePickerTypes.RgTimePickerElement,
+      CustomEvent<TimePickerTypes.RgTimePickerOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       TimePickerTypes.RgTimePickerElement,
       CustomEvent<TimePickerTypes.RgTimePickerOpenChangeDetail>
@@ -1248,6 +1304,10 @@ export type RgTimelineItemProps = ReglowSvelteProps<
 export type RgToastProps = ReglowSvelteProps<
   ToastTypes.RgToastElement,
   {
+    onBeforeClose?: ReglowSvelteEventHandler<
+      ToastTypes.RgToastElement,
+      CustomEvent<ToastTypes.ToastOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       ToastTypes.RgToastElement,
       CustomEvent<ToastTypes.ToastOpenChangeDetail>
@@ -1290,6 +1350,14 @@ export type RgToastRegionProps = ReglowSvelteProps<
 export type RgTooltipProps = ReglowSvelteProps<
   TooltipTypes.RgTooltipElement,
   {
+    onBeforeOpen?: ReglowSvelteEventHandler<
+      TooltipTypes.RgTooltipElement,
+      CustomEvent<TooltipTypes.TooltipOpenChangeDetail>
+    >;
+    onBeforeClose?: ReglowSvelteEventHandler<
+      TooltipTypes.RgTooltipElement,
+      CustomEvent<TooltipTypes.TooltipOpenChangeDetail>
+    >;
     onOpenChange?: ReglowSvelteEventHandler<
       TooltipTypes.RgTooltipElement,
       CustomEvent<TooltipTypes.TooltipOpenChangeDetail>

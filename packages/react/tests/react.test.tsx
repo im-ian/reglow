@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { act, createRef, useState } from 'react';
+import { act, createRef, useLayoutEffect, useRef, useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { componentMetadata } from '@reglow/elements';
 import * as Reglow from '../src/index.js';
@@ -54,8 +54,11 @@ import {
   Tooltip,
   createReglowComponent,
   type InputProps,
+  type RgAccordionElement,
   type RgButtonElement,
   type RgCheckboxElement,
+  type RgChipGroupElement,
+  type RgDialogElement,
   type RgInputElement,
 } from '../src/index.js';
 
@@ -85,6 +88,22 @@ describe('@reglow/react', () => {
     expect(ref.current).toBe(host);
     expect(host.hasAttribute('full-width')).toBe(true);
     expect(host.querySelector('[slot="start"]')).not.toBeNull();
+  });
+
+  it('does not assign slot content over custom-element properties or methods', () => {
+    const { container } = render(
+      <>
+        <Input label={<strong>Workspace</strong>} />
+        <Dialog close={<span>Dismiss</span>}>Content</Dialog>
+      </>,
+    );
+    const input = container.querySelector('rg-input')!;
+    const dialog = container.querySelector('rg-dialog')!;
+
+    expect(input.hasAttribute('label')).toBe(false);
+    expect(input.querySelector('[slot="label"]')?.textContent).toBe('Workspace');
+    expect(typeof dialog.close).toBe('function');
+    expect(dialog.querySelector('[slot="close"]')?.textContent).toBe('Dismiss');
   });
 
   it('maps uncontrolled value events without owning component state', () => {
@@ -151,6 +170,46 @@ describe('@reglow/react', () => {
     expect(ref.current!.pressed).toBe(false);
   });
 
+  it('does not reset an omitted property-backed prop on unrelated rerenders', () => {
+    const ref = createRef<RgCheckboxElement>();
+    const { rerender } = render(<Checkbox ref={ref} label="Before" />);
+
+    ref.current!.indeterminate = true;
+    rerender(<Checkbox ref={ref} label="After" />);
+
+    expect(ref.current!.indeterminate).toBe(true);
+  });
+
+  it('lets omitted group values adopt declarative child state', async () => {
+    const { container } = render(
+      <>
+        <Accordion data-case="seeded-accordion">
+          <AccordionItem value="one" open>
+            One
+          </AccordionItem>
+        </Accordion>
+        <ChipGroup data-case="seeded-chip-group" selection="single">
+          <Chip value="one" selected>
+            One
+          </Chip>
+        </ChipGroup>
+      </>,
+    );
+    await act(() => Promise.resolve());
+
+    const accordion = container.querySelector<RgAccordionElement>(
+      '[data-case="seeded-accordion"]',
+    )!;
+    const chipGroup = container.querySelector<RgChipGroupElement>(
+      '[data-case="seeded-chip-group"]',
+    )!;
+
+    expect(accordion.value).toBe('one');
+    expect(accordion.querySelector('rg-accordion-item')!.open).toBe(true);
+    expect(chipGroup.value).toBe('one');
+    expect(chipGroup.querySelector('rg-chip')!.selected).toBe(true);
+  });
+
   it('keeps the next controlled value when the parent accepts a user edit', async () => {
     function ControlledInput() {
       const [value, setValue] = useState('Reglow');
@@ -201,9 +260,8 @@ describe('@reglow/react', () => {
         </Dialog>
       </>,
     );
-    const checkboxControl = checkboxRef.current!.shadowRoot!.querySelector<HTMLInputElement>(
-      'input',
-    )!;
+    const checkboxControl =
+      checkboxRef.current!.shadowRoot!.querySelector<HTMLInputElement>('input')!;
     const dialog = container.querySelector('rg-dialog')!;
 
     await act(async () => {
@@ -219,6 +277,86 @@ describe('@reglow/react', () => {
     expect(onOpenChange).not.toHaveBeenCalled();
     expect(dialog.open).toBe(false);
     expect(dialog.shadowRoot!.querySelector('dialog')!.open).toBe(false);
+  });
+
+  it('registers controlled request callbacks before parent layout effects run', () => {
+    const onBeforeOpen = vi.fn();
+
+    function LayoutRequester() {
+      const [open, setOpen] = useState(false);
+      const ref = useRef<RgDialogElement>(null);
+      useLayoutEffect(() => ref.current?.showModal(), []);
+      return (
+        <Dialog
+          ref={ref}
+          open={open}
+          onBeforeOpen={(event) => {
+            onBeforeOpen(event);
+            setOpen(true);
+          }}
+        >
+          Content
+        </Dialog>
+      );
+    }
+
+    const { container } = render(<LayoutRequester />);
+    const dialog = container.querySelector('rg-dialog')!;
+
+    expect(onBeforeOpen).toHaveBeenCalledOnce();
+    expect(dialog.open).toBe(true);
+    expect(dialog.shadowRoot!.querySelector('dialog')!.open).toBe(true);
+  });
+
+  it('does not let a controlled ancestor prevent nested overlay requests', () => {
+    const { container } = render(
+      <Dialog open>
+        <Popover trigger={<button>Open nested popover</button>}>Nested content</Popover>
+      </Dialog>,
+    );
+    const dialog = container.querySelector('rg-dialog')!;
+    const popover = container.querySelector('rg-popover')!;
+
+    (popover.querySelector('[slot="trigger"]') as HTMLElement).click();
+
+    expect(dialog.open).toBe(true);
+    expect(popover.open).toBe(true);
+  });
+
+  it('does not deliver nested semantic events to ancestor adapter callbacks', () => {
+    const outerBeforeOpen = vi.fn();
+    const outerBeforeClose = vi.fn();
+
+    function NestedOverlay() {
+      const [open, setOpen] = useState(true);
+      return (
+        <Dialog
+          open={open}
+          onBeforeOpen={(event) => {
+            outerBeforeOpen(event);
+            setOpen(true);
+          }}
+          onBeforeClose={(event) => {
+            outerBeforeClose(event);
+            setOpen(false);
+          }}
+        >
+          <Popover trigger={<button>Open nested popover</button>}>Nested content</Popover>
+        </Dialog>
+      );
+    }
+
+    const { container } = render(<NestedOverlay />);
+    const dialog = container.querySelector('rg-dialog')!;
+    const popover = container.querySelector('rg-popover')!;
+    (popover.querySelector('[slot="trigger"]') as HTMLElement).click();
+    const panel = popover.shadowRoot!.querySelector<HTMLElement>('.panel')!;
+    fireEvent.keyDown(panel, { key: 'Escape' });
+
+    expect(popover.open).toBe(false);
+    expect(dialog.open).toBe(true);
+    expect(outerBeforeOpen).not.toHaveBeenCalled();
+    expect(outerBeforeClose).not.toHaveBeenCalled();
   });
 
   it('restores only form-associated interaction state after rejected edits', async () => {
@@ -241,11 +379,7 @@ describe('@reglow/react', () => {
         <Combobox data-case="combobox" value="one" open={false} options={options} />
         <DatePicker data-case="date-picker" value="2026-07-20" open={false} picker="custom" />
         <TimePicker data-case="time-picker" value="09:30" open={false} />
-        <DateTimePicker
-          data-case="date-time-picker"
-          value="2026-07-20T09:30"
-          open={false}
-        />
+        <DateTimePicker data-case="date-time-picker" value="2026-07-20T09:30" open={false} />
         <ChipGroup data-case="chip-group" value="one">
           <Chip value="one">One</Chip>
           <Chip value="two">Two</Chip>
@@ -292,6 +426,57 @@ describe('@reglow/react', () => {
     });
   });
 
+  it('restores declared non-form interaction state after rejected edits', async () => {
+    const { container } = render(
+      <>
+        <Radio data-case="radio" value="one" checked={false} />
+        <Tabs data-case="tabs" value="one">
+          <Reglow.Tab value="one">One</Reglow.Tab>
+          <Reglow.Tab value="two">Two</Reglow.Tab>
+        </Tabs>
+        <Accordion data-case="accordion" value="one">
+          <AccordionItem value="one">One</AccordionItem>
+          <AccordionItem value="two">Two</AccordionItem>
+        </Accordion>
+        <AccordionItem data-case="accordion-item" value="one" open={false}>
+          One
+        </AccordionItem>
+        <Pagination data-case="pagination" page={1} pageCount={3} />
+        <Chip data-case="chip" value="one" selected={false}>
+          One
+        </Chip>
+        <Segment data-case="segment" value="one" selected={false}>
+          One
+        </Segment>
+      </>,
+    );
+    const cases = [
+      ['radio', 'checked', true, false, 'change'],
+      ['tabs', 'value', 'two', 'one', 'rg-value-change'],
+      ['accordion', 'value', 'two', 'one', 'rg-value-change'],
+      ['accordion-item', 'open', true, false, 'rg-open-change'],
+      ['pagination', 'page', 2, 1, 'rg-page-change'],
+      ['chip', 'selected', true, false, 'click'],
+      ['segment', 'selected', true, false, 'click'],
+    ] as const;
+
+    await act(async () => {
+      cases.forEach(([id, property, mutation, , eventName]) => {
+        const target = container.querySelector<HTMLElement>(`[data-case="${id}"]`)! as HTMLElement &
+          Record<string, unknown>;
+        target[property] = mutation;
+        target.dispatchEvent(new Event(eventName, { bubbles: true, composed: true }));
+      });
+      await Promise.resolve();
+    });
+
+    cases.forEach(([id, property, , expected]) => {
+      const target = container.querySelector<HTMLElement>(`[data-case="${id}"]`)! as HTMLElement &
+        Record<string, unknown>;
+      expect(target[property], `${id}.${property}`).toEqual(expected);
+    });
+  });
+
   it('restores an explicit empty accordion value when its change event is canceled', async () => {
     const { container } = render(
       <Accordion
@@ -303,7 +488,9 @@ describe('@reglow/react', () => {
         <AccordionItem value="one">One</AccordionItem>
       </Accordion>,
     );
-    const accordion = container.querySelector('rg-accordion[data-case="empty-accordion"]')!;
+    const accordion = container.querySelector<RgAccordionElement>(
+      'rg-accordion[data-case="empty-accordion"]',
+    )!;
     const accordionItem = accordion.querySelector('rg-accordion-item')!;
 
     await act(async () => {
@@ -321,7 +508,9 @@ describe('@reglow/react', () => {
         <Chip value="one">One</Chip>
       </ChipGroup>,
     );
-    const chipGroup = container.querySelector('rg-chip-group[data-case="empty-chip-group"]')!;
+    const chipGroup = container.querySelector<RgChipGroupElement>(
+      'rg-chip-group[data-case="empty-chip-group"]',
+    )!;
     const chip = chipGroup.querySelector('rg-chip')!;
 
     await act(async () => {

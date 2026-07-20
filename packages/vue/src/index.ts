@@ -95,6 +95,7 @@ import type {
   AlertTone,
   AlertVariant,
   DialogBeforeCloseDetail,
+  DialogBeforeOpenDetail,
   DialogCloseDetail,
   DialogDismissAction,
   DialogOpenChangeDetail,
@@ -536,6 +537,7 @@ export interface RgToastProps extends ReglowHostProps {
   tone?: ToastTone;
   dismissible?: boolean;
   dismissLabel?: string;
+  onBeforeClose?: (event: ReglowElementEvent<RgToastElement, ToastOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgToastElement, ToastOpenChangeDetail>) => void;
   onDismiss?: (event: ReglowElementEvent<RgToastElement, ToastDismissDetail>) => void;
 }
@@ -591,6 +593,7 @@ export interface RgDialogProps extends Omit<ReglowHostProps, 'onClose'> {
   closeLabel?: string;
   initialFocus?: HTMLElement | null;
   'onUpdate:modelValue'?: (value: boolean) => void;
+  onBeforeOpen?: (event: ReglowElementEvent<RgDialogElement, DialogBeforeOpenDetail>) => void;
   onBeforeClose?: (event: ReglowElementEvent<RgDialogElement, DialogBeforeCloseDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgDialogElement, DialogOpenChangeDetail>) => void;
   onClose?: (event: ReglowElementEvent<RgDialogElement, DialogCloseDetail>) => void;
@@ -598,9 +601,10 @@ export interface RgDialogProps extends Omit<ReglowHostProps, 'onClose'> {
 
 export interface RgDrawerProps extends Omit<
   RgDialogProps,
-  'onBeforeClose' | 'onOpenChange' | 'onClose'
+  'onBeforeOpen' | 'onBeforeClose' | 'onOpenChange' | 'onClose'
 > {
   placement?: DrawerPlacement;
+  onBeforeOpen?: (event: ReglowElementEvent<RgDrawerElement, DialogBeforeOpenDetail>) => void;
   onBeforeClose?: (event: ReglowElementEvent<RgDrawerElement, DialogBeforeCloseDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgDrawerElement, DialogOpenChangeDetail>) => void;
   onClose?: (event: ReglowElementEvent<RgDrawerElement, DialogCloseDetail>) => void;
@@ -612,6 +616,8 @@ export interface RgTooltipProps extends ReglowHostProps {
   placement?: TooltipPlacement;
   delay?: number;
   disabled?: boolean;
+  onBeforeOpen?: (event: ReglowElementEvent<RgTooltipElement, TooltipOpenChangeDetail>) => void;
+  onBeforeClose?: (event: ReglowElementEvent<RgTooltipElement, TooltipOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgTooltipElement, TooltipOpenChangeDetail>) => void;
 }
 
@@ -627,6 +633,10 @@ export interface RgComboboxProps extends Omit<RgFieldProps<RgComboboxElement>, '
   noResultsText?: string;
   open?: boolean;
   options?: readonly RgSelectOption[];
+  onBeforeOpen?: (event: ReglowElementEvent<RgComboboxElement, RgComboboxOpenChangeDetail>) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgComboboxElement, RgComboboxOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (event: ReglowElementEvent<RgComboboxElement, RgComboboxOpenChangeDetail>) => void;
   onSelectionChange?: (
     event: ReglowElementEvent<RgComboboxElement, RgComboboxValueChangeDetail>,
@@ -647,6 +657,12 @@ export interface RgDatePickerProps extends Omit<
   min?: string;
   max?: string;
   step?: number;
+  onBeforeOpen?: (
+    event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
+  ) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (
     event: ReglowElementEvent<RgDatePickerElement, RgDatePickerOpenChangeDetail>,
   ) => void;
@@ -663,6 +679,12 @@ export interface RgTimePickerProps extends Omit<
   min?: string;
   max?: string;
   step?: number;
+  onBeforeOpen?: (
+    event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
+  ) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (
     event: ReglowElementEvent<RgTimePickerElement, RgTimePickerOpenChangeDetail>,
   ) => void;
@@ -681,6 +703,12 @@ export interface RgDateTimePickerProps extends Omit<
   min?: string;
   max?: string;
   step?: number;
+  onBeforeOpen?: (
+    event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
+  ) => void;
+  onBeforeClose?: (
+    event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
+  ) => void;
   onOpenChange?: (
     event: ReglowElementEvent<RgDateTimePickerElement, RgDateTimePickerOpenChangeDetail>,
   ) => void;
@@ -739,6 +767,8 @@ export interface RgPopoverProps extends ReglowHostProps {
   disabled?: boolean;
   label?: string;
   matchTriggerWidth?: boolean;
+  onBeforeOpen?: (event: ReglowElementEvent<RgPopoverElement, RgPopoverOpenChangeDetail>) => void;
+  onBeforeClose?: (event: ReglowElementEvent<RgPopoverElement, RgPopoverOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgPopoverElement, RgPopoverOpenChangeDetail>) => void;
 }
 
@@ -747,6 +777,8 @@ export interface RgMenuProps extends Omit<ReglowHostProps, 'onSelect'> {
   placement?: RgPopoverPlacement;
   disabled?: boolean;
   label?: string;
+  onBeforeOpen?: (event: ReglowElementEvent<RgMenuElement, RgMenuOpenChangeDetail>) => void;
+  onBeforeClose?: (event: ReglowElementEvent<RgMenuElement, RgMenuOpenChangeDetail>) => void;
   onOpenChange?: (event: ReglowElementEvent<RgMenuElement, RgMenuOpenChangeDetail>) => void;
   onSelect?: (event: ReglowElementEvent<RgMenuElement, RgMenuSelectDetail>) => void;
 }
@@ -1380,7 +1412,11 @@ export const RgToast = /* @__PURE__ */ (() =>
     {
       displayName: 'RgToast',
       props: ['open', 'duration', 'tone', 'dismissible', 'dismissLabel'],
-      events: { 'rg-open-change': 'open-change', 'rg-dismiss': 'dismiss' },
+      events: {
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+        'rg-dismiss': 'dismiss',
+      },
       booleanProps: ['open', 'dismissible'],
       numberProps: ['duration'],
       attributes: { dismissLabel: 'dismiss-label' },
@@ -1429,7 +1465,7 @@ export const RgAccordion = /* @__PURE__ */ (() =>
       events: { 'rg-value-change': 'value-change' },
       booleanProps: ['multiple', 'collapsible'],
       properties: ['value'],
-      propertyDefaults: { value: '' },
+      propertyDefaults: { value: null },
       model: { property: 'value', event: 'rg-value-change' },
     },
     RgAccordionElementConstructor,
@@ -1464,6 +1500,7 @@ export const RgDialog = /* @__PURE__ */ (() =>
         'initialFocus',
       ],
       events: {
+        'rg-before-open': 'before-open',
         'rg-before-close': 'before-close',
         'rg-open-change': 'open-change',
         'rg-close': 'close',
@@ -1499,6 +1536,7 @@ export const RgDrawer = /* @__PURE__ */ (() =>
         'initialFocus',
       ],
       events: {
+        'rg-before-open': 'before-open',
         'rg-before-close': 'before-close',
         'rg-open-change': 'open-change',
         'rg-close': 'close',
@@ -1523,7 +1561,11 @@ export const RgTooltip = /* @__PURE__ */ (() =>
     {
       displayName: 'RgTooltip',
       props: ['content', 'open', 'placement', 'delay', 'disabled'],
-      events: { 'rg-open-change': 'open-change' },
+      events: {
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+      },
       booleanProps: ['open', 'disabled'],
       numberProps: ['delay'],
       slots: { trigger: 'trigger', richContent: 'content' },
@@ -1548,6 +1590,8 @@ export const RgCombobox = /* @__PURE__ */ (() =>
       props: [...fieldProps, 'filter', 'noResultsText', 'open', 'options'],
       events: {
         ...fieldEvents,
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
         'rg-open-change': 'open-change',
         'rg-value-change': 'selection-change',
       },
@@ -1577,7 +1621,12 @@ export const RgDatePicker = /* @__PURE__ */ (() =>
         'dateFormat',
         'step',
       ],
-      events: { ...fieldEvents, 'rg-open-change': 'open-change' },
+      events: {
+        ...fieldEvents,
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+      },
       booleanProps: [...fieldBooleanProps, 'open'],
       numberProps: ['step'],
       attributes: {
@@ -1605,7 +1654,12 @@ export const RgTimePicker = /* @__PURE__ */ (() =>
         'overlayWidth',
         'step',
       ],
-      events: { ...fieldEvents, 'rg-open-change': 'open-change' },
+      events: {
+        ...fieldEvents,
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+      },
       booleanProps: [...fieldBooleanProps, 'open'],
       numberProps: ['step'],
       attributes: {
@@ -1634,7 +1688,12 @@ export const RgDateTimePicker = /* @__PURE__ */ (() =>
         'dateFormat',
         'step',
       ],
-      events: { ...fieldEvents, 'rg-open-change': 'open-change' },
+      events: {
+        ...fieldEvents,
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+      },
       booleanProps: [...fieldBooleanProps, 'open'],
       numberProps: ['step'],
       attributes: {
@@ -1771,7 +1830,11 @@ export const RgPopover = /* @__PURE__ */ (() =>
     {
       displayName: 'RgPopover',
       props: ['open', 'placement', 'triggerMode', 'disabled', 'label', 'matchTriggerWidth'],
-      events: { 'rg-open-change': 'open-change' },
+      events: {
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+      },
       booleanProps: ['open', 'disabled', 'matchTriggerWidth'],
       attributes: { triggerMode: 'trigger', matchTriggerWidth: 'match-trigger-width' },
       slots: ['trigger'],
@@ -1784,7 +1847,12 @@ export const RgMenu = /* @__PURE__ */ (() =>
     {
       displayName: 'RgMenu',
       props: ['open', 'placement', 'disabled', 'label'],
-      events: { 'rg-open-change': 'open-change', 'rg-select': 'select' },
+      events: {
+        'rg-before-open': 'before-open',
+        'rg-before-close': 'before-close',
+        'rg-open-change': 'open-change',
+        'rg-select': 'select',
+      },
       booleanProps: ['open', 'disabled'],
       slots: ['trigger'],
     },
@@ -1841,7 +1909,7 @@ export const RgChipGroup = /* @__PURE__ */ (() =>
       },
       booleanProps: ['required', 'disabled'],
       properties: ['value'],
-      propertyDefaults: { value: '' },
+      propertyDefaults: { value: null },
       model: { property: 'value', event: 'rg-value-change' },
     },
     RgChipGroupElementConstructor,

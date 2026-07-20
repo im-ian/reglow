@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { openInteractionState, ReglowElement } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export type RgPopoverPlacement = 'top' | 'bottom' | 'start' | 'end';
@@ -12,6 +12,7 @@ export interface RgPopoverOpenChangeDetail {
 
 export class RgPopoverElement extends ReglowElement {
   static readonly tagName = 'rg-popover' as const;
+  static readonly interactionState = openInteractionState;
   static readonly observedAttributes = [
     'disabled',
     'label',
@@ -66,6 +67,8 @@ export class RgPopoverElement extends ReglowElement {
   #triggerElement: HTMLElement | null = null;
   #panelId = '';
   #frame = 0;
+  #wasOpen = false;
+  #restoreFocusOnClose = false;
 
   get open(): boolean {
     return this.getBoolean('open');
@@ -145,7 +148,12 @@ export class RgPopoverElement extends ReglowElement {
   }
 
   protected update(): void {
-    if (this.disabled && this.open) this.open = false;
+    if (this.disabled && this.open) {
+      this.open = false;
+      return;
+    }
+    const closed = !this.open && this.#wasOpen;
+    this.#wasOpen = this.open;
     const panel = this.query<HTMLElement>('.panel');
     panel.hidden = !this.open;
     panel.dataset['placement'] = this.placement;
@@ -153,6 +161,12 @@ export class RgPopoverElement extends ReglowElement {
     else panel.removeAttribute('aria-label');
     this.#applyTriggerAria();
     if (this.open) this.#schedulePosition();
+    if (closed && this.#restoreFocusOnClose) {
+      this.#restoreFocusOnClose = false;
+      queueMicrotask(() => {
+        if (!this.open) this.#triggerElement?.focus();
+      });
+    }
   }
 
   show(): void {
@@ -199,21 +213,26 @@ export class RgPopoverElement extends ReglowElement {
     if (event.key !== 'Escape' || !this.open) return;
     event.preventDefault();
     this.#setOpen(false, 'escape');
-    this.#triggerElement?.focus();
   }
 
   #onDocumentPointerDown(event: Event): void {
     if (this.open && !event.composedPath().includes(this)) this.#setOpen(false, 'outside');
   }
 
-  #setOpen(open: boolean, reason: RgPopoverOpenReason): void {
-    if (this.disabled || open === this.open) return;
-    const accepted = this.emit<RgPopoverOpenChangeDetail>(
-      'rg-open-change',
-      { open, reason },
-      { cancelable: true },
-    );
-    if (accepted) this.open = open;
+  #setOpen(open: boolean, reason: RgPopoverOpenReason): boolean {
+    if (this.disabled || open === this.open) return false;
+    if (!open && reason === 'escape') {
+      this.#restoreFocusOnClose = true;
+      window.setTimeout(() => {
+        if (this.open) this.#restoreFocusOnClose = false;
+      });
+    }
+    const accepted = this.requestOpenChange({ open, reason }, { open, reason }, () => {
+      this.open = open;
+    });
+    const committed = accepted && this.open === open;
+    if (committed && !open && reason === 'escape') this.#triggerElement?.focus();
+    return committed;
   }
 
   #schedulePosition(): void {
@@ -223,7 +242,7 @@ export class RgPopoverElement extends ReglowElement {
     if (typeof requestAnimationFrame === 'function') {
       this.#frame = requestAnimationFrame(() => {
         this.#frame = 0;
-        this.#position();
+        if (this.open) this.#position();
       });
     } else this.#position();
   }

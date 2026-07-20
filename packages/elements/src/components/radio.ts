@@ -1,5 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
-import { ReglowElement } from '../core/reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { fieldStyles } from '../styles/base.js';
 
 export type RgRadioOrientation = 'horizontal' | 'vertical';
@@ -43,6 +43,9 @@ function decodeGroupState(state: string): RadioGroupState {
 
 export class RgRadioElement extends ReglowElement {
   static readonly tagName = 'rg-radio' as const;
+  static readonly interactionState = {
+    checked: { events: ['input', 'change'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'checked',
     'description',
@@ -136,8 +139,8 @@ export class RgRadioElement extends ReglowElement {
     return this.hasAttribute('value') ? (this.getAttribute('value') ?? '') : 'on';
   }
 
-  set value(value: string) {
-    this.setAttribute('value', String(value));
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get checked(): boolean {
@@ -308,8 +311,8 @@ export class RgRadioGroupElement extends FormAssociatedElement {
     return this.#radios().find((radio) => radio.checked)?.value ?? '';
   }
 
-  set value(value: string) {
-    this.setAttribute('value', String(value));
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get label(): string {
@@ -477,12 +480,22 @@ export class RgRadioGroupElement extends FormAssociatedElement {
     const explicitValue = this.getAttribute('value');
     const selected =
       explicitValue === null
-        ? radios.find((radio) => radio.checked)
-        : radios.find((radio) => radio.value === explicitValue);
-    if (explicitValue !== null && !selected) {
+        ? radios.find((radio) => radio.checked && radio.value !== '')
+        : explicitValue === ''
+          ? undefined
+          : radios.find((radio) => radio.value === explicitValue);
+    if (explicitValue !== null && explicitValue !== '' && !selected) {
       this.#normalizingValue = true;
       try {
         this.removeAttribute('value');
+      } finally {
+        this.#normalizingValue = false;
+      }
+    }
+    if (explicitValue === null && !this.#capturedInitialValue) {
+      this.#normalizingValue = true;
+      try {
+        this.setAttribute('value', selected?.value ?? '');
       } finally {
         this.#normalizingValue = false;
       }
@@ -537,6 +550,10 @@ export class RgRadioGroupElement extends FormAssociatedElement {
         (target): target is RgRadioElement =>
           target instanceof Element && target.localName === 'rg-radio',
       );
+    if (this.hasAttribute('value')) {
+      this.update('radio-mutation');
+      return;
+    }
     const newlySelected = changedRadios.find((radio) => radio.checked && !radio.disabled);
     if (newlySelected) {
       if (this.getAttribute('value') !== newlySelected.value) this.value = newlySelected.value;

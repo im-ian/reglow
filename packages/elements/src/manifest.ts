@@ -500,6 +500,7 @@ export const componentMetadata = [
     summary: 'Temporary status notification.',
     attributes: ['open', 'tone', 'duration', 'dismissible', 'dismiss-label'],
     events: [
+      { name: 'rg-before-close', type: 'CustomEvent<ToastOpenChangeDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<ToastOpenChangeDetail>' },
       { name: 'rg-dismiss', type: 'CustomEvent<ToastDismissDetail>' },
     ],
@@ -580,6 +581,7 @@ export const componentMetadata = [
       'close-label',
     ],
     events: [
+      { name: 'rg-before-open', type: 'CustomEvent<DialogBeforeOpenDetail>' },
       { name: 'rg-before-close', type: 'CustomEvent<DialogBeforeCloseDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<DialogOpenChangeDetail>' },
       { name: 'rg-close', type: 'CustomEvent<DialogCloseDetail>' },
@@ -603,6 +605,7 @@ export const componentMetadata = [
       'placement',
     ],
     events: [
+      { name: 'rg-before-open', type: 'CustomEvent<DialogBeforeOpenDetail>' },
       { name: 'rg-before-close', type: 'CustomEvent<DialogBeforeCloseDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<DialogOpenChangeDetail>' },
       { name: 'rg-close', type: 'CustomEvent<DialogCloseDetail>' },
@@ -616,7 +619,11 @@ export const componentMetadata = [
     family: 'overlay',
     summary: 'Focus and hover supplementary label.',
     attributes: ['content', 'open', 'placement', 'delay', 'disabled'],
-    events: [{ name: 'rg-open-change', type: 'CustomEvent<TooltipOpenChangeDetail>' }],
+    events: [
+      { name: 'rg-before-open', type: 'CustomEvent<TooltipOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<TooltipOpenChangeDetail>' },
+      { name: 'rg-open-change', type: 'CustomEvent<TooltipOpenChangeDetail>' },
+    ],
     slots: ['trigger', 'content'],
     parts: ['trigger', 'bubble', 'arrow'],
   },
@@ -652,6 +659,8 @@ export const componentMetadata = [
     ],
     events: [
       ...nativeValueEvents,
+      { name: 'rg-before-open', type: 'CustomEvent<RgComboboxOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<RgComboboxOpenChangeDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<RgComboboxOpenChangeDetail>' },
       { name: 'rg-value-change', type: 'CustomEvent<RgComboboxValueChangeDetail>' },
     ],
@@ -698,6 +707,8 @@ export const componentMetadata = [
     ],
     events: [
       ...nativeValueEvents,
+      { name: 'rg-before-open', type: 'CustomEvent<RgDatePickerOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<RgDatePickerOpenChangeDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<RgDatePickerOpenChangeDetail>' },
     ],
     slots: ['label', 'description', 'error'],
@@ -742,6 +753,8 @@ export const componentMetadata = [
     ],
     events: [
       ...nativeValueEvents,
+      { name: 'rg-before-open', type: 'CustomEvent<RgTimePickerOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<RgTimePickerOpenChangeDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<RgTimePickerOpenChangeDetail>' },
     ],
     slots: ['label', 'description', 'error'],
@@ -791,6 +804,8 @@ export const componentMetadata = [
     ],
     events: [
       ...nativeValueEvents,
+      { name: 'rg-before-open', type: 'CustomEvent<RgDateTimePickerOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<RgDateTimePickerOpenChangeDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<RgDateTimePickerOpenChangeDetail>' },
     ],
     slots: ['label', 'description', 'error'],
@@ -910,7 +925,11 @@ export const componentMetadata = [
     family: 'overlay',
     summary: 'Non-modal anchored content surface.',
     attributes: ['disabled', 'label', 'match-trigger-width', 'open', 'placement', 'trigger'],
-    events: [{ name: 'rg-open-change', type: 'CustomEvent<RgPopoverOpenChangeDetail>' }],
+    events: [
+      { name: 'rg-before-open', type: 'CustomEvent<RgPopoverOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<RgPopoverOpenChangeDetail>' },
+      { name: 'rg-open-change', type: 'CustomEvent<RgPopoverOpenChangeDetail>' },
+    ],
     slots: ['trigger', 'default'],
     parts: ['trigger', 'panel', 'arrow'],
   },
@@ -921,6 +940,8 @@ export const componentMetadata = [
     summary: 'Anchored action menu with roving keyboard focus.',
     attributes: ['disabled', 'label', 'open', 'placement'],
     events: [
+      { name: 'rg-before-open', type: 'CustomEvent<RgMenuOpenChangeDetail>' },
+      { name: 'rg-before-close', type: 'CustomEvent<RgMenuOpenChangeDetail>' },
       { name: 'rg-open-change', type: 'CustomEvent<RgMenuOpenChangeDetail>' },
       { name: 'rg-select', type: 'CustomEvent<RgMenuSelectDetail>' },
     ],

@@ -1,4 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
+import type { InteractionStateDescriptor } from '../core/reglow-element.js';
 import { fieldStyles } from '../styles/base.js';
 
 function hasAssignedContent(slot: HTMLSlotElement): boolean {
@@ -17,6 +18,16 @@ function assignedText(slot: HTMLSlotElement): string {
 
 export class RgCheckboxElement extends FormAssociatedElement {
   static readonly tagName = 'rg-checkbox' as const;
+  static readonly interactionState = {
+    checked: {
+      events: ['input', 'change'],
+      strategy: 'restore',
+    },
+    indeterminate: {
+      events: ['input', 'change'],
+      strategy: 'restore',
+    },
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'checked',
     'description',
@@ -154,8 +165,8 @@ export class RgCheckboxElement extends FormAssociatedElement {
     return this.hasAttribute('value') ? (this.getAttribute('value') ?? '') : 'on';
   }
 
-  set value(value: string) {
-    this.setAttribute('value', String(value));
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get checked(): boolean {

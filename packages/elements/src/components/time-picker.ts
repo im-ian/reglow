@@ -1,4 +1,5 @@
 import { FormAssociatedElement } from '../core/form-associated.js';
+import { openInteractionState, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { fieldStyles, motionStyles } from '../styles/base.js';
 import {
   constrainTimeToRange,
@@ -39,6 +40,10 @@ export type RgTimePickerOpenReason = RgPickerOpenReason;
 
 export class RgTimePickerElement extends FormAssociatedElement {
   static readonly tagName = 'rg-time-picker' as const;
+  static readonly interactionState = {
+    ...FormAssociatedElement.interactionState,
+    ...openInteractionState,
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = [
     'description',
     'disabled',
@@ -134,13 +139,15 @@ export class RgTimePickerElement extends FormAssociatedElement {
   #capturedInitialValue = false;
   #draft: RgTimeParts = { hour: 0, minute: 0 };
   #lastValue = '';
+  #overlayOpen = false;
+  #restoreFocusOnClose = false;
 
   get value(): string {
     return this.getString('value');
   }
 
-  set value(value: string) {
-    this.setString('value', value);
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get label(): string {
@@ -256,6 +263,7 @@ export class RgTimePickerElement extends FormAssociatedElement {
   }
 
   protected onConnect(signal: AbortSignal): void {
+    this.#overlayOpen = false;
     this.listen(
       this.query<HTMLButtonElement>('.picker-control'),
       'click',
@@ -283,7 +291,6 @@ export class RgTimePickerElement extends FormAssociatedElement {
         { capture: true },
       );
     }
-    if (this.open) queueMicrotask(() => focusSelectedTimeOptions(this.shadowRoot!));
   }
 
   protected update(): void {
@@ -311,6 +318,33 @@ export class RgTimePickerElement extends FormAssociatedElement {
     if (this.value !== this.#lastValue) {
       this.#lastValue = this.value;
       this.#draft = selected ?? { hour: 0, minute: 0 };
+    }
+
+    const opening = this.open && !this.#overlayOpen;
+    const closing = !this.open && this.#overlayOpen;
+    this.#overlayOpen = this.open;
+    if (closing && this.#restoreFocusOnClose) {
+      this.#restoreFocusOnClose = false;
+      queueMicrotask(() => {
+        if (!this.open && this.isConnected) control.focus();
+      });
+    }
+    if (opening) {
+      this.#draft = constrainTimeToRange(selected ?? { hour: 0, minute: 0 }, min, max);
+      queueMicrotask(() => {
+        if (
+          !this.#overlayOpen ||
+          !this.isConnected ||
+          this.disabled ||
+          this.readOnly ||
+          this.hasAttribute('data-form-disabled')
+        )
+          return;
+        focusSelectedTimeOptions(this.shadowRoot!);
+        this.shadowRoot
+          ?.querySelector<HTMLButtonElement>('.period-list [aria-selected="true"]')
+          ?.focus();
+      });
     }
     if (this.open) this.#draft = constrainTimeToRange(this.#draft, min, max);
 
@@ -384,8 +418,9 @@ export class RgTimePickerElement extends FormAssociatedElement {
     }
     if (action === 'done') {
       this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-      this.#setOpen(false, 'selection');
-      this.query<HTMLButtonElement>('.picker-control').focus();
+      if (this.#setOpen(false, 'selection')) {
+        this.query<HTMLButtonElement>('.picker-control').focus();
+      }
       return;
     }
     const part = target.dataset['timePart'];
@@ -412,15 +447,17 @@ export class RgTimePickerElement extends FormAssociatedElement {
       return;
     }
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-    this.#setOpen(false, 'selection');
-    this.query<HTMLButtonElement>('.picker-control').focus();
+    if (this.#setOpen(false, 'selection')) {
+      this.query<HTMLButtonElement>('.picker-control').focus();
+    }
   }
 
   #handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Escape' && this.open) {
       event.preventDefault();
-      this.#setOpen(false, 'escape');
-      this.query<HTMLButtonElement>('.picker-control').focus();
+      if (this.#setOpen(false, 'escape')) {
+        this.query<HTMLButtonElement>('.picker-control').focus();
+      }
       return;
     }
     const target = event.composedPath()[0];
@@ -428,28 +465,21 @@ export class RgTimePickerElement extends FormAssociatedElement {
     if (handleTimePickerKeyDown(this.shadowRoot!, target, event.key)) event.preventDefault();
   }
 
-  #setOpen(open: boolean, reason: RgPickerOpenReason): void {
-    if (this.disabled || this.readOnly || open === this.open) return;
-    const accepted = this.emit<RgPickerOpenChangeDetail>(
-      'rg-open-change',
-      { open, reason },
-      { cancelable: true },
-    );
-    if (!accepted) return;
-    this.open = open;
-    if (open) {
-      this.#draft = constrainTimeToRange(
-        parseTime(this.value) ?? { hour: 0, minute: 0 },
-        parseTime(this.min),
-        parseTime(this.max),
-      );
-      this.update();
-      queueMicrotask(() => {
-        focusSelectedTimeOptions(this.shadowRoot!);
-        this.shadowRoot
-          ?.querySelector<HTMLButtonElement>('.period-list [aria-selected="true"]')
-          ?.focus();
+  #setOpen(open: boolean, reason: RgPickerOpenReason): boolean {
+    if (this.disabled || this.readOnly || open === this.open) return false;
+    if (!open && (reason === 'escape' || reason === 'selection')) {
+      this.#restoreFocusOnClose = true;
+      window.setTimeout(() => {
+        if (this.open) this.#restoreFocusOnClose = false;
       });
     }
+    const accepted = this.requestOpenChange<RgPickerOpenChangeDetail, RgPickerOpenChangeDetail>(
+      { open, reason },
+      { open, reason },
+      () => {
+        this.open = open;
+      },
+    );
+    return accepted && this.open === open;
   }
 }

@@ -12,6 +12,8 @@
     error,
     onValueChange,
     onValueCommit,
+    onBeforeOpen,
+    onBeforeClose,
     onOpenChange,
     onSelectionChange,
     value = $bindable(''),
@@ -34,6 +36,8 @@
   const events = $derived({
     input: onValueChange,
     change: handleChange,
+    'rg-before-open': onBeforeOpen,
+    'rg-before-close': onBeforeClose,
     'rg-open-change': handleRgOpenChange,
     'rg-value-change': onSelectionChange,
   });

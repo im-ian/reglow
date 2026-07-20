@@ -1,4 +1,4 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { ReglowElement, type InteractionStateDescriptor } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export type TabsOrientation = 'horizontal' | 'vertical';
@@ -162,6 +162,9 @@ export class RgTabPanelElement extends ReglowElement {
 
 export class RgTabsElement extends ReglowElement {
   static readonly tagName: `rg-${string}` = 'rg-tabs';
+  static readonly interactionState = {
+    value: { events: ['rg-value-change'], strategy: 'restore' },
+  } as const satisfies InteractionStateDescriptor;
   static readonly observedAttributes = ['value', 'orientation', 'activation', 'loop'];
   static readonly styles = `
     :host { display: block; }

@@ -130,8 +130,8 @@ export class RgInputElement extends FormAssociatedElement {
     return this.getAttribute('value') ?? '';
   }
 
-  set value(value: string | number) {
-    this.setAttribute('value', String(value));
+  set value(value: string | number | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get type(): RgInputType {

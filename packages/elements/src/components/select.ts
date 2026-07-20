@@ -35,8 +35,8 @@ export class RgOptionElement extends ReglowElement {
     return this.hasAttribute('value') ? (this.getAttribute('value') ?? '') : this.label;
   }
 
-  set value(value: string) {
-    this.setAttribute('value', String(value));
+  set value(value: string | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get label(): string {
@@ -145,8 +145,8 @@ export class RgSelectElement extends FormAssociatedElement {
     return this.#optionRecords().find((option) => option.selected)?.value ?? '';
   }
 
-  set value(value: string | number) {
-    this.setAttribute('value', String(value));
+  set value(value: string | number | null | undefined) {
+    this.setLiveString('value', value);
   }
 
   get options(): readonly RgSelectOption[] {

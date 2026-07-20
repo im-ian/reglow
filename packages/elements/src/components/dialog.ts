@@ -1,19 +1,27 @@
-import { ReglowElement } from '../core/reglow-element.js';
+import { openInteractionState, ReglowElement } from '../core/reglow-element.js';
 import { motionStyles } from '../styles/base.js';
 
 export type DialogSize = 'sm' | 'md' | 'lg';
+export type DialogOpenReason = 'api' | 'trigger';
 export type DialogCloseReason = 'api' | 'close-button' | 'escape' | 'backdrop' | 'native';
+export type DialogOpenChangeReason = DialogOpenReason | DialogCloseReason;
 export type DialogDismissAction = 'close' | 'none';
 export type DrawerPlacement = 'start' | 'end' | 'bottom';
 
+export interface DialogBeforeOpenDetail {
+  readonly open: true;
+  readonly reason: DialogOpenReason;
+}
+
 export interface DialogBeforeCloseDetail {
+  readonly open: false;
   readonly reason: DialogCloseReason;
   readonly returnValue: string;
 }
 
 export interface DialogOpenChangeDetail {
   readonly open: boolean;
-  readonly reason: DialogCloseReason;
+  readonly reason: DialogOpenChangeReason;
 }
 
 export interface DialogCloseDetail {
@@ -140,7 +148,8 @@ class ReglowDialogElement extends ReglowElement {
   #titleId = '';
   #returnValue = '';
   #closeReason: DialogCloseReason = 'native';
-  #notifyOnClose = false;
+  #closeRequestInProgress = false;
+  #nativeCloseObserved = false;
   #restoreFocus: HTMLElement | null = null;
 
   initialFocus: HTMLElement | null = null;
@@ -215,7 +224,7 @@ class ReglowDialogElement extends ReglowElement {
         const triggerClicked = triggerSlot
           .assignedElements({ flatten: true })
           .some((trigger) => event.composedPath().includes(trigger));
-        if (triggerClicked && !event.defaultPrevented && !this.open) this.showModal();
+        if (triggerClicked && !event.defaultPrevented && !this.open) this.requestOpen('trigger');
       },
       signal,
     );
@@ -285,7 +294,7 @@ class ReglowDialogElement extends ReglowElement {
 
     if (this.open && !dialog.open) this.openNativeDialog(dialog);
     else if (!this.open && dialog.open) {
-      this.#closeReason = 'api';
+      if (!this.#closeRequestInProgress) this.#closeReason = 'api';
       dialog.close(this.#returnValue);
     }
   }
@@ -307,11 +316,7 @@ class ReglowDialogElement extends ReglowElement {
   }
 
   showModal(): void {
-    if (this.open) return;
-    this.#closeReason = 'api';
-    this.open = true;
-    this.update();
-    this.emit<DialogOpenChangeDetail>('rg-open-change', { open: true, reason: 'api' });
+    this.requestOpen('api');
   }
 
   close(returnValue = ''): void {
@@ -329,37 +334,65 @@ class ReglowDialogElement extends ReglowElement {
     if (this.#returnValue) dialog.returnValue = this.#returnValue;
     const focusTarget = this.initialFocus ?? this.querySelector<HTMLElement>('[autofocus]');
     if (focusTarget && typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }));
+      requestAnimationFrame(() => {
+        if (this.open && focusTarget.isConnected) focusTarget.focus({ preventScroll: true });
+      });
     }
+  }
+
+  private requestOpen(reason: DialogOpenReason): boolean {
+    if (this.open) return false;
+    return this.requestOpenChange<DialogBeforeOpenDetail, DialogOpenChangeDetail>(
+      { open: true, reason },
+      { open: true, reason },
+      () => {
+        this.open = true;
+      },
+    );
   }
 
   private requestClose(reason: DialogCloseReason, returnValue = ''): boolean {
     if (!this.open) return false;
-    const accepted = this.emit<DialogBeforeCloseDetail>(
-      'rg-before-close',
-      { reason, returnValue },
-      { cancelable: true },
-    );
-    if (!accepted) return false;
-
-    const dialog = this.query<HTMLDialogElement>('dialog');
-    this.#returnValue = returnValue;
-    this.#closeReason = reason;
-    this.#notifyOnClose = true;
-    if (dialog.open) dialog.close(returnValue);
-    else this.finishClose();
-    return true;
+    let accepted = false;
+    try {
+      accepted = this.requestOpenChange<DialogBeforeCloseDetail, DialogOpenChangeDetail>(
+        { open: false, reason, returnValue },
+        { open: false, reason },
+        () => {
+          const dialog = this.query<HTMLDialogElement>('dialog');
+          this.#returnValue = returnValue;
+          this.#closeReason = reason;
+          this.#closeRequestInProgress = true;
+          this.#nativeCloseObserved = !dialog.open;
+          this.open = false;
+        },
+      );
+    } finally {
+      this.#closeRequestInProgress = false;
+    }
+    if (accepted && this.#nativeCloseObserved) {
+      const dialog = this.query<HTMLDialogElement>('dialog');
+      if (!this.open && !dialog.open) this.finishClose();
+      else this.#nativeCloseObserved = false;
+    }
+    return accepted;
   }
 
   private onNativeClose(): void {
-    this.#returnValue = this.query<HTMLDialogElement>('dialog').returnValue;
+    const dialog = this.query<HTMLDialogElement>('dialog');
+    if (dialog.open) return;
+    this.#returnValue = dialog.returnValue;
+    if (this.#closeRequestInProgress) {
+      this.#nativeCloseObserved = true;
+      return;
+    }
     this.finishClose();
   }
 
   private finishClose(): void {
     const wasOpen = this.open;
     this.open = false;
-    if (this.#notifyOnClose || wasOpen) {
+    if (wasOpen) {
       this.emit<DialogOpenChangeDetail>('rg-open-change', {
         open: false,
         reason: this.#closeReason,
@@ -369,21 +402,25 @@ class ReglowDialogElement extends ReglowElement {
       reason: this.#closeReason,
       returnValue: this.#returnValue,
     });
-    this.#notifyOnClose = false;
+    this.#nativeCloseObserved = false;
     const restore = this.#restoreFocus;
     this.#restoreFocus = null;
     if (restore?.isConnected && typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => restore.focus({ preventScroll: true }));
+      requestAnimationFrame(() => {
+        if (!this.open && restore.isConnected) restore.focus({ preventScroll: true });
+      });
     }
   }
 }
 
 export class RgDialogElement extends ReglowDialogElement {
   static readonly tagName: `rg-${string}` = 'rg-dialog';
+  static readonly interactionState = openInteractionState;
 }
 
 export class RgDrawerElement extends ReglowDialogElement {
   static readonly tagName: `rg-${string}` = 'rg-drawer';
+  static readonly interactionState = openInteractionState;
   static readonly observedAttributes = drawerObservedAttributes;
   static get styles(): string {
     return `${super.styles}
